@@ -2,10 +2,13 @@
 
 namespace Junges\Pix;
 
-use Illuminate\Support\Str;
+use Junges\Api\Contracts\PixPayloadContract;
+use Junges\Pix\Concerns\InteractsWithPayload;
 
-class Payload
+class Payload implements PixPayloadContract
 {
+    use InteractsWithPayload;
+
     const PAYLOAD_FORMAT_INDICATOR = '00';
     const MERCHANT_ACCOUNT_INFORMATION = '26';
     const MERCHANT_ACCOUNT_INFORMATION_GUI = '00';
@@ -80,39 +83,5 @@ class Payload
         return $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
     }
 
-    private function getValue(string $id, ...$value): string
-    {
-        if (is_array($value[0])) {
-            $value = implode('', $value[0]);
-        } else {
-            $value = implode('', $value);
-        }
 
-        $size =  Str::padLeft(
-            Str::length($value),
-            2,
-            '0'
-        );
-
-        return "{$id}{$size}{$value}";
-    }
-
-    private function getCRC16($payload) {
-        $payload .= self::CRC16.'04';
-
-        $polynomial = 0x1021;
-        $result = 0xFFFF;
-
-        if (($length = Str::length($payload)) > 0) {
-            for ($offset = 0; $offset < $length; $offset++) {
-                $result ^= (ord($payload[$offset]) << 8);
-                for ($bitwise = 0; $bitwise < 8; $bitwise++) {
-                    if (($result <<= 1) & 0x10000) $result ^= $polynomial;
-                    $result &= 0xFFFF;
-                }
-            }
-        }
-
-        return self::CRC16 . "04" . Str::upper(dechex($result));
-    }
 }
