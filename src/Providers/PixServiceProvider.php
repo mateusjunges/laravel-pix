@@ -19,7 +19,7 @@ class PixServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . "/../../public" => public_path('vendor/laravel-pix')
-        ],' laravel-pix-assets');
+        ],'laravel-pix-assets');
 
     }
 
