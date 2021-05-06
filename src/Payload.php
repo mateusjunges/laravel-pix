@@ -86,6 +86,6 @@ class Payload implements PixPayloadContract,
 
     public function payload(): string
     {
-        return $this->formatValue(self::PAYLOAD_FORMAT_INDICATOR, '01');
+        return $this->buildPayload();
     }
 }
