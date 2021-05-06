@@ -1,0 +1,22 @@
+<?php
+
+namespace Junges\Pix;
+
+class Pix
+{
+    const PAYLOAD_FORMAT_INDICATOR = '00';
+    const MERCHANT_ACCOUNT_INFORMATION = '26';
+    const MERCHANT_ACCOUNT_INFORMATION_GUI = '00';
+    const MERCHANT_ACCOUNT_INFORMATION_KEY = '01';
+    const MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION = '02';
+    const MERCHANT_CATEGORY_CODE = '52';
+    const TRANSACTION_CURRENCY = '53';
+    const TRANSACTION_AMOUNT = '54';
+    const COUNTRY_CODE = '58';
+    const MERCHANT_NAME = '59';
+    const MERCHANT_CITY = '60';
+    const ADDITIONAL_DATA_FIELD_TEMPLATE = '62';
+    const ADDITIONAL_DATA_FIELD_TEMPLATE_TXID = '05';
+    const CRC16 = '63';
+    const CRC16_LENGTH = '04';
+}

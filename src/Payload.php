@@ -4,7 +4,6 @@ namespace Junges\Pix;
 
 use Junges\Pix\Concerns\InteractsWithPayload;
 use Junges\Pix\Concerns\ValidatePixKeys;
-use Junges\Pix\Concerns\VerifiesCr16;
 use Junges\Pix\Contracts\KeyValidations\ValidateCnpjKeyContract;
 use Junges\Pix\Contracts\KeyValidations\ValidateCPFKeyContract;
 use Junges\Pix\Contracts\KeyValidations\ValidateEmailKeysContract;
@@ -18,23 +17,7 @@ class Payload implements PixPayloadContract,
     ValidateEmailKeysContract
 {
     use InteractsWithPayload;
-    use VerifiesCr16;
     use ValidatePixKeys;
-
-    const PAYLOAD_FORMAT_INDICATOR = '00';
-    const MERCHANT_ACCOUNT_INFORMATION = '26';
-    const MERCHANT_ACCOUNT_INFORMATION_GUI = '00';
-    const MERCHANT_ACCOUNT_INFORMATION_KEY = '01';
-    const MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION = '02';
-    const MERCHANT_CATEGORY_CODE = '52';
-    const TRANSACTION_CURRENCY = '53';
-    const TRANSACTION_AMOUNT = '54';
-    const COUNTRY_CODE = '58';
-    const MERCHANT_NAME = '59';
-    const MERCHANT_CITY = '60';
-    const ADDITIONAL_DATA_FIELD_TEMPLATE = '62';
-    const ADDITIONAL_DATA_FIELD_TEMPLATE_TXID = '05';
-    const CRC16 = '63';
 
     private string $pixKey;
     private string $description;
@@ -84,8 +67,14 @@ class Payload implements PixPayloadContract,
         return $this;
     }
 
+    /**
+     * @return string
+     * @throws Exceptions\PixException
+     */
     public function payload(): string
     {
+        $this->validatePayload();
+
         return $this->buildPayload();
     }
 }

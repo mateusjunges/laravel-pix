@@ -3,12 +3,13 @@
 namespace Junges\Pix\Concerns;
 
 use Illuminate\Support\Str;
+use Junges\Pix\Pix;
 
 trait VerifiesCr16
 {
     private function verifyCRC16($payload): string
     {
-        $payload .= self::CRC16.'04';
+        $payload .= Pix::CRC16 . Pix::CRC16_LENGTH;
 
         $polynomial = 0x1021;
         $result = 0xFFFF;
@@ -23,6 +24,6 @@ trait VerifiesCr16
             }
         }
 
-        return self::CRC16 . "04" . Str::upper(dechex($result));
+        return Pix::CRC16 . Pix::CRC16_LENGTH . Str::upper(dechex($result));
     }
 }

@@ -66,7 +66,6 @@ trait ValidatePixKeys
 
             $k--;
             $j--;
-
         }
 
         $first_digit = $sum_1 % 11 < 2 ? 0 : 11 - $sum_1 % 11;
