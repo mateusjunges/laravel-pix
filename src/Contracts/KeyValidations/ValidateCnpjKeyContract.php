@@ -4,5 +4,5 @@ namespace Junges\Pix\Contracts\KeyValidations;
 
 interface ValidateCnpjKeyContract
 {
-    public function validateCnpjKey(string $cnpj): bool;
+    public static function validateCnpj(string $cnpj): bool;
 }

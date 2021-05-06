@@ -4,5 +4,5 @@ namespace Junges\Pix\Contracts\KeyValidations;
 
 interface ValidateRandomPixKeysContract
 {
-    public function validateRandomKey(string $key): bool;
+    public static function validateRandom(string $key): bool;
 }

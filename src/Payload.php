@@ -2,22 +2,13 @@
 
 namespace Junges\Pix;
 
+use Illuminate\Support\Str;
 use Junges\Pix\Concerns\InteractsWithPayload;
-use Junges\Pix\Concerns\ValidatePixKeys;
-use Junges\Pix\Contracts\KeyValidations\ValidateCnpjKeyContract;
-use Junges\Pix\Contracts\KeyValidations\ValidateCPFKeyContract;
-use Junges\Pix\Contracts\KeyValidations\ValidateEmailKeysContract;
-use Junges\Pix\Contracts\KeyValidations\ValidateRandomPixKeysContract;
 use Junges\Pix\Contracts\PixPayloadContract;
 
-class Payload implements PixPayloadContract,
-    ValidateRandomPixKeysContract,
-    ValidateCnpjKeyContract,
-    ValidateCPFKeyContract,
-    ValidateEmailKeysContract
+class Payload implements PixPayloadContract
 {
     use InteractsWithPayload;
-    use ValidatePixKeys;
 
     private string $pixKey;
     private string $description;
@@ -25,31 +16,52 @@ class Payload implements PixPayloadContract,
     private string $merchantCity;
     private string $transaction_id;
     private string $amount;
+    private bool $reusable;
 
+    /**
+     * @param string $pixKey
+     * @return $this
+     * @throws Exceptions\PixException
+     */
     public function pixKey(string $pixKey): Payload
     {
-        $this->pixKey = $pixKey;
+        $this->pixKey = Parser::parse($pixKey);
 
         return $this;
     }
 
     public function description(string $description): Payload
     {
-        $this->description = $description;
+        $this->description = Str::length($description) > Pix::MAX_DESCRIPTION_LENGTH
+            ? substr($description, 0, Pix::MAX_DESCRIPTION_LENGTH)
+            : $description;
 
         return $this;
     }
 
     public function merchantName(string $merchantName): Payload
     {
-        $this->merchantName = $merchantName;
+        $this->merchantName = Str::length($merchantName) > Pix::MAX_MERCHANT_NAME_LENGTH
+            ? substr($merchantName, 0, Pix::MAX_MERCHANT_NAME_LENGTH)
+            : $merchantName;
+
+        return $this;
+    }
+
+    public function merchantCity(string $merchantCity): Payload
+    {
+        $this->merchantCity = Str::length($merchantCity) > Pix::MAX_MERCHANT_CITY_LENGTH
+            ? substr($merchantCity, 0, Pix::MAX_MERCHANT_CITY_LENGTH)
+            : $merchantCity;
 
         return $this;
     }
 
     public function transactionId(string $transaction_id): Payload
     {
-        $this->transaction_id = $transaction_id;
+        $this->transaction_id = Str::length($transaction_id) > Pix::MAX_TRANSACTION_ID_LENGTH
+            ? substr($transaction_id, 0, Pix::MAX_TRANSACTION_ID_LENGTH)
+            : $transaction_id;
 
         return $this;
     }
@@ -61,9 +73,17 @@ class Payload implements PixPayloadContract,
         return $this;
     }
 
-    public function merchantCity(string $merchantCity): Payload
+    public function canBeReused(): Payload
     {
-        $this->merchantCity = $merchantCity;
+        $this->reusable = true;
+
+        return $this;
+    }
+
+    public function canNotBeReused(): Payload
+    {
+        $this->reusable = false;
+
         return $this;
     }
 

@@ -5,9 +5,9 @@ namespace Junges\Pix\Concerns;
 use Illuminate\Support\Str;
 use Junges\Pix\Pix;
 
-trait VerifiesCr16
+trait HasCR16
 {
-    private function verifyCRC16($payload): string
+    private function getCRC16($payload): string
     {
         $payload .= Pix::CRC16 . Pix::CRC16_LENGTH;
 

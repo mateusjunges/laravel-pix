@@ -10,7 +10,7 @@ use Junges\Pix\Pix;
 
 trait InteractsWithPayload
 {
-    use VerifiesCr16;
+    use HasCR16;
 
     private function formatValue(string $id, ...$value): string
     {
@@ -49,21 +49,67 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
     }
 
-    private function buildPayload(): string
+    private function getTransactionAmount(): string
     {
-        $payload = $this->formatValue(Pix::PAYLOAD_FORMAT_INDICATOR, '01')
-            . $this->getMerchantAccountInformation()
-            . $this->formatValue(Pix::MERCHANT_CATEGORY_CODE, '0000')
-            . $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'))
-            . $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount)
-            . $this->formatValue(Pix::COUNTRY_CODE, config('laravel-pix.country_code', 'BR'))
-            . $this->formatValue(Pix::MERCHANT_NAME, $this->merchantName)
-            . $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity)
-            . $this->getAdditionalDataFieldTemplate();
-
-        return $payload . $this->verifyCRC16($payload);
+        return $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount);
     }
 
+    private function getTransactionCurrency(): string
+    {
+        return $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'));
+    }
+
+    private function getPointOfInitializationMethod(): string
+    {
+        return $this->reusable
+            ? $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '11')
+            : $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12');
+    }
+
+    private function getCountryCode(): string
+    {
+        return $this->formatValue(Pix::COUNTRY_CODE, config('laravel-pix.country_code', 'BR'));
+    }
+
+    private function getMerchantName(): string
+    {
+        return $this->formatValue(Pix::MERCHANT_NAME, $this->merchantName);
+    }
+
+    private function getMerchantCity(): string
+    {
+        return $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity);
+    }
+
+    private function getMerchantCategoryCode(): string
+    {
+        return $this->formatValue(Pix::MERCHANT_CATEGORY_CODE, '0000');
+    }
+
+    private function getPayloadFormat(): string
+    {
+        return $this->formatValue(Pix::PAYLOAD_FORMAT_INDICATOR, '01');
+    }
+
+    private function buildPayload(): string
+    {
+        $payload = $this->getPayloadFormat()
+            . $this->getPointOfInitializationMethod()
+            . $this->getMerchantAccountInformation()
+            . $this->getMerchantCategoryCode()
+            . $this->gettransactionCurrency()
+            . $this->getTransactionAmount()
+            . $this->getCountryCode()
+            . $this->getMerchantName()
+            . $this->getMerchantCity()
+            . $this->getAdditionalDataFieldTemplate();
+
+        return $payload . $this->getCRC16($payload);
+    }
+
+    /**
+     * @throws \Junges\Pix\Exceptions\PixException
+     */
     private function validatePayload()
     {
         if (empty($this->pixKey)) {
@@ -81,5 +127,10 @@ trait InteractsWithPayload
         if (empty($this->amount)) {
             throw InvalidAmountException::amountCantBeEmpty();
         }
+    }
+
+    public function getPixKey(): string
+    {
+        return $this->pixKey;
     }
 }
