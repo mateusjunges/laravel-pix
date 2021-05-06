@@ -129,7 +129,7 @@ trait InteractsWithPayload
         }
     }
 
-    protected function getPixKey(): string
+    public function getPixKey(): string
     {
         return $this->pixKey;
     }
