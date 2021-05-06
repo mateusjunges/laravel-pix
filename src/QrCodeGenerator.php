@@ -16,7 +16,7 @@ class QrCodeGenerator implements GeneratesQrCodeContract
     {
         $qrCode = new QrCode($payload->getPayload());
 
-        $png = (new Png())->output($qrCode, config('laravel-pix.qr_code_size'));
+        $png = (new Png())->output($qrCode, config('laravel-pix.qr_code_size', 100));
 
         return base64_encode($png);
     }

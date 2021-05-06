@@ -1,0 +1,34 @@
+{
+  "name": "laravel-pix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.mix.js",
+  "dependencies": {
+    "autoprefixer": "^10.2.5",
+    "laravel-mix": "^6.0.18",
+    "laravel-mix-purgecss": "^6.0.0",
+    "laravel-mix-tailwind": "^0.1.2",
+    "postcss": "^8.2.12",
+    "tailwindcss": "^2.1.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run development",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mateusjunges/laravel-trackable-jobs-ui.git"
+  },
+  "author": "Mateus Junges",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mateusjunges/laravel-trackable-jobs-ui/issues"
+  },
+  "homepage": "https://github.com/mateusjunges/laravel-trackable-jobs-ui#readme"
+}

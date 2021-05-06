@@ -50,6 +50,6 @@ class Pix
 
         event(new QrCodeCreatedEvent($payload->getPixKey()));
 
-
+        return $qr_code;
     }
 }
