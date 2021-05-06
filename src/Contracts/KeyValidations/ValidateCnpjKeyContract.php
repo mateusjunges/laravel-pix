@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Contracts;
+namespace Junges\Pix\Contracts\KeyValidations;
 
 interface ValidateCnpjKeyContract
 {

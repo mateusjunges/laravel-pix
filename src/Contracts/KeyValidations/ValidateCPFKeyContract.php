@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Api\Contracts;
+namespace Junges\Pix\Contracts\KeyValidations;
 
 interface ValidateCPFKeyContract
 {

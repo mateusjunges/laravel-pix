@@ -2,14 +2,14 @@
 
 namespace Junges\Pix;
 
-use Junges\Api\Contracts\PixPayloadContract;
-use Junges\Api\Contracts\ValidateCPFKeyContract;
-use Junges\Api\Contracts\ValidateRandomPixKeysContract;
 use Junges\Pix\Concerns\InteractsWithPayload;
 use Junges\Pix\Concerns\ValidatePixKeys;
 use Junges\Pix\Concerns\VerifiesCr16;
+use Junges\Pix\Contracts\KeyValidations\ValidateCnpjKeyContract;
+use Junges\Pix\Contracts\KeyValidations\ValidateCPFKeyContract;
 use Junges\Pix\Contracts\KeyValidations\ValidateEmailKeysContract;
-use Junges\Pix\Contracts\ValidateCnpjKeyContract;
+use Junges\Pix\Contracts\KeyValidations\ValidateRandomPixKeysContract;
+use Junges\Pix\Contracts\PixPayloadContract;
 
 class Payload implements PixPayloadContract,
     ValidateRandomPixKeysContract,
