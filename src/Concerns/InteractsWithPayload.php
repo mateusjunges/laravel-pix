@@ -61,7 +61,7 @@ trait InteractsWithPayload
 
     private function getPointOfInitializationMethod(): string
     {
-        return $this->reusable
+        return $this->reusable ?? false
             ? $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '11')
             : $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12');
     }
