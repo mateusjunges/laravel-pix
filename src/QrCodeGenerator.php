@@ -8,6 +8,10 @@ use Mpdf\QrCode\QrCode;
 
 class QrCodeGenerator implements GeneratesQrCodeContract
 {
+    /**
+     * @throws \Mpdf\QrCode\QrCodeException
+     * @throws Exceptions\PixException
+     */
     public function generateForPayload(Payload $payload)
     {
         $qrCode = new QrCode($payload->getPayload());
