@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{ asset('vendor/laravel-pix/css/app.css') }}">
 
-<div class="flex flex-col ">
+<div class="flex flex-col max-w-lg">
     @if(!empty($logo))
         <div class="py2 px-4">
             <img src="{{ $logo }}" alt="{{ $logo_alt ?? 'Company logo' }}">
