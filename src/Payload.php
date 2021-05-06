@@ -3,11 +3,21 @@
 namespace Junges\Pix;
 
 use Junges\Api\Contracts\PixPayloadContract;
+use Junges\Api\Contracts\ValidateCPFKeyContract;
+use Junges\Api\Contracts\ValidateRandomPixKeysContract;
 use Junges\Pix\Concerns\InteractsWithPayload;
+use Junges\Pix\Concerns\ValidatePixKeys;
+use Junges\Pix\Contracts\KeyValidations\ValidateEmailKeysContract;
+use Junges\Pix\Contracts\ValidateCnpjKeyContract;
 
-class Payload implements PixPayloadContract
+class Payload implements PixPayloadContract,
+    ValidateRandomPixKeysContract,
+    ValidateCnpjKeyContract,
+    ValidateCPFKeyContract,
+    ValidateEmailKeysContract
 {
     use InteractsWithPayload;
+    use ValidatePixKeys;
 
     const PAYLOAD_FORMAT_INDICATOR = '00';
     const MERCHANT_ACCOUNT_INFORMATION = '26';
@@ -82,6 +92,4 @@ class Payload implements PixPayloadContract
 
         return $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
     }
-
-
 }
