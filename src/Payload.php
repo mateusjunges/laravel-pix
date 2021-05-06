@@ -72,7 +72,7 @@ class Payload implements PixPayloadContract
 
     private function getMerchantAccountInformation(): string
     {
-        $gui = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_GUI, 'br.gov.bcb.pix');
+        $gui = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
 
         $key = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey);
 
