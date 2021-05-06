@@ -21,6 +21,11 @@
             "Junges\\Pix\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Junges\\Pix\\Tests": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [

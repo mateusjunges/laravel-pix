@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait InteractsWithPayload
 {
-    private function getValue(string $id, ...$value): string
+    private function formatValue(string $id, ...$value): string
     {
         if (is_array($value[0])) {
             $value = implode('', $value[0]);
@@ -23,23 +23,37 @@ trait InteractsWithPayload
         return "{$id}{$size}{$value}";
     }
 
-    private function verifyCRC16($payload): string
+    private function getAdditionalDataFieldTemplate(): string
     {
-        $payload .= self::CRC16.'04';
+        $transaction_id = $this->formatValue(self::ADDITIONAL_DATA_FIELD_TEMPLATE_TXID, $this->transaction_id);
 
-        $polynomial = 0x1021;
-        $result = 0xFFFF;
+        return $this->formatValue(self::ADDITIONAL_DATA_FIELD_TEMPLATE, $transaction_id);
+    }
 
-        if (($length = Str::length($payload)) > 0) {
-            for ($offset = 0; $offset < $length; $offset++) {
-                $result ^= (ord($payload[$offset]) << 8);
-                for ($bitwise = 0; $bitwise < 8; $bitwise++) {
-                    if (($result <<= 1) & 0x10000) $result ^= $polynomial;
-                    $result &= 0xFFFF;
-                }
-            }
+    private function getMerchantAccountInformation(): string
+    {
+        $gui = $this->formatValue(self::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
+
+        $key = $this->formatValue(self::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey);
+
+        if ($this->description) {
+            $description = $this->formatValue(self::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description);
         }
 
-        return self::CRC16 . "04" . Str::upper(dechex($result));
+        return $this->formatValue(self::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
+    }
+
+    private function buildPayload(): string
+    {
+        return $this->formatValue(self::PAYLOAD_FORMAT_INDICATOR, '01')
+            . $this->getMerchantAccountInformation()
+            . $this->formatValue(self::MERCHANT_CATEGORY_CODE, '0000')
+            . $this->formatValue(self::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'))
+            . $this->formatValue(self::TRANSACTION_AMOUNT, $this->amount)
+            . $this->formatValue(self::COUNTRY_CODE, config('laravel-pix.country_code', 'BR'))
+            . $this->formatValue(self::MERCHANT_NAME, $this->merchantName)
+            . $this->formatValue(self::MERCHANT_CITY, $this->merchantCity)
+            . $this->getAdditionalDataFieldTemplate();
+
     }
 }

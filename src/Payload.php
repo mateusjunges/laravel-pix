@@ -7,6 +7,7 @@ use Junges\Api\Contracts\ValidateCPFKeyContract;
 use Junges\Api\Contracts\ValidateRandomPixKeysContract;
 use Junges\Pix\Concerns\InteractsWithPayload;
 use Junges\Pix\Concerns\ValidatePixKeys;
+use Junges\Pix\Concerns\VerifiesCr16;
 use Junges\Pix\Contracts\KeyValidations\ValidateEmailKeysContract;
 use Junges\Pix\Contracts\ValidateCnpjKeyContract;
 
@@ -17,6 +18,7 @@ class Payload implements PixPayloadContract,
     ValidateEmailKeysContract
 {
     use InteractsWithPayload;
+    use VerifiesCr16;
     use ValidatePixKeys;
 
     const PAYLOAD_FORMAT_INDICATOR = '00';
@@ -37,6 +39,7 @@ class Payload implements PixPayloadContract,
     private string $pixKey;
     private string $description;
     private string $merchantName;
+    private string $merchantCity;
     private string $transaction_id;
     private string $amount;
 
@@ -75,21 +78,14 @@ class Payload implements PixPayloadContract,
         return $this;
     }
 
-    public function payload(): string
+    public function merchantCity(string $merchantCity): Payload
     {
-        return $this->getValue(self::PAYLOAD_FORMAT_INDICATOR, '01');
+        $this->merchantCity = $merchantCity;
+        return $this;
     }
 
-    private function getMerchantAccountInformation(): string
+    public function payload(): string
     {
-        $gui = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
-
-        $key = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey);
-
-        if ($this->description) {
-            $description = $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description);
-        }
-
-        return $this->getValue(self::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
+        return $this->formatValue(self::PAYLOAD_FORMAT_INDICATOR, '01');
     }
 }
