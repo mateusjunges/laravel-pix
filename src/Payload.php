@@ -91,7 +91,7 @@ class Payload implements PixPayloadContract
      * @return string
      * @throws Exceptions\PixException
      */
-    public function payload(): string
+    public function getPayload(): string
     {
         $this->validatePayload();
 

@@ -2,6 +2,7 @@
 
 namespace Junges\Pix;
 
+use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\QrCodeCreatedEvent;
 
 class Pix
@@ -45,8 +46,10 @@ class Pix
 
     public static function createQrCode(Payload $payload)
     {
+        $qr_code = app(GeneratesQrCodeContract::class)->generateForPayload($payload);
+
         event(new QrCodeCreatedEvent($payload->getPixKey()));
 
-        return $payload;
+
     }
 }

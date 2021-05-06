@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0"
+        "php": "^7.4|^8.0",
+        "mpdf/qrcode": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -23,7 +24,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Junges\\Pix\\Tests": "tests/"
+            "Junges\\Pix\\Tests\\": "tests/"
         }
     },
     "extra": {

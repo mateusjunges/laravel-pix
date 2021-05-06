@@ -14,5 +14,5 @@ interface PixPayloadContract
 
     public function amount(string $amount): self;
 
-    public function payload(): string;
+    public function getPayload(): string;
 }
