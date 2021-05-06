@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\QrCodeGenerator;
@@ -26,5 +27,11 @@ class PixServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(GeneratesQrCodeContract::class, QrCodeGenerator::class);
+
+        Blade::directive('laravelPixAssets',function() {
+            $path = asset('vendor/laravel-pix/css/app.css');
+
+            return "<link rel='stylesheet' href='{$path}'>";
+        });
     }
 }
