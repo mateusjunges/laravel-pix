@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="{{ asset('vendor/laravel-pix/css/app.css') }}">
-
 <div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20 mx-auto">
     <div class="items-center">
         <h2 class="text-gray-800 text-3xl font-semibold"></h2>
