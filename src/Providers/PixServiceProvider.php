@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Providers\PixServiceProvider;
+namespace Junges\Pix\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
