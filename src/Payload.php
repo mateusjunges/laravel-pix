@@ -68,7 +68,11 @@ class Payload implements PixPayloadContract
 
     public function amount(string $amount): Payload
     {
-        $this->amount = $amount;
+        $amount = number_format($amount, 2, '.', '');
+
+        $this->amount = Str::length($amount) > Pix::MAX_AMOUNT_LENGTH
+            ? substr($amount, 0, Pix::MAX_AMOUNT_LENGTH)
+            : $amount;
 
         return $this;
     }

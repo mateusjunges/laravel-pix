@@ -28,6 +28,7 @@ class Pix
     const MAX_MERCHANT_NAME_LENGTH = 25;
     const MAX_MERCHANT_CITY_LENGTH = 15;
     const MAX_TRANSACTION_ID_LENGTH = 25;
+    const MAX_AMOUNT_LENGTH = 13;
 
 
     const RANDOM_KEY_TYPE = 'random';
