@@ -3,7 +3,6 @@
 namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Contracts\CobPayloadContract;
 use Junges\Pix\Api\Contracts\PixApiContract;
 use Junges\Pix\Support\Endpoints;
 
