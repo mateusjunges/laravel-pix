@@ -3,30 +3,30 @@
 namespace Junges\Pix;
 
 use Junges\Pix\Concerns\InteractsWithPayload;
-use Junges\Pix\Contracts\CobPayloadContract;
+use Junges\Pix\Contracts\DynamicPayloadContract;
 
-class CobPayload extends Payload implements CobPayloadContract
+class DynamicPayload extends Payload implements DynamicPayloadContract
 {
     use InteractsWithPayload;
 
     private string $url;
     private bool $unique;
 
-    public function canBeReused(): CobPayload
+    public function canBeReused(): DynamicPayload
     {
         $this->unique = true;
 
         return $this;
     }
 
-    public function mustBeUnique(): CobPayload
+    public function mustBeUnique(): DynamicPayload
     {
         $this->unique = false;
 
         return $this;
     }
 
-    public function url(string $url): CobPayload
+    public function url(string $url): DynamicPayload
     {
         $this->url = $url;
 
@@ -40,6 +40,6 @@ class CobPayload extends Payload implements CobPayloadContract
 
     public function getTransactionId(): string
     {
-        // TODO: Implement getTransactionId() method.
+        return $this->transaction_id;
     }
 }
