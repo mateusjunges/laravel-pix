@@ -72,7 +72,7 @@ class ApiRequest
 
     public function additionalInfo(array $additionalInfo): ApiRequest
     {
-        $this->additionalInfo = array_merge($this->additionalInfo, $additionalInfo);
+        $this->additionalInfo = array_merge($this->additionalInfo ?? [], $additionalInfo);
 
         return $this;
     }

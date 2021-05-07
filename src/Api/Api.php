@@ -69,28 +69,29 @@ class Api implements PixApiContract
         return Http::withHeaders([
             'Content-Type' => 'application/json'
         ])
-        ->withBasicAuth($this->clientId, $this->clientSecret)
-        ->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
-            'grant_type' => 'client_credentials',
-            'cert' => $this->getCertificate(),
-        ])->json();
+            ->withOptions([
+                'verify' => $this->certificate,
+                'auth' => [$this->clientId, $this->clientSecret],
+                'cert' => $this->getCertificate()
+            ])
+            ->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
+                'grant_type' => 'client_credentials'
+            ])->json();
     }
 
     public function createCob(ApiRequest $request)
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
 
-        $request = array_merge($request->toArray(), [
-            'cert' => $this->getCertificate()
-        ]);
-
         return Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'Cache-Control' => 'no-cache',
             'Authorization' => "Bearer {$this->oauthToken}"
+        ])->withOptions([
+            'cert' => $this->getCertificate()
         ])
-            ->put($endpoint, $request)
+            ->put($endpoint, $request->toArray())
             ->json();
     }
 }
