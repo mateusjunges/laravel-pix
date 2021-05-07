@@ -79,7 +79,7 @@ class Api implements PixApiContract
             ])->json();
     }
 
-    public function createCob(ApiRequest $request)
+    public function createCob(ApiRequest $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
 
@@ -87,11 +87,27 @@ class Api implements PixApiContract
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'Cache-Control' => 'no-cache',
-            'Authorization' => "Bearer {$this->oauthToken}"
         ])->withOptions([
             'cert' => $this->getCertificate()
         ])
+            ->withToken($this->oauthToken)
             ->put($endpoint, $request->toArray())
+            ->json();
+    }
+
+    public function getCobInfo(string $transaction_id): array
+    {
+        $endpoint = $this->baseUrl . Endpoints::GET_COB . $transaction_id;
+
+        return Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Cache-Control' => 'no-cache',
+        ])->withOptions([
+            'cert' => $this->getCertificate()
+        ])
+            ->withToken($this->oauthToken)
+            ->get($endpoint)
             ->json();
     }
 }
