@@ -3,6 +3,7 @@
 namespace Junges\Pix;
 
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
+use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
 use Junges\Pix\Events\QrCodeCreatedEvent;
 
 class Pix
@@ -59,6 +60,8 @@ class Pix
     {
         $qr_code = app(GeneratesQrCodeContract::class)->withDynamicPayload($payload);
 
-        event(new Dyn)
+        event(new DynamicQrCodeCreatedEvent($payload->getPixKey()));
+
+        return $qr_code;
     }
 }
