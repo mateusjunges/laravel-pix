@@ -54,4 +54,9 @@ class Pix
 
         return $qr_code;
     }
+
+    public static function createDynamicQrCode(DynamicPayload $payload)
+    {
+        $qr_code = app(GeneratesQrCodeContract::class)->withDynamicPayload($payload);Z
+    }
 }
