@@ -50,10 +50,13 @@ class ApiRequest
         return $this;
     }
 
+    /**
+     * @throws \Junges\Pix\Exceptions\PixException
+     */
     public function amount(string $amount): ApiRequest
     {
         if (! preg_match("^[0-9]{1,10}.[0-9]{2}$^", $amount)) {
-            throw InvalidAmountException::invalidPattert();
+            throw InvalidAmountException::invalidPattern();
         }
 
         $this->amount = $amount;
