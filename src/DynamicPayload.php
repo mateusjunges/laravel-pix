@@ -33,11 +33,6 @@ class DynamicPayload extends Payload implements DynamicPayloadContract
         return $this;
     }
 
-    public function toArray()
-    {
-        // TODO: Implement toArray() method.
-    }
-
     public function getTransactionId(): string
     {
         return $this->transaction_id;

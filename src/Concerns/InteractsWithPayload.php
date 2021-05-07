@@ -4,8 +4,10 @@ namespace Junges\Pix\Concerns;
 
 use Illuminate\Support\Str;
 use Junges\Pix\Exceptions\InvalidAmountException;
+use Junges\Pix\Exceptions\InvalidGuiException;
 use Junges\Pix\Exceptions\InvalidMerchantInformationException;
 use Junges\Pix\Exceptions\InvalidPixKeyException;
+use Junges\Pix\Exceptions\InvalidTransactionIdException;
 use Junges\Pix\Pix;
 
 trait InteractsWithPayload
@@ -31,6 +33,10 @@ trait InteractsWithPayload
 
     protected function getAdditionalDataFieldTemplate(): string
     {
+        if (empty($this->transactionId)) {
+            throw InvalidTransactionIdException::transactionIdCantBeEmpty();
+        }
+
         $transaction_id = $this->formatValue(Pix::ADDITIONAL_DATA_FIELD_TEMPLATE_TXID, $this->transaction_id);
 
         return $this->formatValue(Pix::ADDITIONAL_DATA_FIELD_TEMPLATE, $transaction_id);
@@ -55,8 +61,15 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description, $url);
     }
 
+    /**
+     * @throws \Junges\Pix\Exceptions\PixException
+     */
     protected function getTransactionAmount(): string
     {
+        if (empty($this->amount)) {
+            throw InvalidAmountException::amountCantBeEmpty();
+        }
+
         return $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount);
     }
 
@@ -77,13 +90,23 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::COUNTRY_CODE, config('laravel-pix.country_code', 'BR'));
     }
 
+    /**
+     * @throws \Junges\Pix\Exceptions\PixException
+     */
     protected function getMerchantName(): string
     {
+        if (empty($this->merchantName)) {
+            throw InvalidMerchantInformationException::merchantNameCantBeEmpty();
+        }
+
         return $this->formatValue(Pix::MERCHANT_NAME, $this->merchantName);
     }
 
     protected function getMerchantCity(): string
     {
+        if (empty($this->merchantName)) {
+            throw InvalidMerchantInformationException::merchantCityCantBeEmpty();
+        }
         return $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity);
     }
 
@@ -97,6 +120,9 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::PAYLOAD_FORMAT_INDICATOR, '01');
     }
 
+    /**
+     * @throws \Junges\Pix\Exceptions\PixException
+     */
     protected function buildPayload(): string
     {
         $payload = $this->getPayloadFormat()
@@ -111,28 +137,6 @@ trait InteractsWithPayload
             . $this->getAdditionalDataFieldTemplate();
 
         return $payload . $this->getCRC16($payload);
-    }
-
-    /**
-     * @throws \Junges\Pix\Exceptions\PixException
-     */
-    protected function validatePayload()
-    {
-        if (empty($this->pixKey)) {
-            throw InvalidPixKeyException::keyCantBeEmpty();
-        }
-
-        if (empty($this->merchantName)) {
-            throw InvalidMerchantInformationException::merchantNameCantBeEmpty();
-        }
-
-        if (empty($this->merchantCity)) {
-            throw InvalidMerchantInformationException::merchantCityCantBeEmpty();
-        }
-
-        if (empty($this->amount)) {
-            throw InvalidAmountException::amountCantBeEmpty();
-        }
     }
 
     public function getPixKey(): string

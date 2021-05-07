@@ -82,8 +82,6 @@ class Payload implements PayloadContract
      */
     public function getPayload(): string
     {
-        $this->validatePayload();
-
         return $this->buildPayload();
     }
 }
