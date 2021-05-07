@@ -31,7 +31,7 @@ trait InteractsWithPayload
 
     protected function getAdditionalDataFieldTemplate(): string
     {
-        if (empty($this->transactionId)) {
+        if (empty($this->transaction_id)) {
             throw InvalidTransactionIdException::transactionIdCantBeEmpty();
         }
 
