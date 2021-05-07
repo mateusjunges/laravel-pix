@@ -42,5 +42,4 @@ class CobPayload extends Payload implements CobPayloadContract
     {
         // TODO: Implement getTransactionId() method.
     }
-
 }

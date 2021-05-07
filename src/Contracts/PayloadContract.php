@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Contracts;
 
-interface PixPayloadContract
+interface PayloadContract
 {
     public function pixKey(string $pixKey): self;
 
