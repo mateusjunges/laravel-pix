@@ -8,5 +8,4 @@ interface CobPayloadContract extends Arrayable
 {
     public function getTransactionId(): string;
 
-
 }

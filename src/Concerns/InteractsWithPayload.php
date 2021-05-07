@@ -12,7 +12,7 @@ trait InteractsWithPayload
 {
     use HasCR16;
 
-    private function formatValue(string $id, ...$value): string
+    protected function formatValue(string $id, ...$value): string
     {
         if (is_array($value[0])) {
             $value = implode('', $value[0]);
@@ -29,69 +29,75 @@ trait InteractsWithPayload
         return "{$id}{$size}{$value}";
     }
 
-    private function getAdditionalDataFieldTemplate(): string
+    protected function getAdditionalDataFieldTemplate(): string
     {
         $transaction_id = $this->formatValue(Pix::ADDITIONAL_DATA_FIELD_TEMPLATE_TXID, $this->transaction_id);
 
         return $this->formatValue(Pix::ADDITIONAL_DATA_FIELD_TEMPLATE, $transaction_id);
     }
 
-    private function getMerchantAccountInformation(): string
+    protected function getMerchantAccountInformation(): string
     {
         $gui = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
 
-        $key = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey);
+        $key = $this->key ?? false
+                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey)
+                : "";
 
-        if ($this->description) {
-            $description = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description);
-        }
+        $description = $this->description ?? false
+                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description)
+                : "";
 
-        return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description ?? null);
+        $url = $this->url ?? false
+                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_URL, $this->url)
+                : "";
+
+        return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description, $url);
     }
 
-    private function getTransactionAmount(): string
+    protected function getTransactionAmount(): string
     {
         return $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount);
     }
 
-    private function getTransactionCurrency(): string
+    protected function getTransactionCurrency(): string
     {
         return $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'));
     }
 
-    private function getPointOfInitializationMethod(): string
+    protected function getPointOfInitializationMethod(): string
     {
         return $this->reusable ?? false
-            ? $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '11')
-            : $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12');
+            ? $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12')
+            : '';
     }
 
-    private function getCountryCode(): string
+    protected function getCountryCode(): string
     {
         return $this->formatValue(Pix::COUNTRY_CODE, config('laravel-pix.country_code', 'BR'));
     }
 
-    private function getMerchantName(): string
+    protected function getMerchantName(): string
     {
         return $this->formatValue(Pix::MERCHANT_NAME, $this->merchantName);
     }
 
-    private function getMerchantCity(): string
+    protected function getMerchantCity(): string
     {
         return $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity);
     }
 
-    private function getMerchantCategoryCode(): string
+    protected function getMerchantCategoryCode(): string
     {
         return $this->formatValue(Pix::MERCHANT_CATEGORY_CODE, '0000');
     }
 
-    private function getPayloadFormat(): string
+    protected function getPayloadFormat(): string
     {
         return $this->formatValue(Pix::PAYLOAD_FORMAT_INDICATOR, '01');
     }
 
-    private function buildPayload(): string
+    protected function buildPayload(): string
     {
         $payload = $this->getPayloadFormat()
             . $this->getPointOfInitializationMethod()
@@ -110,7 +116,7 @@ trait InteractsWithPayload
     /**
      * @throws \Junges\Pix\Exceptions\PixException
      */
-    private function validatePayload()
+    protected function validatePayload()
     {
         if (empty($this->pixKey)) {
             throw InvalidPixKeyException::keyCantBeEmpty();

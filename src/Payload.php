@@ -10,13 +10,12 @@ class Payload implements PixPayloadContract
 {
     use InteractsWithPayload;
 
-    private string $pixKey;
-    private string $description;
-    private string $merchantName;
-    private string $merchantCity;
-    private string $transaction_id;
-    private string $amount;
-    private bool $reusable;
+    protected string $pixKey;
+    protected string $description;
+    protected string $merchantName;
+    protected string $merchantCity;
+    protected string $transaction_id;
+    protected string $amount;
 
     /**
      * @param string $pixKey
@@ -73,20 +72,6 @@ class Payload implements PixPayloadContract
         $this->amount = Str::length($amount) > Pix::MAX_AMOUNT_LENGTH
             ? substr($amount, 0, Pix::MAX_AMOUNT_LENGTH)
             : $amount;
-
-        return $this;
-    }
-
-    public function canBeReused(): Payload
-    {
-        $this->reusable = true;
-
-        return $this;
-    }
-
-    public function canNotBeReused(): Payload
-    {
-        $this->reusable = false;
 
         return $this;
     }
