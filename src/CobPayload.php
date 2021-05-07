@@ -2,10 +2,10 @@
 
 namespace Junges\Pix;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Junges\Pix\Contracts\CobPayloadContract;
 use Junges\Pix\Exceptions\InvalidDebtorException;
 
-class ApiRequest implements Arrayable
+class CobPayload implements CobPayloadContract
 {
     private int $expiration = 3600;
     private array $debtor;
@@ -15,7 +15,7 @@ class ApiRequest implements Arrayable
     private array $additionalInfo;
     private string $transactionId;
 
-    public function setExpiration(int $expiration): ApiRequest
+    public function setExpiration(int $expiration): CobPayload
     {
         $this->expiration = $expiration;
 
@@ -25,7 +25,7 @@ class ApiRequest implements Arrayable
     /**
      * @throws InvalidDebtorException When the $debtor array doesn't have a 'cpf' key.
      */
-    public function debtorWithCpf(array $debtor): ApiRequest
+    public function debtorWithCpf(array $debtor): CobPayload
     {
         if (! array_key_exists('cpf', $debtor)) {
             throw InvalidDebtorException::debtorWithCpfMustContainACpfKey();
@@ -39,7 +39,7 @@ class ApiRequest implements Arrayable
     /**
      * @throws InvalidDebtorException When the $debtor array doesn't have a 'cnpj' key.
      */
-    public function debtorWithCnpj(array $debtor): ApiRequest
+    public function debtorWithCnpj(array $debtor): CobPayload
     {
         if (! array_key_exists('cnpj', $debtor)) {
             throw InvalidDebtorException::debtorWithCnpjfMustContainACnpjKey();
@@ -50,35 +50,35 @@ class ApiRequest implements Arrayable
         return $this;
     }
 
-    public function amount(string $amount): ApiRequest
+    public function amount(string $amount): CobPayload
     {
         $this->amount = $amount;
 
         return $this;
     }
 
-    public function pixKey(string $pixKey): ApiRequest
+    public function pixKey(string $pixKey): CobPayload
     {
         $this->pixKey = $pixKey;
 
         return $this;
     }
 
-    public function payingRequest(string $payingRequest): ApiRequest
+    public function payingRequest(string $payingRequest): CobPayload
     {
         $this->payingRequest = $payingRequest;
 
         return $this;
     }
 
-    public function additionalInfo(array $additionalInfo): ApiRequest
+    public function additionalInfo(array $additionalInfo): CobPayload
     {
         $this->additionalInfo = array_merge($this->additionalInfo, $additionalInfo);
 
         return $this;
     }
 
-    public function transactionId(string $transactionId): ApiRequest
+    public function transactionId(string $transactionId): CobPayload
     {
         $this->transactionId = $transactionId;
 

@@ -3,6 +3,7 @@
 namespace Junges\Pix;
 
 use Illuminate\Support\Facades\Http;
+use Junges\Pix\Contracts\CobPayloadContract;
 use Junges\Pix\Contracts\PixApiContract;
 use Junges\Pix\Support\Endpoints;
 
@@ -76,11 +77,11 @@ class Api implements PixApiContract
         ])->json();
     }
 
-    public function createCob(ApiRequest $request)
+    public function createCob(CobPayloadContract $payload)
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $payload->getTransactionId();
 
-        $request = array_merge($request->toArray(), [
+        $request = array_merge($payload->toArray(), [
             'cert' => $this->getCertificate()
         ]);
 

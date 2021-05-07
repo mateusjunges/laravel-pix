@@ -14,4 +14,5 @@ interface PixApiContract
 
     public function certificate(string $certificate): self;
 
+    public function getOauth2Token();
 }
