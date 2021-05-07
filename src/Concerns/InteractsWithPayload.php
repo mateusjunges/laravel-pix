@@ -4,9 +4,7 @@ namespace Junges\Pix\Concerns;
 
 use Illuminate\Support\Str;
 use Junges\Pix\Exceptions\InvalidAmountException;
-use Junges\Pix\Exceptions\InvalidGuiException;
 use Junges\Pix\Exceptions\InvalidMerchantInformationException;
-use Junges\Pix\Exceptions\InvalidPixKeyException;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 use Junges\Pix\Pix;
 
