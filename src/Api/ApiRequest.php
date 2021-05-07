@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api;
 
+use Junges\Pix\Exceptions\InvalidAmountException;
 use Junges\Pix\Exceptions\InvalidDebtorException;
 
 class ApiRequest
@@ -51,6 +52,10 @@ class ApiRequest
 
     public function amount(string $amount): ApiRequest
     {
+        if (! preg_match("^[0-9]{1,10}.[0-9]{2}$^", $amount)) {
+            throw InvalidAmountException::invalidPattert();
+        }
+
         $this->amount = $amount;
 
         return $this;
