@@ -4,9 +4,11 @@ namespace Junges\Pix\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Junges\Pix\Api as PixApi;
+use Junges\Pix\Api\Api;
+use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
-use Junges\Pix\Facades\Api;
+use Junges\Pix\Facades\ApiFacade;
+use Junges\Pix\Facades\CobFacade;
 use Junges\Pix\QrCodeGenerator;
 
 class PixServiceProvider extends ServiceProvider
@@ -30,7 +32,8 @@ class PixServiceProvider extends ServiceProvider
     {
         $this->app->bind(GeneratesQrCodeContract::class, QrCodeGenerator::class);
 
-        $this->app->bind(Api::class, PixApi::class);
+        $this->app->bind(ApiFacade::class, Api::class);
+        $this->app->bind(CobFacade::class, Cob::class);
 
         Blade::directive('laravelPixAssets',function() {
             $path = asset('vendor/laravel-pix/css/app.css');

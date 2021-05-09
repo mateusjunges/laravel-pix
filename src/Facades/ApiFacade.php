@@ -14,12 +14,8 @@ use Junges\Pix\Api\ApiRequest;
  * @method static PixApi clientSecret(string $clientSecret);
  * @method static PixApi certificate(string $certificate);
  * @method static mixed getOauth2Token();
- * @method static array createCob(ApiRequest $request);
- * @method static array getCobInfo(string $transaction_id);
- * @method static PixApi withFilters($filters);
- * @method static array getAllCobs();
  */
-class Api extends Facade
+class ApiFacade extends Facade
 {
     public static function getFacadeAccessor()
     {
