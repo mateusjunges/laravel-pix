@@ -130,7 +130,7 @@ class ApiRequest
             ],
             "chave" => $this->pixKey,
             "solicitacaoPagador" => $this->payingRequest,
-            "infoAdicionais" => $this->additionalInfo
+            "infoAdicionais" => $this->additionalInfo ?? []
         ];
     }
 }
