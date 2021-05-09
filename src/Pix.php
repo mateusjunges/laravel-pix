@@ -2,6 +2,8 @@
 
 namespace Junges\Pix;
 
+use Junges\Pix\Api\Api;
+use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
 use Junges\Pix\Events\QrCodeCreatedEvent;
@@ -63,5 +65,15 @@ class Pix
         event(new DynamicQrCodeCreatedEvent($payload->getPixKey()));
 
         return $qr_code;
+    }
+
+    public static function api(): Api
+    {
+        return new Api();
+    }
+
+    public static function cob(): Cob
+    {
+        return new Cob();
     }
 }
