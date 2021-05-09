@@ -4,6 +4,7 @@ namespace Junges\Pix;
 
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
+use Junges\Pix\Api\Features\CobV\CobV;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
 use Junges\Pix\Events\QrCodeCreatedEvent;
@@ -76,8 +77,21 @@ class Pix
         return new Api();
     }
 
+    /**
+     * Manage instant charges.
+     * @return Cob
+     */
     public static function cob(): Cob
     {
         return new Cob();
+    }
+
+    /**
+     * Manage charges with a due date.
+     * @return CobV
+     */
+    public static function cobV(): CobV
+    {
+        return new CobV();
     }
 }

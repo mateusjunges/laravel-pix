@@ -11,4 +11,8 @@ class Endpoints
     const CREATE_COBV = "/v2/cobv/";
     const GET_COBV = self::CREATE_COBV;
     const GET_ALL_COBV = self::CREATE_COBV;
+    const CREATE_WEBHOOK = "/v2/webhook/";
+    const GET_WEBHOOK = self::CREATE_WEBHOOK;
+    const DELETE_WEBHOOK = self::CREATE_WEBHOOK;
+    const GET_WEBHOOKS = self::CREATE_WEBHOOK;
 }

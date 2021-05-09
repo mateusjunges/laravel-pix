@@ -69,7 +69,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
             'cert' => $this->getCertificate()
         ])
             ->withToken($this->oauthToken)
-            ->get($endpoint, $this->getFilters($this->filters ?? null))
+            ->get($endpoint, $this->getFilters($this->filters ?? []) ?? null)
             ->json();
     }
 }
