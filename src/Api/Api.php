@@ -4,7 +4,9 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\PixApiContract;
+use Junges\Pix\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class Api implements PixApiContract
 {
@@ -14,6 +16,7 @@ class Api implements PixApiContract
     private string $certificate;
     private string $certificatePassword;
     private string $oauthToken;
+    private $filters;
 
     public function __construct()
     {
@@ -66,11 +69,19 @@ class Api implements PixApiContract
         return $this;
     }
 
-    public function getCertificate()
+    /**
+     * @param array|FilterApiRequests $filters
+     * @return $this
+     */
+    public function withFilters($filters): Api
     {
-        return $this->certificatePassword ?? false
-                ? [$this->certificate, $this->certificatePassword]
-                : $this->certificate;
+        if (! is_array($filters) && ! $filters instanceof FilterApiRequests) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
+        $this->filters = $filters;
+
+        return $this;
     }
 
     public function getOauth2Token()
@@ -118,5 +129,35 @@ class Api implements PixApiContract
             ->withToken($this->oauthToken)
             ->get($endpoint)
             ->json();
+    }
+
+    public function getAllCobs($filters): array
+    {
+        $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
+
+        return Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Cache-Control' => 'no-cache',
+        ])->withOptions([
+            'cert' => $this->getCertificate()
+        ])
+            ->withToken($this->oauthToken)
+            ->get($endpoint, $this->getFilters($filters))
+            ->json();
+    }
+
+    private function getCertificate()
+    {
+        return $this->certificatePassword ?? false
+                ? [$this->certificate, $this->certificatePassword]
+                : $this->certificate;
+    }
+
+    private function getFilters($filters): array
+    {
+        return $filters instanceof FilterApiRequests
+            ? $filters->toArray()
+            : $filters;
     }
 }

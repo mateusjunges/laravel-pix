@@ -11,4 +11,6 @@ interface PixApiContract
     public function createCob(ApiRequest $request): array;
 
     public function getCobInfo(string $transaction_id): array;
+
+    public function getAllCobs($filters): array;
 }

@@ -16,6 +16,7 @@ use Junges\Pix\Api\ApiRequest;
  * @method static mixed getOauth2Token();
  * @method static array createCob(ApiRequest $request);
  * @method static array getCobInfo(string $transaction_id);
+ * @method static array getAllCobs(array $filters);
  */
 class Api extends Facade
 {
