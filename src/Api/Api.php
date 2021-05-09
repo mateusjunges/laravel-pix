@@ -10,13 +10,13 @@ use RuntimeException;
 
 class Api implements ConsumesPixApi
 {
-    private string $baseUrl;
-    private string $clientId;
-    private string $clientSecret;
-    private string $certificate;
-    private string $certificatePassword;
-    private string $oauthToken;
-    private $filters;
+    protected string $baseUrl;
+    protected string $clientId;
+    protected string $clientSecret;
+    protected string $certificate;
+    protected string $certificatePassword;
+    protected string $oauthToken;
+    protected $filters;
 
     public function __construct()
     {
@@ -99,62 +99,14 @@ class Api implements ConsumesPixApi
             ])->json();
     }
 
-    public function createCob(ApiRequest $request): array
-    {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
-
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
-            ->put($endpoint, $request->toArray())
-            ->json();
-    }
-
-    public function getCobInfo(string $transaction_id): array
-    {
-        $endpoint = $this->baseUrl . Endpoints::GET_COB . $transaction_id;
-
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
-            ->get($endpoint)
-            ->json();
-    }
-
-    public function getAllCobs(): array
-    {
-        $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
-
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
-            ->json();
-    }
-
-    private function getCertificate()
+    protected function getCertificate()
     {
         return $this->certificatePassword ?? false
                 ? [$this->certificate, $this->certificatePassword]
                 : $this->certificate;
     }
 
-    private function getFilters($filters): array
+    protected function getFilters($filters): array
     {
         return $filters instanceof FilterApiRequests
             ? $filters->toArray()

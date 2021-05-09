@@ -1,10 +1,10 @@
 <?php
 
-namespace Junges\Pix\Api;
+namespace Junges\Pix\Api\Filters;
 
-use Junges\Pix\Contracts\FilterApiRequests;
+use Junges\Pix\Api\Contracts\FilterApiRequests;
 
-class ApiFilter implements FilterApiRequests
+class CobFilter implements FilterApiRequests
 {
     const START = 'inicio';
     const END = 'fim';
@@ -25,58 +25,64 @@ class ApiFilter implements FilterApiRequests
     private int $itemsPerPage;
     private int $actualPage;
 
-    public function startingAt(string $start): ApiFilter
+    public function startingAt(string $start): CobFilter
     {
         $this->start = $start;
+
         return $this;
     }
 
-    public function endingAt(string $end): ApiFilter
+    public function endingAt(string $end): CobFilter
     {
         $this->end = $end;
+
         return $this;
     }
 
-    public function cpf(string $cpf): ApiFilter
+    public function cpf(string $cpf): CobFilter
     {
         $this->cpf = $cpf;
+
         return $this;
     }
 
-    public function cnpj(string $cnpj): ApiFilter
+    public function cnpj(string $cnpj): CobFilter
     {
         $this->cnpj = $cnpj;
         return $this;
     }
 
-    public function withLocationPresent(): ApiFilter
+    public function withLocationPresent(): CobFilter
     {
         $this->locationPresent = "true";
         return $this;
     }
 
-    public function withoutLocationPresent(): ApiFilter
+    public function withoutLocationPresent(): CobFilter
     {
         $this->locationPresent = "false";
 
         return $this;
     }
 
-    public function withStatus(string $status): ApiFilter
+    public function withStatus(string $status): CobFilter
     {
         $this->status = $status;
+
         return $this;
     }
 
-    public function itemsPerPage(int $itemsPerPage): ApiFilter
+    public function itemsPerPage(int $itemsPerPage): CobFilter
     {
         $this->itemsPerPage = $itemsPerPage;
+
         return $this;
     }
 
-    public function actualPage(int $actualPage): ApiFilter
+    public function actualPage(int $actualPage): CobFilter
     {
         $this->actualPage = $actualPage;
+
         return $this;
     }
 
