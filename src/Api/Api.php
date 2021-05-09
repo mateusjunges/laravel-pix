@@ -3,10 +3,9 @@
 namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
+use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
-use Junges\Pix\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
-use RuntimeException;
 
 class Api implements ConsumesPixApi
 {
@@ -90,9 +89,9 @@ class Api implements ConsumesPixApi
                 : $this->certificate;
     }
 
-    protected function getFilters($filters): array
+    public function getFilters($filters): array
     {
-        return $filters instanceof FilterApiRequests
+        return $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;
     }
