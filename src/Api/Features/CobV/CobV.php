@@ -6,5 +6,8 @@ use Junges\Pix\Api\Api;
 
 class CobV extends Api
 {
+    public function create(): array
+    {
 
+    }
 }
