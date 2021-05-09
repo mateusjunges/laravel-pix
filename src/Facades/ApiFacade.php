@@ -4,7 +4,7 @@ namespace Junges\Pix\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use Junges\Pix\Api\Api as PixApi;
-use Junges\Pix\Api\ApiRequest;
+use Junges\Pix\Api\CobRequest;
 
 /**
  * Class ApiConsumes

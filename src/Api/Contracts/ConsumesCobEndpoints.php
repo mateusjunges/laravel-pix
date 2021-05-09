@@ -2,11 +2,11 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-use Junges\Pix\Api\ApiRequest;
+use Junges\Pix\Api\CobRequest;
 
 interface ConsumesCobEndpoints extends ConsumesPixApi
 {
-    public function create(ApiRequest $request): array;
+    public function create(CobRequest $request): array;
 
     public function getByTransactionId(string $transaction_id): array;
 

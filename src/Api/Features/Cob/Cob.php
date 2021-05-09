@@ -4,7 +4,7 @@ namespace Junges\Pix\Api\Features\Cob;
 
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
-use Junges\Pix\Api\ApiRequest;
+use Junges\Pix\Api\CobRequest;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
@@ -26,7 +26,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         return $this;
     }
 
-    public function create(ApiRequest $request): array
+    public function create(CobRequest $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
 

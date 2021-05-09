@@ -1,11 +1,11 @@
 <?php
 
-namespace Junges\Pix\Api;
+namespace Junges\Pix\Api\Features\Cob;
 
 use Junges\Pix\Exceptions\InvalidAmountException;
 use Junges\Pix\Exceptions\InvalidDebtorException;
 
-class ApiRequest
+class CobRequest
 {
     private int $expiration = 3600;
     private array $debtor;
@@ -15,7 +15,7 @@ class ApiRequest
     private array $additionalInfo;
     private string $transactionId;
 
-    public function setExpiration(int $expiration): ApiRequest
+    public function setExpiration(int $expiration): CobRequest
     {
         $this->expiration = $expiration;
 
@@ -25,7 +25,7 @@ class ApiRequest
     /**
      * @throws InvalidDebtorException When the $debtor array doesn't have a 'cpf' key.
      */
-    public function debtorWithCpf(array $debtor): ApiRequest
+    public function debtorWithCpf(array $debtor): CobRequest
     {
         if (! array_key_exists('cpf', $debtor)) {
             throw InvalidDebtorException::debtorWithCpfMustContainACpfKey();
@@ -39,7 +39,7 @@ class ApiRequest
     /**
      * @throws InvalidDebtorException When the $debtor array doesn't have a 'cnpj' key.
      */
-    public function debtorWithCnpj(array $debtor): ApiRequest
+    public function debtorWithCnpj(array $debtor): CobRequest
     {
         if (! array_key_exists('cnpj', $debtor)) {
             throw InvalidDebtorException::debtorWithCnpjfMustContainACnpjKey();
@@ -50,21 +50,21 @@ class ApiRequest
         return $this;
     }
 
-    public function debtorCpf(string $cpf): ApiRequest
+    public function debtorCpf(string $cpf): CobRequest
     {
         $this->debtor['cpf'] = $cpf;
 
         return $this;
     }
 
-    public function debtorCnpj(string $cnpj): ApiRequest
+    public function debtorCnpj(string $cnpj): CobRequest
     {
         $this->debtor['cnpj'] = $cnpj;
 
         return $this;
     }
 
-    public function debtorName(string $name): ApiRequest
+    public function debtorName(string $name): CobRequest
     {
         $this->debtor['nome'] = $name;
 
@@ -74,7 +74,7 @@ class ApiRequest
     /**
      * @throws \Junges\Pix\Exceptions\PixException
      */
-    public function amount(string $amount): ApiRequest
+    public function amount(string $amount): CobRequest
     {
         if (! preg_match("^[0-9]{1,10}.[0-9]{2}$^", $amount)) {
             throw InvalidAmountException::invalidPattern();
@@ -85,28 +85,28 @@ class ApiRequest
         return $this;
     }
 
-    public function pixKey(string $pixKey): ApiRequest
+    public function pixKey(string $pixKey): CobRequest
     {
         $this->pixKey = $pixKey;
 
         return $this;
     }
 
-    public function payingRequest(string $payingRequest): ApiRequest
+    public function payingRequest(string $payingRequest): CobRequest
     {
         $this->payingRequest = $payingRequest;
 
         return $this;
     }
 
-    public function additionalInfo(array $additionalInfo): ApiRequest
+    public function additionalInfo(array $additionalInfo): CobRequest
     {
         $this->additionalInfo = array_merge($this->additionalInfo ?? [], $additionalInfo);
 
         return $this;
     }
 
-    public function transactionId(string $transactionId): ApiRequest
+    public function transactionId(string $transactionId): CobRequest
     {
         $this->transactionId = $transactionId;
 
