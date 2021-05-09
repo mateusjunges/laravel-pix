@@ -50,6 +50,27 @@ class ApiRequest
         return $this;
     }
 
+    public function debtorCpf(string $cpf): ApiRequest
+    {
+        $this->debtor['cpf'] = $cpf;
+
+        return $this;
+    }
+
+    public function debtorCnpj(string $cnpj): ApiRequest
+    {
+        $this->debtor['cnpj'] = $cnpj;
+
+        return $this;
+    }
+
+    public function debtorName(string $name): ApiRequest
+    {
+        $this->debtor['nome'] = $name;
+
+        return $this;
+    }
+
     /**
      * @throws \Junges\Pix\Exceptions\PixException
      */
