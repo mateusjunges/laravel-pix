@@ -6,5 +6,5 @@ interface FilterApiRequests
 {
     public function withFilters($filters): self;
 
-    public function getFilters(): array;
+    public function getFilters($filters): array;
 }
