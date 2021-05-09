@@ -12,9 +12,8 @@ class CobFilters implements ApplyApiFilters
     const CNPJ = 'cnpj';
     const LOCATION_PRESENT = 'locationPresente';
     const STATUS = 'status';
-    const PAGINATION = 'paginacao';
-    const ITEMS_PER_PAGE = 'itensPorPagina';
-    const ACTUAL_PAGE = 'paginaAtual';
+    const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
+    const PAGINATION_ACTUAL_PAGE = 'paginacao.paginaAtual';
 
     private string $start;
     private string $end;
@@ -107,11 +106,11 @@ class CobFilters implements ApplyApiFilters
         }
 
         if (!empty($this->itemsPerPage)) {
-            $filters[self::PAGINATION][self::ITEMS_PER_PAGE] = $this->itemsPerPage;
+            $filters[self::PAGINATION_ITEMS_PER_PAGE] = $this->itemsPerPage;
         }
 
         if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION][self::ACTUAL_PAGE] = $this->actualPage;
+            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
         }
 
         return $filters;
