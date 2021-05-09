@@ -12,6 +12,7 @@ class CobvFilters implements ApplyApiFilters
     const CNPJ = 'cnpj';
     const LOCATION_PRESENT = 'locationPresente';
     const STATUS = 'status';
+    const COBV_BATCH_ID = 'loteCobVId';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
     const PAGINATION_ACTUAL_PAGE = 'paginacao.paginaAtual';
 
@@ -118,6 +119,10 @@ class CobvFilters implements ApplyApiFilters
 
         if (!empty($this->actualPage)) {
             $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        }
+
+        if (!empty($this->cobvBatchId)) {
+            $filters[self::COBV_BATCH_ID] = $this->cobvBatchId;
         }
 
         return $filters;
