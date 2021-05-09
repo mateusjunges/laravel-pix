@@ -20,7 +20,7 @@ class ApiFilter implements FilterApiRequests
     private string $end;
     private string $cpf;
     private string $cnpj;
-    private bool $locationPresent = false;
+    private string $locationPresent = "false";
     private string $status;
     private int $itemsPerPage;
     private int $actualPage;
@@ -49,15 +49,17 @@ class ApiFilter implements FilterApiRequests
         return $this;
     }
 
-    public function withLocationPresent(bool $locationPresent = true): ApiFilter
+    public function withLocationPresent(): ApiFilter
     {
-        $this->locationPresent = $locationPresent;
+        $this->locationPresent = "true";
         return $this;
     }
 
     public function withoutLocationPresent(): ApiFilter
     {
-        return $this->withLocationPresent(false);
+        $this->locationPresent = "false";
+
+        return $this;
     }
 
     public function withStatus(string $status): ApiFilter
