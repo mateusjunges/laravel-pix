@@ -16,5 +16,6 @@ return [
     'psp' => [
         'psp_base_url' => env('LARAVEL_PIX_PSP_BASE_URL'),
         'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+        'ssl_certificate' => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE')
     ]
 ];
