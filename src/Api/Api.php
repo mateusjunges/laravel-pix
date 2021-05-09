@@ -131,7 +131,7 @@ class Api implements ConsumesPixApi
             ->json();
     }
 
-    public function getAllCobs($filters): array
+    public function getAllCobs(): array
     {
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
 
@@ -143,7 +143,7 @@ class Api implements ConsumesPixApi
             'cert' => $this->getCertificate()
         ])
             ->withToken($this->oauthToken)
-            ->get($endpoint, $this->getFilters($filters))
+            ->get($endpoint, $this->getFilters($this->filters ?? []))
             ->json();
     }
 

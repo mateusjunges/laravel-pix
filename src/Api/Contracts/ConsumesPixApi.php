@@ -12,5 +12,5 @@ interface ConsumesPixApi
 
     public function getCobInfo(string $transaction_id): array;
 
-    public function getAllCobs($filters): array;
+    public function getAllCobs(): array;
 }
