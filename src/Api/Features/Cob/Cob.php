@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Api\Cob;
+namespace Junges\Pix\Api\Features\Cob;
 
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
