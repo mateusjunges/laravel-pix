@@ -17,8 +17,11 @@ class Api implements PixApiContract
 
     public function __construct()
     {
-        $this->oauthToken = config('laravel-pix.psp.oauth_bearer_token');
-        $this->certificate = config('laravel-pix.psp.ssl_certificate');
+        $this->oauthToken(config('laravel-pix.psp.oauth_bearer_token'))
+            ->certificate(config('laravel-pix.psp.ssl_certificate'))
+            ->baseUrl(config('laravel-pix.psp.base_url'))
+            ->clientId(config('laravel-pix.psp.client_id'))
+            ->clientSecret(config('laravel-pix.psp.client_secret'));
     }
 
     public function baseUrl(string $baseUrl): Api
