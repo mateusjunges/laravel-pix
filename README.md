@@ -1,5 +1,7 @@
 # Laravel PIX
 
+> Work In Progress
+
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
 # Instalação
