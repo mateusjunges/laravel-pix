@@ -4,7 +4,7 @@ namespace Junges\Pix\Api\Contracts;
 
 use Junges\Pix\Api\ApiRequest;
 
-interface PixApiContract
+interface ConsumesPixApi
 {
     public function getOauth2Token();
 

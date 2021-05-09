@@ -3,12 +3,12 @@
 namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Api\Contracts\PixApiContract;
+use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
-class Api implements PixApiContract
+class Api implements ConsumesPixApi
 {
     private string $baseUrl;
     private string $clientId;

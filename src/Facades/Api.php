@@ -7,7 +7,7 @@ use Junges\Pix\Api\Api as PixApi;
 use Junges\Pix\Api\ApiRequest;
 
 /**
- * Class Api
+ * Class ApiConsumes
  * @package Junges\Pix\Facades
  * @method static PixApi baseUrl(string $baseUrl);
  * @method static PixApi clientId(string $clientId);
