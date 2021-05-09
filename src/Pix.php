@@ -67,6 +67,10 @@ class Pix
         return $qr_code;
     }
 
+    /**
+     * This method allows you to use only OAuth endpoints.
+     * @return Api
+     */
     public static function api(): Api
     {
         return new Api();

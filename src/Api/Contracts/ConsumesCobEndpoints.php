@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-use Junges\Pix\Api\CobRequest;
+use Junges\Pix\Api\Features\Cob\CobRequest;
 
 interface ConsumesCobEndpoints extends ConsumesPixApi
 {
