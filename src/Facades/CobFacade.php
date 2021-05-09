@@ -3,8 +3,8 @@
 namespace Junges\Pix\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Junges\Pix\Api\CobRequest;
 use Junges\Pix\Api\Features\Cob\Cob;
+use Junges\Pix\Api\Features\Cob\CobRequest;
 
 /**
  * Class ApiConsumes
