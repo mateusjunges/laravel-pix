@@ -120,7 +120,7 @@ class ApiRequest
 
     public function toArray(): array
     {
-        return [
+        $array = [
             "calendario" => [
                 "expiracao" => $this->expiration
             ],
@@ -130,7 +130,12 @@ class ApiRequest
             ],
             "chave" => $this->pixKey,
             "solicitacaoPagador" => $this->payingRequest,
-            "infoAdicionais" => $this->additionalInfo ?? []
         ];
+
+        if ($this->additionalInfo ?? false) {
+            $array['infoAdicional'] = $this->additionalInfo;
+        }
+
+        return $array;
     }
 }
