@@ -16,7 +16,6 @@ class Api implements ConsumesPixApi
     protected string $certificate;
     protected string $certificatePassword;
     protected string $oauthToken;
-    protected $filters;
 
     public function __construct()
     {
@@ -65,21 +64,6 @@ class Api implements ConsumesPixApi
     public function oauthToken(string $oauthToken): Api
     {
         $this->oauthToken = $oauthToken;
-
-        return $this;
-    }
-
-    /**
-     * @param array|FilterApiRequests $filters
-     * @return $this
-     */
-    public function withFilters($filters): Api
-    {
-        if (! is_array($filters) && ! $filters instanceof FilterApiRequests) {
-            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
-        }
-
-        $this->filters = $filters;
 
         return $this;
     }

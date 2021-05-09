@@ -2,9 +2,9 @@
 
 namespace Junges\Pix\Api\Filters;
 
-use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Api\Contracts\ApplyApiFilters;
 
-class CobFilter implements FilterApiRequests
+class CobFilters implements ApplyApiFilters
 {
     const START = 'inicio';
     const END = 'fim';
@@ -25,61 +25,61 @@ class CobFilter implements FilterApiRequests
     private int $itemsPerPage;
     private int $actualPage;
 
-    public function startingAt(string $start): CobFilter
+    public function startingAt(string $start): CobFilters
     {
         $this->start = $start;
 
         return $this;
     }
 
-    public function endingAt(string $end): CobFilter
+    public function endingAt(string $end): CobFilters
     {
         $this->end = $end;
 
         return $this;
     }
 
-    public function cpf(string $cpf): CobFilter
+    public function cpf(string $cpf): CobFilters
     {
         $this->cpf = $cpf;
 
         return $this;
     }
 
-    public function cnpj(string $cnpj): CobFilter
+    public function cnpj(string $cnpj): CobFilters
     {
         $this->cnpj = $cnpj;
         return $this;
     }
 
-    public function withLocationPresent(): CobFilter
+    public function withLocationPresent(): CobFilters
     {
         $this->locationPresent = "true";
         return $this;
     }
 
-    public function withoutLocationPresent(): CobFilter
+    public function withoutLocationPresent(): CobFilters
     {
         $this->locationPresent = "false";
 
         return $this;
     }
 
-    public function withStatus(string $status): CobFilter
+    public function withStatus(string $status): CobFilters
     {
         $this->status = $status;
 
         return $this;
     }
 
-    public function itemsPerPage(int $itemsPerPage): CobFilter
+    public function itemsPerPage(int $itemsPerPage): CobFilters
     {
         $this->itemsPerPage = $itemsPerPage;
 
         return $this;
     }
 
-    public function actualPage(int $actualPage): CobFilter
+    public function actualPage(int $actualPage): CobFilters
     {
         $this->actualPage = $actualPage;
 
