@@ -7,11 +7,15 @@ use Illuminate\Support\ServiceProvider;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Api\Features\Cobv\Cobv;
+use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
+use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Facades\ApiFacade;
 use Junges\Pix\Facades\CobFacade;
 use Junges\Pix\Facades\CobvFacade;
+use Junges\Pix\Facades\PayloadLocationFacade;
+use Junges\Pix\Facades\ReceivedPixFacade;
 use Junges\Pix\Facades\WebhookFacade;
 use Junges\Pix\QrCodeGenerator;
 
@@ -40,6 +44,8 @@ class PixServiceProvider extends ServiceProvider
         $this->app->bind(CobFacade::class, Cob::class);
         $this->app->bind(CobvFacade::class, Cobv::class);
         $this->app->bind(WebhookFacade::class, Webhook::class);
+        $this->app->bind(PayloadLocationFacade::class, PayloadLocation::class);
+        $this->app->bind(ReceivedPixFacade::class, ReceivedPix::class);
 
         Blade::directive('laravelPixAssets',function() {
             $path = asset('vendor/laravel-pix/css/app.css');
