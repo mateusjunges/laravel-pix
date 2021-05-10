@@ -38,7 +38,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
             ->json();
     }
 
-    public function getViaPixKey(string $pixKey): array
+    public function getByPixKey(string $pixKey): array
     {
         $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey;
 

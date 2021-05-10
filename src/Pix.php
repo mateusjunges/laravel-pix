@@ -5,6 +5,7 @@ namespace Junges\Pix;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Api\Features\CobV\CobV;
+use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
 use Junges\Pix\Events\QrCodeCreatedEvent;
@@ -93,5 +94,14 @@ class Pix
     public static function cobV(): CobV
     {
         return new CobV();
+    }
+
+    /**
+     * Manage pix key webhooks
+     * @return Webhook
+     */
+    public static function webhook(): Webhook
+    {
+        return new Webhook();
     }
 }

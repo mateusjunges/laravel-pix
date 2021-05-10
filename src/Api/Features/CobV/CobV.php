@@ -2,7 +2,6 @@
 
 namespace Junges\Pix\Api\Features\CobV;
 
-use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobVEndpoints;
