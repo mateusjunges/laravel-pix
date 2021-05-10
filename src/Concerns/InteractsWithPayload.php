@@ -44,7 +44,7 @@ trait InteractsWithPayload
     {
         $gui = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
 
-        $key = $this->key ?? false
+        $key = $this->pixKey ?? false
                 ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey)
                 : "";
 
@@ -59,16 +59,11 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description, $url);
     }
 
-    /**
-     * @throws \Junges\Pix\Exceptions\PixException
-     */
-    protected function getTransactionAmount(): string
+    protected function getTransactionAmount()
     {
-        if (empty($this->amount)) {
-            throw InvalidAmountException::amountCantBeEmpty();
-        }
-
-        return $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount);
+        return !empty($this->amount)
+            ? $this->formatValue(Pix::TRANSACTION_AMOUNT, $this->amount)
+            : null;
     }
 
     protected function getTransactionCurrency(): string
@@ -118,12 +113,9 @@ trait InteractsWithPayload
         return $this->formatValue(Pix::PAYLOAD_FORMAT_INDICATOR, '01');
     }
 
-    /**
-     * @throws \Junges\Pix\Exceptions\PixException
-     */
-    protected function buildPayload(): string
+    public function toStringWithoutCrc16(): string
     {
-        $payload = $this->getPayloadFormat()
+        return $this->getPayloadFormat()
             . $this->getPointOfInitializationMethod()
             . $this->getMerchantAccountInformation()
             . $this->getMerchantCategoryCode()
@@ -133,8 +125,11 @@ trait InteractsWithPayload
             . $this->getMerchantName()
             . $this->getMerchantCity()
             . $this->getAdditionalDataFieldTemplate();
+    }
 
-        return $payload . $this->getCRC16($payload);
+    protected function buildPayload(): string
+    {
+        return $this->toStringWithoutCrc16() . $this->getCRC16($this->toStringWithoutCrc16());
     }
 
     public function getPixKey(): string

@@ -7,7 +7,7 @@ use Junges\Pix\Pix;
 
 trait HasCR16
 {
-    private function getCRC16($payload): string
+    public function getCRC16($payload): string
     {
         $payload .= Pix::CRC16 . Pix::CRC16_LENGTH;
 
