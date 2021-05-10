@@ -6,6 +6,8 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Api\Features\Cobv\Cobv;
 use Junges\Pix\Api\Features\LoteCobv\LoteCobv;
+use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
+use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
@@ -113,5 +115,23 @@ class Pix
     public static function webhook(): Webhook
     {
         return new Webhook();
+    }
+
+    /**
+     * Manage location configuration to use with payloads.
+     * @return PayloadLocation
+     */
+    public static function payloadLocation(): PayloadLocation
+    {
+        return new PayloadLocation();
+    }
+
+    /**
+     * Manage received pix.
+     * @return ReceivedPix
+     */
+    public static function receivedPix(): ReceivedPix
+    {
+        return new ReceivedPix();
     }
 }
