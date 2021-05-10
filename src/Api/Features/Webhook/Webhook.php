@@ -2,7 +2,6 @@
 
 namespace Junges\Pix\Api\Features\Webhook;
 
-use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesWebhookEndpoints;
@@ -34,17 +33,8 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache'
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
-            ->put($endpoint, [
-                'webhookUrl' => $this->webhookUrl
-            ])
+        return $this->request()
+            ->put($endpoint, ['webhookUrl' => $this->webhookUrl])
             ->json();
     }
 
@@ -52,14 +42,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->get($endpoint)
             ->json();
     }
@@ -68,14 +51,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::DELETE_WEBHOOK . $pixKey;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->delete($endpoint)
             ->json();
     }
@@ -83,14 +59,8 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
     public function all(): array
     {
         $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOKS;
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+
+        return $this->request()
             ->get($endpoint, $this->getFilters($this->filters) ?? null)
             ->json();
     }

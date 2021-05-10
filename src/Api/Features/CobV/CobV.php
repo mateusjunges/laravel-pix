@@ -17,13 +17,7 @@ class CobV extends Api implements FilterApiRequests, ConsumesCobVEndpoints
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . "/{$request->getTransactionId()}";
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->put($endpoint, $request->toArray())
             ->json();
     }
@@ -32,14 +26,7 @@ class CobV extends Api implements FilterApiRequests, ConsumesCobVEndpoints
     {
         $endpoint = $this->baseUrl . Endpoints::GET_COBV . $transactionId;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->get($endpoint, $this->filters ?? null)
             ->json();
     }
@@ -57,14 +44,7 @@ class CobV extends Api implements FilterApiRequests, ConsumesCobVEndpoints
     {
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBV;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->get($endpoint, $this->getFilters($this->filters ?? null))
             ->json();
     }

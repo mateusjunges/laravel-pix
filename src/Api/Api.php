@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
@@ -65,6 +66,18 @@ class Api implements ConsumesPixApi
         $this->oauthToken = $oauthToken;
 
         return $this;
+    }
+
+    protected function request(): PendingRequest
+    {
+        return Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Cache-Control' => 'no-cache',
+        ])->withOptions([
+            'cert' => $this->getCertificate()
+        ])
+        ->withToken($this->oauthToken);
     }
 
     public function getOauth2Token()

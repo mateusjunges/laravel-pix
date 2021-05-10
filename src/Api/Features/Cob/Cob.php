@@ -29,14 +29,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->put($endpoint, $request->toArray())
             ->json();
     }
@@ -45,14 +38,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::GET_COB . $transaction_id;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->get($endpoint)
             ->json();
     }
@@ -61,14 +47,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
     {
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
 
-        return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-            ->withToken($this->oauthToken)
+        return $this->request()
             ->get($endpoint, $this->getFilters($this->filters ?? []) ?? null)
             ->json();
     }
