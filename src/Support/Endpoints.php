@@ -24,4 +24,7 @@ class Endpoints
     const GET_WEBHOOK = self::CREATE_WEBHOOK;
     const DELETE_WEBHOOK = self::CREATE_WEBHOOK;
     const GET_WEBHOOKS = self::CREATE_WEBHOOK;
+
+    const RECEIVED_PIX = "/v2/pix/";
+    const RECEIVED_PIX_REFUND = "/devolucao/";
 }
