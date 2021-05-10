@@ -44,11 +44,12 @@ class Validator implements PerformKeyValidationsContract
         }
 
         $cnpj = preg_replace("/[^0-9]/", "", $cnpj);
-        $cnpj = str_pad($cnpj, 14, 0, STR_PAD_LEFT);
 
         if (Str::length($cnpj) !== 14) {
             return false;
         }
+
+        $cnpj = str_pad($cnpj, 14, 0, STR_PAD_LEFT);
 
         $j = 5;
         $k = 6;
