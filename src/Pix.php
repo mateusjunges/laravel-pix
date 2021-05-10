@@ -5,6 +5,7 @@ namespace Junges\Pix;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Api\Features\Cobv\Cobv;
+use Junges\Pix\Api\Features\LoteCobv\LoteCobv;
 use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
@@ -91,9 +92,18 @@ class Pix
      * Manage charges with a due date.
      * @return Cobv
      */
-    public static function cobV(): Cobv
+    public static function cobv(): Cobv
     {
         return new Cobv();
+    }
+
+    /**
+     * Manage batch of charges with due date.
+     * @return LoteCobv
+     */
+    public static function loteCobv(): LoteCobv
+    {
+        return new LoteCobv();
     }
 
     /**
