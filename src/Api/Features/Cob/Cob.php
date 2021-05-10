@@ -33,12 +33,30 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
             ->json();
     }
 
-    public function getByTransactionId(string $transaction_id): array
+    public function createWithoutTransactionId(CobRequest $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_COB . $transaction_id;
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COB;
+
+        return $this->request()
+            ->post($endpoint, $request->toArray())
+            ->json();
+    }
+
+    public function getByTransactionId(string $transactionId): array
+    {
+        $endpoint = $this->baseUrl . Endpoints::GET_COB . $transactionId;
 
         return $this->request()
             ->get($endpoint)
+            ->json();
+    }
+
+    public function update(UpdateCobRequest $request): array
+    {
+        $endpoint = $this->baseUrl . Endpoints::UPDATE_COB . $request->getTransactionId();
+
+        return $this->request()
+            ->patch($endpoint, $request->toArray())
             ->json();
     }
 

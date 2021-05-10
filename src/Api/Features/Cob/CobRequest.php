@@ -2,11 +2,11 @@
 
 namespace Junges\Pix\Api\Features\Cob;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Junges\Pix\Api\Contracts\GeneratesCobRequests;
 use Junges\Pix\Exceptions\InvalidAmountException;
 use Junges\Pix\Exceptions\InvalidDebtorException;
 
-class CobRequest implements Arrayable
+class CobRequest implements GeneratesCobRequests
 {
     private int $expiration = 3600;
     private array $debtor;
