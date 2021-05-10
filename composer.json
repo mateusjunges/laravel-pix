@@ -33,5 +33,8 @@
                 "Junges\\Pix\\Providers\\PixServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests"
     }
 }
