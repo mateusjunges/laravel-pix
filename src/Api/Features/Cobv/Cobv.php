@@ -4,13 +4,13 @@ namespace Junges\Pix\Api\Features\Cobv;
 
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
-use Junges\Pix\Api\Contracts\ConsumesCobVEndpoints;
+use Junges\Pix\Api\Contracts\ConsumesCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
 
-class Cobv extends Api implements FilterApiRequests, ConsumesCobVEndpoints
+class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 {
-    private $filters;
+    private array $filters;
 
     public function create(CobvRequest $request): array
     {
@@ -53,7 +53,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobVEndpoints
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBV;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? null))
+            ->get($endpoint, $this->getFilters($this->filters ?? []))
             ->json();
     }
 }

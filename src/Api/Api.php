@@ -102,10 +102,8 @@ class Api implements ConsumesPixApi
                 : $this->certificate;
     }
 
-    public function getFilters($filters): array
+    public function getFilters($filters)
     {
-        return $filters instanceof ApplyApiFilters
-            ? $filters->toArray()
-            : $filters;
+        return !empty($filters) ? $filters : null;
     }
 }

@@ -5,7 +5,7 @@ namespace Junges\Pix\Api\Contracts;
 use Junges\Pix\Api\Features\Cobv\CobvRequest;
 use Junges\Pix\Api\Features\Cobv\UpdateCobvRequest;
 
-interface ConsumesCobVEndpoints
+interface ConsumesCobvEndpoints
 {
     public function all(): array;
 

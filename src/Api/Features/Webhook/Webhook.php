@@ -11,7 +11,7 @@ use Junges\Pix\Support\Endpoints;
 class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 {
     private string $webhookUrl;
-    private $filters;
+    private array $filters;
 
     public function webhookUrl(string $url): Webhook
     {
@@ -61,7 +61,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
         $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOKS;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters) ?? null)
+            ->get($endpoint, $this->getFilters($this->filters ?? []))
             ->json();
     }
 }
