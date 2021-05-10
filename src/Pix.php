@@ -54,7 +54,7 @@ class Pix
 
     public static function createQrCode(Payload $payload)
     {
-        $qr_code = app(GeneratesQrCodeContract::class)->generateForPayload($payload);
+        $qr_code = app(GeneratesQrCodeContract::class)->withPayload($payload);
 
         event(new QrCodeCreatedEvent($payload->getPixKey()));
 
