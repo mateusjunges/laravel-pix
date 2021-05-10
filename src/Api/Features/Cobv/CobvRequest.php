@@ -1,10 +1,10 @@
 <?php
 
-namespace Junges\Pix\Api\Features\CobV;
+namespace Junges\Pix\Api\Features\Cobv;
 
 use Illuminate\Contracts\Support\Arrayable;
 
-class CobVRequest implements Arrayable
+class CobvRequest implements Arrayable
 {
     private string $transactionId;
     private string $dueDate;
@@ -69,121 +69,121 @@ class CobVRequest implements Arrayable
         ];
     }
 
-    public function dueDate(string $dueDate): CobVRequest
+    public function dueDate(string $dueDate): CobvRequest
     {
         $this->dueDate = $dueDate;
         return $this;
     }
 
-    public function validAfterDueDate(int $validAfterDueDate): CobVRequest
+    public function validAfterDueDate(int $validAfterDueDate): CobvRequest
     {
         $this->validAfterDueDate = $validAfterDueDate;
         return $this;
     }
 
-    public function loc(int $loc): CobVRequest
+    public function loc(int $loc): CobvRequest
     {
         $this->loc = $loc;
         return $this;
     }
 
-    public function debtorStreet(string $debtorStreet): CobVRequest
+    public function debtorStreet(string $debtorStreet): CobvRequest
     {
         $this->debtorStreet = $debtorStreet;
         return $this;
     }
 
-    public function debtorCity(string $debtorCity): CobVRequest
+    public function debtorCity(string $debtorCity): CobvRequest
     {
         $this->debtorCity = $debtorCity;
         return $this;
     }
 
-    public function debtorUf(string $debtorUf): CobVRequest
+    public function debtorUf(string $debtorUf): CobvRequest
     {
         $this->debtorUf = $debtorUf;
         return $this;
     }
 
-    public function debtorCpf(string $debtorCpf): CobVRequest
+    public function debtorCpf(string $debtorCpf): CobvRequest
     {
         $this->debtorCpf = $debtorCpf;
         return $this;
     }
 
-    public function debtorCnpj(string $debtorCnpj): CobVRequest
+    public function debtorCnpj(string $debtorCnpj): CobvRequest
     {
         $this->debtorCnpj = $debtorCnpj;
         return $this;
     }
 
-    public function debtorCep(string $debtorCep): CobVRequest
+    public function debtorCep(string $debtorCep): CobvRequest
     {
         $this->debtorCep = $debtorCep;
         return $this;
     }
 
-    public function debtorName(string $debtorName): CobVRequest
+    public function debtorName(string $debtorName): CobvRequest
     {
         $this->debtorName = $debtorName;
         return $this;
     }
 
-    public function fineModality(string $fineModality): CobVRequest
+    public function fineModality(string $fineModality): CobvRequest
     {
         $this->fineModality = $fineModality;
         return $this;
     }
 
-    public function payingRequest(string $payingRequest): CobVRequest
+    public function payingRequest(string $payingRequest): CobvRequest
     {
         $this->payingRequest = $payingRequest;
         return $this;
     }
 
-    public function finePercentageAmount(string $finePercentageAmount): CobVRequest
+    public function finePercentageAmount(string $finePercentageAmount): CobvRequest
     {
         $this->finePercentageAmount = $finePercentageAmount;
         return $this;
     }
 
-    public function feePercentageValue(string $feePercentageValue): CobVRequest
+    public function feePercentageValue(string $feePercentageValue): CobvRequest
     {
         $this->feePercentageValue = $feePercentageValue;
         return $this;
     }
 
-    public function pixKey(string $pixKey): CobVRequest
+    public function pixKey(string $pixKey): CobvRequest
     {
         $this->pixKey = $pixKey;
         return $this;
     }
 
-    public function amount(string $amount): CobVRequest
+    public function amount(string $amount): CobvRequest
     {
         $this->amount = $amount;
         return $this;
     }
 
-    public function discountModality(string $discountModality): CobVRequest
+    public function discountModality(string $discountModality): CobvRequest
     {
         $this->discountModality = $discountModality;
         return $this;
     }
 
-    public function discountFixedDate(string $discountFixedDate): CobVRequest
+    public function discountFixedDate(string $discountFixedDate): CobvRequest
     {
         $this->discountFixedDate = $discountFixedDate;
         return $this;
     }
 
-    public function discountFixedDatePercentageValue(string $discountFixedDatePercentageValue): CobVRequest
+    public function discountFixedDatePercentageValue(string $discountFixedDatePercentageValue): CobvRequest
     {
         $this->discountFixedDatePercentageValue = $discountFixedDatePercentageValue;
         return $this;
     }
 
-    public function transactionId(string $transactionId): CobVRequest
+    public function transactionId(string $transactionId): CobvRequest
     {
         $this->transactionId = $transactionId;
         return $this;

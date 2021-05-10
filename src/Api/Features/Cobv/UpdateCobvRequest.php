@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Api\Features\CobV;
+namespace Junges\Pix\Api\Features\Cobv;
 
 use Junges\Pix\Api\Contracts\GeneratesCobvRequests;
 

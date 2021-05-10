@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Api\Features\CobV;
+namespace Junges\Pix\Api\Features\Cobv;
 
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
@@ -8,11 +8,11 @@ use Junges\Pix\Api\Contracts\ConsumesCobVEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
 
-class CobV extends Api implements FilterApiRequests, ConsumesCobVEndpoints
+class Cobv extends Api implements FilterApiRequests, ConsumesCobVEndpoints
 {
     private $filters;
 
-    public function create(CobVRequest $request): array
+    public function create(CobvRequest $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $request->getTransactionId();
 
@@ -39,7 +39,7 @@ class CobV extends Api implements FilterApiRequests, ConsumesCobVEndpoints
             ->json();
     }
 
-    public function withFilters($filters): CobV
+    public function withFilters($filters): Cobv
     {
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()

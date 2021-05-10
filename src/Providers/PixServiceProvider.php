@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Features\Cob\Cob;
+use Junges\Pix\Api\Features\Cobv\Cobv;
+use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
 use Junges\Pix\Facades\ApiFacade;
 use Junges\Pix\Facades\CobFacade;
+use Junges\Pix\Facades\CobvFacade;
+use Junges\Pix\Facades\WebhookFacade;
 use Junges\Pix\QrCodeGenerator;
 
 class PixServiceProvider extends ServiceProvider
@@ -34,6 +38,8 @@ class PixServiceProvider extends ServiceProvider
 
         $this->app->bind(ApiFacade::class, Api::class);
         $this->app->bind(CobFacade::class, Cob::class);
+        $this->app->bind(CobvFacade::class, Cobv::class);
+        $this->app->bind(WebhookFacade::class, Webhook::class);
 
         Blade::directive('laravelPixAssets',function() {
             $path = asset('vendor/laravel-pix/css/app.css');

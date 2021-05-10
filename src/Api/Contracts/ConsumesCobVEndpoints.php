@@ -2,14 +2,14 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-use Junges\Pix\Api\Features\CobV\CobVRequest;
-use Junges\Pix\Api\Features\CobV\UpdateCobvRequest;
+use Junges\Pix\Api\Features\Cobv\CobvRequest;
+use Junges\Pix\Api\Features\Cobv\UpdateCobvRequest;
 
 interface ConsumesCobVEndpoints
 {
     public function all(): array;
 
-    public function create(CobVRequest $request): array;
+    public function create(CobvRequest $request): array;
 
     public function update(UpdateCobvRequest $request): array;
 
