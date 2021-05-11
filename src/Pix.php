@@ -9,7 +9,7 @@ use Junges\Pix\Api\Features\LoteCobv\LoteCobv;
 use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
 use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Features\Webhook\Webhook;
-use Junges\Pix\Contracts\GeneratesQrCodeContract;
+use Junges\Pix\Contracts\GeneratesQrCode;
 
 class Pix
 {
@@ -55,12 +55,12 @@ class Pix
 
     public static function createQrCode(Payload $payload)
     {
-        return app(GeneratesQrCodeContract::class)->withPayload($payload);
+        return app(GeneratesQrCode::class)->withPayload($payload);
     }
 
     public static function createDynamicQrCode(DynamicPayload $payload)
     {
-        return app(GeneratesQrCodeContract::class)->withDynamicPayload($payload);
+        return app(GeneratesQrCode::class)->withDynamicPayload($payload);
     }
 
     /**

@@ -10,7 +10,7 @@ use Junges\Pix\Api\Features\Cobv\Cobv;
 use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
 use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Features\Webhook\Webhook;
-use Junges\Pix\Contracts\GeneratesQrCodeContract;
+use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Facades\ApiFacade;
 use Junges\Pix\Facades\CobFacade;
 use Junges\Pix\Facades\CobvFacade;
@@ -43,7 +43,7 @@ class PixServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind(GeneratesQrCodeContract::class, QrCodeGenerator::class);
+        $this->app->bind(GeneratesQrCode::class, QrCodeGenerator::class);
 
         $this->app->bind(ApiFacade::class, Api::class);
         $this->app->bind(CobFacade::class, Cob::class);

@@ -3,12 +3,12 @@
 namespace Junges\Pix;
 
 use Junges\Pix\Contracts\DynamicPayloadContract;
-use Junges\Pix\Contracts\GeneratesQrCodeContract;
+use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Contracts\PixPayloadContract;
 use Mpdf\QrCode\Output\Png;
 use Mpdf\QrCode\QrCode;
 
-class QrCodeGenerator implements GeneratesQrCodeContract
+class QrCodeGenerator implements GeneratesQrCode
 {
     /**
      * @throws \Mpdf\QrCode\QrCodeException
@@ -21,14 +21,5 @@ class QrCodeGenerator implements GeneratesQrCodeContract
         $png = (new Png())->output($qrCode, config('laravel-pix.qr_code_size', 100));
 
         return base64_encode($png);
-    }
-
-    /**
-     * @throws Exceptions\PixException
-     * @throws \Mpdf\QrCode\QrCodeException
-     */
-    public function withDynamicPayload(DynamicPayloadContract $payload): string
-    {
-        return $this->withPayload($payload);
     }
 }
