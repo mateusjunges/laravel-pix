@@ -5,6 +5,7 @@ namespace Junges\Pix\Tests\Api\Features\Cob;
 use Illuminate\Container\Container;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Junges\Pix\Api\Features\Cob\CobRequest;
 use Junges\Pix\Api\Features\Cob\UpdateCobRequest;
 use Junges\Pix\Api\Filters\CobFilters;
@@ -175,10 +176,11 @@ class CobTest extends TestCase
         Pix::cob()->withFilters($filters)->all();
 
         Http::assertSent(function(Request $request) use ($start, $end) {
-            return $request->data() === [
+            return $request->data() === ['inicio' => $start, 'fim' => $end]
+                || Str::contains($request->url(), http_build_query([
                     'inicio' => $start,
                     'fim' => $end,
-                ];
+                ]));
         });
     }
 }
