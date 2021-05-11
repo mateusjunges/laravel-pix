@@ -6,7 +6,6 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
-use Junges\Pix\Api\Contracts\GeneratesCobvRequests;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -14,21 +13,21 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 {
     private array $filters;
 
-    public function create(GeneratesCobvRequests $request): array
+    public function createWithTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $request->getTransactionId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId();
 
         return $this->request()
-            ->put($endpoint, $request->toArray())
+            ->put($endpoint, $request)
             ->json();
     }
 
-    public function update(GeneratesCobvRequests $request): array
+    public function updateWithTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $request->getTransactionId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId;
 
         return $this->request()
-            ->patch($endpoint, $request->toArray())
+            ->patch($endpoint, $request)
             ->json();
     }
 

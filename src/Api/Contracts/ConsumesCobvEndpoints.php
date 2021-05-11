@@ -6,9 +6,9 @@ interface ConsumesCobvEndpoints
 {
     public function all(): array;
 
-    public function create(GeneratesCobvRequests $request): array;
+    public function createWithTransactionId(string $transactionId, array $request): array;
 
-    public function update(GeneratesCobvRequests $request): array;
+    public function updateWithTransactionId(string $transactionId, array $request): array;
 
     public function getByTransactionId(string $transactionId): array;
 }

@@ -2,9 +2,7 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-use Illuminate\Contracts\Support\Arrayable;
-
-interface GeneratesLoteCobvRequests extends Arrayable
+interface GeneratesLoteCobvRequests extends ApiRequest
 {
     public function addCobv(GeneratesCobvRequests $cobv): self;
 

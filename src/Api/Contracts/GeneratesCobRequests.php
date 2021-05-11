@@ -2,9 +2,7 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-use Illuminate\Contracts\Support\Arrayable;
-
-interface GeneratesCobRequests extends Arrayable
+interface GeneratesCobRequests extends ApiRequest
 {
     public function getTransactionId(): string;
 }

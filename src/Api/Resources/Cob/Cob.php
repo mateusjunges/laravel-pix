@@ -6,7 +6,6 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
-use Junges\Pix\Api\Contracts\GeneratesCobRequests;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -32,21 +31,21 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         return !empty($filters) ? $filters : null;
     }
 
-    public function create(GeneratesCobRequests $request): array
+    public function create(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $transactionId;
 
         return $this->request()
-            ->put($endpoint, $request->toArray())
+            ->put($endpoint, $request)
             ->json();
     }
 
-    public function createWithoutTransactionId(GeneratesCobRequests $request): array
+    public function createWithoutTransactionId(array $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB;
 
         return $this->request()
-            ->post($endpoint, $request->toArray())
+            ->post($endpoint, $request)
             ->json();
     }
 
@@ -59,12 +58,12 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
             ->json();
     }
 
-    public function update(GeneratesCobRequests $request): array
+    public function updateByTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::UPDATE_COB . $request->getTransactionId();
+        $endpoint = $this->baseUrl . Endpoints::UPDATE_COB . $transactionId;
 
         return $this->request()
-            ->patch($endpoint, $request->toArray())
+            ->patch($endpoint, $request)
             ->json();
     }
 

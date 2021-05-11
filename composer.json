@@ -17,7 +17,8 @@
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0",
         "phpunit/phpunit": "^8.0|^9.0",
-        "guzzlehttp/guzzle": "^7.3"
+        "guzzlehttp/guzzle": "^7.3",
+      "ext-json": "*"
     },
     "license": "MIT",
     "authors": [

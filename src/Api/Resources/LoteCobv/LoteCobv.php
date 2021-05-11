@@ -6,7 +6,6 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesLoteCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
-use Junges\Pix\Api\Contracts\GeneratesLoteCobvRequests;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -32,21 +31,21 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
         return !empty($filters) ? $filters : null;
     }
 
-    public function create(GeneratesLoteCobvRequests $request): array
+    public function createBatch(string $batchId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_LOTE_COBV . $request->getBatchId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_LOTE_COBV . $batchId;
 
         return $this->request()
-            ->put($endpoint, $request->toArray())
+            ->put($endpoint, $request)
             ->json();
     }
 
-    public function update(GeneratesLoteCobvRequests $request): array
+    public function updateBatch(string $batchId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::UPDATE_LOTE_COBV . $request->getBatchId();
+        $endpoint = $this->baseUrl . Endpoints::UPDATE_LOTE_COBV . $batchId;
 
         return $this->request()
-            ->patch($endpoint, $request->toArray())
+            ->patch($endpoint, $request)
             ->json();
     }
 

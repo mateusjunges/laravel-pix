@@ -6,8 +6,6 @@ use Illuminate\Container\Container;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use Junges\Pix\Api\Resources\Cob\CobRequest;
-use Junges\Pix\Api\Resources\Cob\UpdateCobRequest;
 use Junges\Pix\Api\Filters\CobFilters;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
@@ -59,17 +57,16 @@ class CobTest extends TestCase
             'https://pix.example.com/v2/cob/*' => $this->response
         ]);
 
-        $request = (new CobRequest())
-            ->transactionId('OLtfsYyFwSLs3uGma6Ty5ZEKjg')
-            ->pixKey($this->randomKey)
-            ->payingRequest('Pagamento de serviço')
-            ->debtorCpf('54484011042')
-            ->debtorName('Fulano de Tal')
-            ->amount("8.00");
+        $request = json_decode(
+            '{"calendario":{"expiracao":3600},"devedor":{"cnpj":"12345678000195","nome":"Empresa de Serviços SA"},"valor":{"original":"37.00","modalidadeAlteracao":1},"chave":"7d9f0335-8dcc-4054-9bf9-0dbd61d36906","solicitacaoPagador":"Serviço realizado.","infoAdicionais":[{"nome":"Campo 1","valor":"Informação Adicional1 do PSP-Recebedor"},{"nome":"Campo 2","valor":"Informação Adicional2 do PSP-Recebedor"}]}',
+            true
+        );
+
+        $transactionId = Str::random();
 
         $cob = Pix::cob();
 
-        $this->assertEquals($this->response, $cob->create($request));
+        $this->assertEquals($this->response, $cob->create($transactionId, $request));
     }
 
     public function test_it_can_create_a_cob_without_transaction_id()
@@ -78,12 +75,10 @@ class CobTest extends TestCase
             'https://pix.example.com/v2/cob/*' => $this->response
         ]);
 
-        $request = (new CobRequest())
-            ->pixKey($this->randomKey)
-            ->payingRequest('Pagamento de serviço')
-            ->debtorCpf('54484011042')
-            ->debtorName('Fulano de Tal')
-            ->amount("8.00");
+        $request = json_decode(
+            '{"calendario":{"expiracao":3600},"devedor":{"cnpj":"12345678000195","nome":"Empresa de Serviços SA"},"valor":{"original":"37.00","modalidadeAlteracao":1},"chave":"7d9f0335-8dcc-4054-9bf9-0dbd61d36906","solicitacaoPagador":"Serviço realizado.","infoAdicionais":[{"nome":"Campo 1","valor":"Informação Adicional1 do PSP-Recebedor"},{"nome":"Campo 2","valor":"Informação Adicional2 do PSP-Recebedor"}]}',
+            true
+        );
 
         $cob = Pix::cob();
 
@@ -134,14 +129,14 @@ class CobTest extends TestCase
             'https://pix.example.com/v2/cob/*' => $this->response
         ]);
 
-        $request = (new UpdateCobRequest())
-            ->transactionId('OLtfsYyFwSLs3uGma6Ty5ZEKjg')
-            ->payingRequest('Pagamento de serviço')
-            ->debtorCpf('54484011042')
-            ->debtorName('Fulano de Tal')
-            ->amount("8.00");
+        $transactionId = Str::random();
 
-        $this->assertEquals($this->response, Pix::cob()->update($request));
+        $request = json_decode(
+            '{"calendario":{"expiracao":3600},"devedor":{"cnpj":"12345678000195","nome":"Empresa de Serviços SA"},"valor":{"original":"37.00","modalidadeAlteracao":1},"chave":"7d9f0335-8dcc-4054-9bf9-0dbd61d36906","solicitacaoPagador":"Serviço realizado.","infoAdicionais":[{"nome":"Campo 1","valor":"Informação Adicional1 do PSP-Recebedor"},{"nome":"Campo 2","valor":"Informação Adicional2 do PSP-Recebedor"}]}',
+            true
+        );
+
+        $this->assertEquals($this->response, Pix::cob()->updateByTransactionId($transactionId, $request));
     }
 
     public function test_it_apply_filters_to_the_query()
