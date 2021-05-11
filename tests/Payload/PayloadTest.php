@@ -9,7 +9,6 @@ use Junges\Pix\Tests\TestCase;
 class PayloadTest extends TestCase
 {
     private string $transactionId;
-    private string $key;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {

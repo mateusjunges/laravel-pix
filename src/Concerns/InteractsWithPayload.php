@@ -74,8 +74,8 @@ trait InteractsWithPayload
     protected function getPointOfInitializationMethod(): string
     {
         return $this->reusable ?? false
-            ? $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12')
-            : '';
+            ? ''
+            : $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12');
     }
 
     protected function getCountryCode(): string
