@@ -4,7 +4,7 @@ namespace Junges\Pix\Http\Controllers;
 
 use Junges\Pix\Exceptions\InvalidPixKeyException;
 use Junges\Pix\Exceptions\PixException;
-use Junges\Pix\Http\Requests\CreateQrCodeFormRequest;
+use Junges\Pix\Http\Requests\CreateQrCodeRequest;
 use Junges\Pix\Payload;
 use Junges\Pix\Pix;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 class PixController
 {
     /**
-     * @param CreateQrCodeFormRequest $request
+     * @param CreateQrCodeRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws PixException
      */
-    public function create(CreateQrCodeFormRequest $request)
+    public function create(CreateQrCodeRequest $request)
     {
         try {
             $payload = (new Payload())
