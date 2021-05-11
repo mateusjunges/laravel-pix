@@ -10,8 +10,6 @@ use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
 use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Features\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCodeContract;
-use Junges\Pix\Events\DynamicQrCodeCreatedEvent;
-use Junges\Pix\Events\QrCodeCreatedEvent;
 
 class Pix
 {

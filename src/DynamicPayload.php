@@ -20,7 +20,7 @@ class DynamicPayload implements DynamicPayloadContract
     public function transactionId(string $transaction_id): DynamicPayload
     {
         throw_if(
-            Str::length($transaction_id) < Pix::MAX_TRANSACTION_ID_LENGTH,
+            Str::length($transaction_id) < Pix::MIN_TRANSACTION_ID_LENGTH,
             InvalidTransactionIdException::invalidLengthForDynamicPayload()
         );
 
