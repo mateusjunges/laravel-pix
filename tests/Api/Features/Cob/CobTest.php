@@ -182,5 +182,28 @@ class CobTest extends TestCase
                     'fim' => $end,
                 ]));
         });
+
+        $cpf = '19220677091';
+        $status = 'ATIVA';
+
+        $filters->cpf($cpf)
+            ->withStatus($status);
+
+        Pix::cob()->withFilters($filters)->all();
+
+        Http::assertSent(function(Request $request) use ($start, $end, $status, $cpf) {
+            return $request->data() === [
+                    'inicio' => $start,
+                    'fim' => $end,
+                    'cpf' => $cpf,
+                    'status' => $status
+                ]
+                || Str::contains($request->url(), http_build_query([
+                    'inicio' => $start,
+                    'fim' => $end,
+                    'cpf' => $cpf,
+                    'status' => $status
+                ]));
+        });
     }
 }
