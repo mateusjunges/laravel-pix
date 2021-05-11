@@ -10,25 +10,7 @@ use Junges\Pix\Pix;
 
 trait InteractsWithDynamicPayload
 {
-    use HasCR16;
-
-    protected function formatValue(string $id, ...$value): string
-    {
-        if (is_array($value[0])) {
-            $value = implode('', $value[0]);
-        } else {
-            $value = implode('', $value);
-        }
-
-        $size = str_pad(
-            mb_strlen($value),
-            2,
-            '0',
-            STR_PAD_LEFT
-        );
-
-        return "{$id}{$size}{$value}";
-    }
+    use FormatPayloadValues, HasCR16;
 
     protected function getAdditionalDataFieldTemplate(): string
     {
@@ -48,7 +30,7 @@ trait InteractsWithDynamicPayload
 
         $url = $this->formatValue(
             Pix::MERCHANT_ACCOUNT_INFORMATION_URL,
-            preg_replace('/^https?\:\/\//', '', $this->url)
+            preg_replace('/^https?:\/\//', '', $this->url)
         );
 
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $url);
