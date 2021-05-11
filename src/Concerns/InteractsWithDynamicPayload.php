@@ -45,9 +45,10 @@ trait InteractsWithDynamicPayload
         $gui = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
 
 
-        $url = $this->url ?? false
-                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_URL, $this->url)
-                : "";
+        $url = $this->formatValue(
+            Pix::MERCHANT_ACCOUNT_INFORMATION_URL,
+            preg_replace('/^https?\:\/\//', '', $this->url)
+        );
 
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $url);
     }
