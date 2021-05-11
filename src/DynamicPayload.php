@@ -4,10 +4,10 @@ namespace Junges\Pix;
 
 use Illuminate\Support\Str;
 use Junges\Pix\Concerns\InteractsWithDynamicPayload;
-use Junges\Pix\Contracts\DynamicPayloadContract;
+use Junges\Pix\Contracts\PixPayloadContract;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 
-class DynamicPayload implements DynamicPayloadContract
+class DynamicPayload implements PixPayloadContract
 {
     use InteractsWithDynamicPayload;
 
@@ -66,11 +66,6 @@ class DynamicPayload implements DynamicPayloadContract
         $this->url = $url;
 
         return $this;
-    }
-
-    public function getTransactionId(): string
-    {
-        return $this->transaction_id;
     }
 
     /**

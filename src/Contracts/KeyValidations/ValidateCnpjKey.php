@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Contracts\KeyValidations;
 
-interface ValidateCnpjKeyContract
+interface ValidateCnpjKey
 {
     public static function validateCnpj(string $cnpj): bool;
 }

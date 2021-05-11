@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Contracts\KeyValidations;
 
-interface ValidateCPFKeyContract
+interface ValidateCPFKey
 {
     public static function validateCPF(string $cpf): bool;
 }

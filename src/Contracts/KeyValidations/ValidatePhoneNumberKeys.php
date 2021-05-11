@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Contracts\KeyValidations;
 
-interface ValidatePhoneNumberKeyContract
+interface ValidatePhoneNumberKeys
 {
     public static function validatePhoneNumber(string $phone): bool;
 }

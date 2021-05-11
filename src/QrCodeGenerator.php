@@ -2,7 +2,6 @@
 
 namespace Junges\Pix;
 
-use Junges\Pix\Contracts\DynamicPayloadContract;
 use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Contracts\PixPayloadContract;
 use Mpdf\QrCode\Output\Png;

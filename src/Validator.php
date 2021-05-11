@@ -3,10 +3,10 @@
 namespace Junges\Pix;
 
 use Illuminate\Support\Str;
-use Junges\Pix\Contracts\KeyValidations\PerformKeyValidationsContract;
+use Junges\Pix\Contracts\KeyValidations\PerformKeyValidations;
 use Junges\Pix\Exceptions\InvalidPixKeyException;
 
-class Validator implements PerformKeyValidationsContract
+class Validator implements PerformKeyValidations
 {
     public static function validateRandom(string $key): bool
     {

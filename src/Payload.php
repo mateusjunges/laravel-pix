@@ -4,9 +4,9 @@ namespace Junges\Pix;
 
 use Illuminate\Support\Str;
 use Junges\Pix\Concerns\InteractsWithPayload;
-use Junges\Pix\Contracts\StaticPayloadContract;
+use Junges\Pix\Contracts\PixPayloadContract;
 
-class Payload implements StaticPayloadContract
+class Payload implements PixPayloadContract
 {
     use InteractsWithPayload;
 
