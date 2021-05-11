@@ -55,4 +55,9 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
         return $this;
     }
+
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
 }

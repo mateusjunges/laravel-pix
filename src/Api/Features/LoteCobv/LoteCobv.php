@@ -26,6 +26,11 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
         return $this;
     }
 
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
+
     public function create(LoteCobvRequest $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_LOTE_COBV . $request->getBatchId();

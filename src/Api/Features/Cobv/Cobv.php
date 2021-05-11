@@ -53,6 +53,11 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
         return $this;
     }
 
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
+
     public function all(): array
     {
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBV;

@@ -124,9 +124,4 @@ trait InteractsWithDynamicPayload
     {
         return $this->toStringWithoutCrc16() . $this->getCRC16($this->toStringWithoutCrc16());
     }
-
-    public function getPixKey(): string
-    {
-        return $this->pixKey;
-    }
 }

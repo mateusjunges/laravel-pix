@@ -26,6 +26,11 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         return $this;
     }
 
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
+
     public function create(CobRequest $request): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $request->getTransactionId();

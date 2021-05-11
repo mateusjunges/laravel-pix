@@ -26,6 +26,11 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
         return $this;
     }
 
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
+
     public function create(string $loc): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION;

@@ -34,6 +34,11 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
         return $this;
     }
 
+    public function getFilters(array $filters): ?array
+    {
+        return !empty($filters) ? $filters : null;
+    }
+
     public function create(string $pixKey): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey;
