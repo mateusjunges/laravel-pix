@@ -7,6 +7,7 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesWebhookEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 {
@@ -22,6 +23,10 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function withFilters($filters): Webhook
     {
+        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;

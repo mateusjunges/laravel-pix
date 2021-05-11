@@ -7,6 +7,7 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 {
@@ -41,6 +42,10 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function withFilters($filters): Cobv
     {
+        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;

@@ -7,6 +7,7 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesPayloadLocationEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, FilterApiRequests
 {
@@ -14,6 +15,10 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
 
     public function withFilters($filters): PayloadLocation
     {
+        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;

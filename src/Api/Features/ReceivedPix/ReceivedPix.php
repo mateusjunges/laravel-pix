@@ -7,6 +7,7 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesReceivedPixEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixEndpoints
 {
@@ -44,6 +45,10 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function withFilters($filters): ReceivedPix
     {
+        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;

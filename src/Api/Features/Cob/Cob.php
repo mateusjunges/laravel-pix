@@ -19,7 +19,9 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
-        $this->filters = $filters;
+        $this->filters = $filters instanceof ApplyApiFilters
+                ? $filters->toArray()
+                : $filters;
 
         return $this;
     }

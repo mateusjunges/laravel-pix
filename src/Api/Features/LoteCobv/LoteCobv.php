@@ -7,13 +7,18 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesLoteCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
 use Junges\Pix\Support\Endpoints;
+use RuntimeException;
 
 class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiRequests
 {
     private array $filters;
 
-    public function withFilters($filters): FilterApiRequests
+    public function withFilters($filters): LoteCobv
     {
+        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+            throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
+        }
+
         $this->filters = $filters instanceof ApplyApiFilters
             ? $filters->toArray()
             : $filters;
