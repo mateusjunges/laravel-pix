@@ -101,7 +101,7 @@ class Api implements ConsumesPixApi
                 : $this->certificate;
     }
 
-    public function getFilters($filters)
+    public function getFilters(array $filters): ?array
     {
         return !empty($filters) ? $filters : null;
     }
