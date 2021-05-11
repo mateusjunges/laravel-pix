@@ -3,6 +3,7 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
+use Junges\Pix\Exceptions\ValidationException;
 
 class CobvFilters implements ApplyApiFilters
 {
@@ -95,6 +96,10 @@ class CobvFilters implements ApplyApiFilters
 
     public function toArray(): array
     {
+        if (empty($this->start) || empty($this->end)) {
+            throw new ValidationException("Os campos inicio e fim são obrigatórios.");
+        }
+
         $filters = [
             self::START => $this->start,
             self::END => $this->end,
