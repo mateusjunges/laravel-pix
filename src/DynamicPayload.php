@@ -11,7 +11,6 @@ class DynamicPayload implements DynamicPayloadContract
 {
     use InteractsWithDynamicPayload;
 
-    protected string $description;
     protected string $merchantName;
     protected string $merchantCity;
     protected string $transaction_id;
