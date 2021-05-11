@@ -21,18 +21,29 @@ class UpdateCobRequest implements GeneratesCobRequests
 
     public function toArray(): array
     {
-        $request = [
-            'loc' => [
-                'id' => $this->loc,
-            ],
-            'devedor' => [
-                'nome' => $this->debtorName,
-            ],
-            'valor' => [
+        $request = [];
+
+        if (!empty($this->amount)) {
+            $request['valor'] = [
                 'original' => $this->amount,
-            ],
-            'solicitacaoPagador' => $this->payingRequest
-        ];
+            ];
+        }
+
+        if (!empty($this->payingRequest)) {
+            $request['solicitacaoPagador'] = $this->payingRequest;
+        }
+
+        if (!empty($this->debtorName)) {
+            $request['devedor'] = [
+                'nome' => $this->debtorName,
+            ];
+        }
+
+        if (!empty($this->loc)) {
+            $request['loc'] = [
+                'id' => $this->loc,
+            ];
+        }
 
         if (!empty($this->debtorCpf)) {
             $request['devedor']['cpf'] = $this->debtorCpf;
