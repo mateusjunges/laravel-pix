@@ -11,15 +11,12 @@ use Mockery as m;
 
 class CobTest extends TestCase
 {
-    public function tearDown(): void
-    {
-        m::close();
-        Container::setInstance(null);
-    }
+    private array $response;
 
-    public function test_it_can_create_a_cob()
+    public function setUp(): void
     {
-        $response = [
+        parent::setUp();
+        $this->response = [
             "calendario" => [
                 "criacao" => "2021-05-11T03:07:23.845Z",
                 "expiracao" => 36000
@@ -44,9 +41,18 @@ class CobTest extends TestCase
             "chave"=> $this->randomKey,
             "solicitacaoPagador"=> "Pagamento de serviço"
         ];
+    }
 
+    public function tearDown(): void
+    {
+        m::close();
+        Container::setInstance(null);
+    }
+
+    public function test_it_can_create_a_cob()
+    {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $response
+            'https://pix.example.com/v2/cob/*' => $this->response
         ]);
 
         $request = (new CobRequest())
@@ -59,6 +65,24 @@ class CobTest extends TestCase
 
         $cob = Pix::cob();
 
-        $this->assertEquals($response, $cob->create($request));
+        $this->assertEquals($this->response, $cob->create($request));
+    }
+
+    public function test_it_can_create_a_cob_without_transaction_id()
+    {
+        Http::fake([
+            'https://pix.example.com/v2/cob/*' => $this->response
+        ]);
+
+        $request = (new CobRequest())
+            ->pixKey($this->randomKey)
+            ->payingRequest('Pagamento de serviço')
+            ->debtorCpf('54484011042')
+            ->debtorName('Fulano de Tal')
+            ->amount("8.00");
+
+        $cob = Pix::cob();
+
+        $this->assertEquals($this->response, $cob->createWithoutTransactionId($request));
     }
 }
