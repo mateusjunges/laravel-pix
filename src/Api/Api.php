@@ -4,7 +4,6 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Support\Endpoints;
 
