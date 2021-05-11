@@ -23,9 +23,24 @@ class PixServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . "/../../routes/laravel-pix-routes.php");
-        $this->loadViewsFrom(__DIR__ . "/../../resources/views", 'laravel-pix');
+        $this->registerRoutes();
 
+        $this->registerViews();
+
+        $this->publishFiles();
+
+        $this->bootBladeDirectives();
+    }
+
+    public function register()
+    {
+        $this->app->bind(GeneratesQrCode::class, QrCodeGenerator::class);
+
+        $this->registerFacades();
+    }
+
+    private function publishFiles(): void
+    {
         $this->publishes([
             __DIR__ . "/../../config/laravel-pix.php" => config_path('laravel-pix.php')
         ], 'laravel-pix-config');
@@ -33,7 +48,10 @@ class PixServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . "/../../public" => public_path('vendor/laravel-pix')
         ],'laravel-pix-assets');
+    }
 
+    private function bootBladeDirectives(): void
+    {
         Blade::directive('laravelPixAssets',function() {
             $path = asset('vendor/laravel-pix/css/app.css');
 
@@ -41,10 +59,18 @@ class PixServiceProvider extends ServiceProvider
         });
     }
 
-    public function register()
+    private function registerRoutes(): void
     {
-        $this->app->bind(GeneratesQrCode::class, QrCodeGenerator::class);
+        $this->loadRoutesFrom(__DIR__ . "/../../routes/laravel-pix-routes.php");
+    }
 
+    private function registerViews(): void
+    {
+        $this->loadViewsFrom(__DIR__ . "/../../resources/views", 'laravel-pix');
+    }
+
+    private function registerFacades(): void
+    {
         $this->app->bind(ApiFacade::class, Api::class);
         $this->app->bind(CobFacade::class, Cob::class);
         $this->app->bind(CobvFacade::class, Cobv::class);
