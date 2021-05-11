@@ -31,6 +31,6 @@ class TestCase extends Orchestra
         $app['config']->set('laravel-pix.currency_code', 986);
         $app['config']->set('laravel-pix.country_code', 'BR');
         $app['config']->set('laravel-pix.gui', 'br.gov.bcb.pix');
-        $app['config']->set('laravel-pix.psp.base_url', 'https://pix.example.com/oauth/token');
+        $app['config']->set('laravel-pix.psp.base_url', 'https://pix.example.com/');
     }
 }
