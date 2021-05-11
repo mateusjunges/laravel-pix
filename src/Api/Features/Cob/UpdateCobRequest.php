@@ -12,6 +12,7 @@ class UpdateCobRequest implements GeneratesCobRequests
     private string $debtorCpf;
     private string $debtorCnpj;
     private string $amount;
+    private string $status;
     private string $payingRequest;
 
     public function getTransactionId(): string
@@ -51,6 +52,10 @@ class UpdateCobRequest implements GeneratesCobRequests
 
         if (!empty($this->debtorCnpj)) {
             $request['devedor']['cnpj'] = $this->debtorCnpj;
+        }
+
+        if (!empty($this->status)) {
+            $request['status'] = $this->status;
         }
 
         return $request;
@@ -101,6 +106,13 @@ class UpdateCobRequest implements GeneratesCobRequests
     public function payingRequest(string $payingRequest): UpdateCobRequest
     {
         $this->payingRequest = $payingRequest;
+
+        return $this;
+    }
+
+    public function status(string $status): UpdateCobRequest
+    {
+        $this->status = $status;
 
         return $this;
     }
