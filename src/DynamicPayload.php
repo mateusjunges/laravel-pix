@@ -3,18 +3,22 @@
 namespace Junges\Pix;
 
 use Illuminate\Support\Str;
-use Junges\Pix\Concerns\InteractsWithPayload;
+use Junges\Pix\Concerns\InteractsWithDynamicPayload;
 use Junges\Pix\Contracts\DynamicPayloadContract;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 
-class DynamicPayload extends Payload implements DynamicPayloadContract
+class DynamicPayload implements DynamicPayloadContract
 {
-    use InteractsWithPayload;
+    use InteractsWithDynamicPayload;
 
+    protected string $description;
+    protected string $merchantName;
+    protected string $merchantCity;
+    protected string $transaction_id;
     private string $url;
     private bool $unique;
 
-    public function transactionId(string $transaction_id): Payload
+    public function transactionId(string $transaction_id): DynamicPayload
     {
         throw_if(
             Str::length($transaction_id) < Pix::MAX_TRANSACTION_ID_LENGTH,
@@ -22,6 +26,24 @@ class DynamicPayload extends Payload implements DynamicPayloadContract
         );
 
         $this->transaction_id = $transaction_id;
+
+        return $this;
+    }
+
+    public function merchantName(string $merchantName): DynamicPayload
+    {
+        $this->merchantName = Str::length($merchantName) > Pix::MAX_MERCHANT_NAME_LENGTH
+            ? substr($merchantName, 0, Pix::MAX_MERCHANT_NAME_LENGTH)
+            : $merchantName;
+
+        return $this;
+    }
+
+    public function merchantCity(string $merchantCity): DynamicPayload
+    {
+        $this->merchantCity = Str::length($merchantCity) > Pix::MAX_MERCHANT_CITY_LENGTH
+            ? substr($merchantCity, 0, Pix::MAX_MERCHANT_CITY_LENGTH)
+            : $merchantCity;
 
         return $this;
     }
@@ -50,5 +72,14 @@ class DynamicPayload extends Payload implements DynamicPayloadContract
     public function getTransactionId(): string
     {
         return $this->transaction_id;
+    }
+
+    /**
+     * @return string
+     * @throws Exceptions\PixException
+     */
+    public function getPayload(): string
+    {
+        return $this->buildPayload();
     }
 }

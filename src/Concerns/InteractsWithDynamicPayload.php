@@ -8,7 +8,7 @@ use Junges\Pix\Exceptions\InvalidMerchantInformationException;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 use Junges\Pix\Pix;
 
-trait InteractsWithPayload
+trait InteractsWithDynamicPayload
 {
     use HasCR16;
 
@@ -44,15 +44,12 @@ trait InteractsWithPayload
     {
         $gui = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
 
-        $key = $this->pixKey ?? false
-                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey)
+
+        $url = $this->url ?? false
+                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_URL, $this->url)
                 : "";
 
-        $description = $this->description ?? false
-                ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description)
-                : "";
-
-        return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description);
+        return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $url);
     }
 
     protected function getTransactionAmount()
@@ -65,6 +62,13 @@ trait InteractsWithPayload
     protected function getTransactionCurrency(): string
     {
         return $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'));
+    }
+
+    protected function getPointOfInitializationMethod(): string
+    {
+        return $this->reusable ?? false
+            ? ''
+            : $this->formatValue(Pix::POINT_OF_INITIATION_METHOD, '12');
     }
 
     protected function getCountryCode(): string
@@ -105,6 +109,7 @@ trait InteractsWithPayload
     public function toStringWithoutCrc16(): string
     {
         return $this->getPayloadFormat()
+            . $this->getPointOfInitializationMethod()
             . $this->getMerchantAccountInformation()
             . $this->getMerchantCategoryCode()
             . $this->gettransactionCurrency()
