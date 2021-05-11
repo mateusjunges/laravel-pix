@@ -30,7 +30,7 @@ class CobvRequest implements Arrayable
 
     public function toArray(): array
     {
-        return [
+        $request = [
             "calendario" => [
                 "dataDeVencimento" => $this->dueDate,
                 "validadeAposVencimento" => $this->validAfterDueDate
@@ -56,17 +56,22 @@ class CobvRequest implements Arrayable
                     "modalidade" => $this->feeModality,
                     "valorPerc" => $this->feePercentageValue
                 ],
-                "desconto" => [
-                    "modalidade" => $this->discountModality,
-                    "descontoDataFixa" => [
-                        "data" => $this->discountFixedDate,
-                        "valorPerc" => $this->discountFixedDatePercentageValue
-                    ]
-                ]
             ],
             "chave" => $this->pixKey,
             "solicitacaoPagador" => $this->payingRequest
         ];
+
+        if (!empty($this->discountModality)) {
+            $request["desconto"] = [
+                "modalidade" => $this->discountModality,
+                "descontoDataFixa" => [
+                    "data" => $this->discountFixedDate,
+                    "valorPerc" => $this->discountFixedDatePercentageValue
+                ]
+            ];
+        }
+
+        return $request;
     }
 
     public function dueDate(string $dueDate): CobvRequest
