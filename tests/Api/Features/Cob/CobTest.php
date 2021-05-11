@@ -5,6 +5,7 @@ namespace Junges\Pix\Tests\Api\Features\Cob;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Features\Cob\CobRequest;
+use Junges\Pix\Api\Filters\CobFilters;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
@@ -84,5 +85,43 @@ class CobTest extends TestCase
         $cob = Pix::cob();
 
         $this->assertEquals($this->response, $cob->createWithoutTransactionId($request));
+    }
+
+    public function test_it_can_get_a_cob_by_its_transaction_id()
+    {
+        Http::fake([
+            'https://pix.example.com/v2/cob/*' => $this->response
+        ]);
+
+        $this->assertEquals($this->response, Pix::cob()->getByTransactionId("OLtfsYyFwSLs3uGma6Ty5ZEKjg"));
+    }
+
+    public function test_it_can_get_all_cobs()
+    {
+        $response = [
+            "parametros" => [
+                "inicio" => "2021-04-11T03:45:34.192Z",
+                "fim" => "2021-06-11T03:45:34.192Z",
+                "paginacao" => [
+                    "paginaAtual" => 0,
+                    "itensPorPagina" => 100,
+                    "quantidadeDePaginas" => 0,
+                    "quantidadeTotalDeItens" => 0
+                ],
+                "cpf" => "10841201943",
+                "locationPresente" => "false"
+            ],
+            "cobs" => []
+        ];
+
+        Http::fake([
+            'https://pix.example.com/v2/cob/*' => $response
+        ]);
+
+        $filters = (new CobFilters())
+            ->startingAt(now()->subMonth()->toISOString())
+            ->endingAt(now()->addMonth()->toISOString());
+
+        $this->assertEquals($response, Pix::cob()->withFilters($filters)->all());
     }
 }
