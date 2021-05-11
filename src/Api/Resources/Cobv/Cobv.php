@@ -15,7 +15,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function createWithTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId();
+        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId;
 
         return $this->request()
             ->put($endpoint, $request)
@@ -36,7 +36,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
         $endpoint = $this->baseUrl . Endpoints::GET_COBV . $transactionId;
 
         return $this->request()
-            ->get($endpoint, $this->filters ?? null)
+            ->get($endpoint, $this->getFilters($this->filters ?? []))
             ->json();
     }
 

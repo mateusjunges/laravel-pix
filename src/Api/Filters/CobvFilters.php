@@ -20,7 +20,7 @@ class CobvFilters implements ApplyApiFilters
     private string $end;
     private string $cpf;
     private string $cnpj;
-    private string $locationPresent = "false";
+    private string $locationPresent;
     private string $status;
     private string $cobvBatchId;
     private int $itemsPerPage;
@@ -98,8 +98,11 @@ class CobvFilters implements ApplyApiFilters
         $filters = [
             self::START => $this->start,
             self::END => $this->end,
-            self::LOCATION_PRESENT => $this->locationPresent,
         ];
+
+        if (!empty($this->locationPresent)) {
+            $filters[self::LOCATION_PRESENT] = $this->locationPresent;
+        }
 
         if (!empty($this->cpf)) {
             $filters[self::CPF] = $this->cpf;
