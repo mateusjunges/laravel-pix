@@ -3,7 +3,6 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
-use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 
 class ReceivedPixFilters implements ApplyApiFilters
 {

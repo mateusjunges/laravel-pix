@@ -3,12 +3,12 @@
 namespace Junges\Pix;
 
 use Junges\Pix\Api\Api;
-use Junges\Pix\Api\Features\Cob\Cob;
-use Junges\Pix\Api\Features\Cobv\Cobv;
-use Junges\Pix\Api\Features\LoteCobv\LoteCobv;
-use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
-use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
-use Junges\Pix\Api\Features\Webhook\Webhook;
+use Junges\Pix\Api\Resources\Cob\Cob;
+use Junges\Pix\Api\Resources\Cobv\Cobv;
+use Junges\Pix\Api\Resources\LoteCobv\LoteCobv;
+use Junges\Pix\Api\Resources\PayloadLocation\PayloadLocation;
+use Junges\Pix\Api\Resources\ReceivedPix\ReceivedPix;
+use Junges\Pix\Api\Resources\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCode;
 
 class Pix

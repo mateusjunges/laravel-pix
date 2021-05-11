@@ -4,7 +4,6 @@ namespace Junges\Pix\Tests\Payload;
 
 use Illuminate\Support\Str;
 use Junges\Pix\DynamicPayload;
-use Junges\Pix\Payload;
 use Junges\Pix\Tests\TestCase;
 
 class DynamicPayloadTest extends TestCase

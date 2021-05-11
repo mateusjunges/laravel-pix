@@ -3,7 +3,6 @@
 namespace Junges\Pix\Tests\Api;
 
 use Illuminate\Container\Container;
-use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Tests\TestCase;
