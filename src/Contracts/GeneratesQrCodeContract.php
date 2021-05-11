@@ -2,12 +2,9 @@
 
 namespace Junges\Pix\Contracts;
 
-use Junges\Pix\DynamicPayload;
-use Junges\Pix\Payload;
-
 interface GeneratesQrCodeContract
 {
-    public function withPayload(Payload $payload);
+    public function withPayload(PixPayloadContract $payload);
 
-    public function withDynamicPayload(DynamicPayload $payload);
+    public function withDynamicPayload(DynamicPayloadContract $payload);
 }

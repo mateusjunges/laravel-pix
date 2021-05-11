@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Contracts;
 
-interface PayloadContract
+interface StaticPayloadContract extends PixPayloadContract
 {
     public function pixKey(string $pixKey): self;
 
@@ -13,6 +13,4 @@ interface PayloadContract
     public function transactionId(string $transaction_id): self;
 
     public function amount(string $amount): self;
-
-    public function getPayload(): string;
 }
