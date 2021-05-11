@@ -3,8 +3,10 @@
 namespace Junges\Pix\Tests\Api\Features\Cob;
 
 use Illuminate\Container\Container;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Features\Cob\CobRequest;
+use Junges\Pix\Api\Features\Cob\UpdateCobRequest;
 use Junges\Pix\Api\Filters\CobFilters;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
@@ -123,5 +125,60 @@ class CobTest extends TestCase
             ->endingAt(now()->addMonth()->toISOString());
 
         $this->assertEquals($response, Pix::cob()->withFilters($filters)->all());
+    }
+
+    public function test_it_can_update_a_cob()
+    {
+        Http::fake([
+            'https://pix.example.com/v2/cob/*' => $this->response
+        ]);
+
+        $request = (new UpdateCobRequest())
+            ->transactionId('OLtfsYyFwSLs3uGma6Ty5ZEKjg')
+            ->payingRequest('Pagamento de serviço')
+            ->debtorCpf('54484011042')
+            ->debtorName('Fulano de Tal')
+            ->amount("8.00");
+
+        $this->assertEquals($this->response, Pix::cob()->update($request));
+    }
+
+    public function test_it_apply_filters_to_the_query()
+    {
+        $response = [
+            "parametros" => [
+                "inicio" => "2021-04-11T03:45:34.192Z",
+                "fim" => "2021-06-11T03:45:34.192Z",
+                "paginacao" => [
+                    "paginaAtual" => 0,
+                    "itensPorPagina" => 100,
+                    "quantidadeDePaginas" => 0,
+                    "quantidadeTotalDeItens" => 0
+                ],
+                "cpf" => "12345678900",
+                "locationPresente" => "false"
+            ],
+            "cobs" => []
+        ];
+
+        Http::fake([
+            'https://pix.example.com/v2/cob/*' => $response
+        ]);
+
+        $start = now()->subMonth()->toISOString();
+        $end = now()->addMonth()->toIsoString();
+
+        $filters = (new CobFilters())
+            ->startingAt($start)
+            ->endingAt($end);
+
+        Pix::cob()->withFilters($filters)->all();
+
+        Http::assertSent(function(Request $request) use ($start, $end) {
+            return $request->data() === [
+                    'inicio' => $start,
+                    'fim' => $end,
+                ];
+        });
     }
 }
