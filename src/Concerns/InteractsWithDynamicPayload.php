@@ -20,10 +20,11 @@ trait InteractsWithDynamicPayload
             $value = implode('', $value);
         }
 
-        $size =  Str::padLeft(
-            Str::length($value),
+        $size = str_pad(
+            mb_strlen($value),
             2,
-            '0'
+            '0',
+            STR_PAD_LEFT
         );
 
         return "{$id}{$size}{$value}";
