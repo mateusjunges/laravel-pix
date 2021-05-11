@@ -34,6 +34,11 @@ class PixServiceProvider extends ServiceProvider
             __DIR__ . "/../../public" => public_path('vendor/laravel-pix')
         ],'laravel-pix-assets');
 
+        Blade::directive('laravelPixAssets',function() {
+            $path = asset('vendor/laravel-pix/css/app.css');
+
+            return "<link rel='stylesheet' href='{$path}'>";
+        });
     }
 
     public function register()
@@ -46,11 +51,5 @@ class PixServiceProvider extends ServiceProvider
         $this->app->bind(WebhookFacade::class, Webhook::class);
         $this->app->bind(PayloadLocationFacade::class, PayloadLocation::class);
         $this->app->bind(ReceivedPixFacade::class, ReceivedPix::class);
-
-        Blade::directive('laravelPixAssets',function() {
-            $path = asset('vendor/laravel-pix/css/app.css');
-
-            return "<link rel='stylesheet' href='{$path}'>";
-        });
     }
 }
