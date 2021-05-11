@@ -35,5 +35,4 @@ class ApiTest extends TestCase
 
         $this->assertEquals($response, $api->getOauth2Token());
     }
-
 }
