@@ -102,17 +102,22 @@ class Api implements ConsumesPixApi
 
     public function getOauth2Token()
     {
-        return Http::withHeaders([
+        $client = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])
-            ->withOptions([
+        ])->withOptions([
+            'auth' => [$this->clientId, $this->clientSecret]
+        ]);
+
+        if ($this->shouldVerifySslCertificate()) {
+            $client->withOptions([
                 'verify' => $this->certificate,
-                'auth' => [$this->clientId, $this->clientSecret],
                 'cert' => $this->getCertificate()
-            ])
-            ->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
-                'grant_type' => 'client_credentials'
-            ])->json();
+            ]);
+        }
+
+        return $client->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
+            'grant_type' => 'client_credentials'
+        ])->json();
     }
 
     public function withAdditionalParams(array $params): Api
