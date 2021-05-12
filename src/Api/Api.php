@@ -100,7 +100,7 @@ class Api implements ConsumesPixApi
         return $client;
     }
 
-    public function getOauth2Token()
+    public function getOauth2Token(string $scopes = null)
     {
         $client = Http::withHeaders([
             'Content-Type' => 'application/json'
@@ -116,7 +116,8 @@ class Api implements ConsumesPixApi
         }
 
         return $client->post($this->getOauthEndpoint(), [
-            'grant_type' => 'client_credentials'
+            'grant_type' => 'client_credentials',
+            'scopes' => $scopes ?? "",
         ])->json();
     }
 
