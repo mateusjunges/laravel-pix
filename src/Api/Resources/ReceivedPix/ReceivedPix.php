@@ -11,7 +11,7 @@ use RuntimeException;
 
 class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixEndpoints
 {
-    private array $filters;
+    private array $filters = [];
 
     public function getBye2eid(string $e2eid): array
     {
@@ -39,7 +39,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
         $endpoint = $this->baseUrl . Endpoints::RECEIVED_PIX;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 
@@ -54,10 +54,5 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
             : $filters;
 
         return $this;
-    }
-
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
     }
 }

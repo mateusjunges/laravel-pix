@@ -11,7 +11,7 @@ use RuntimeException;
 
 class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 {
-    private array $filters;
+    private array $filters = [];
 
     public function withFilters($filters): Cob
     {
@@ -24,11 +24,6 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
                 : $filters;
 
         return $this;
-    }
-
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
     }
 
     public function create(string $transactionId, array $request): array
@@ -72,7 +67,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 }

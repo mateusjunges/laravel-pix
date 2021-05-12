@@ -11,7 +11,7 @@ use RuntimeException;
 
 class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiRequests
 {
-    private array $filters;
+    private array $filters = [];
 
     public function withFilters($filters): LoteCobv
     {
@@ -24,11 +24,6 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
             : $filters;
 
         return $this;
-    }
-
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
     }
 
     public function createBatch(string $batchId, array $request): array
@@ -61,7 +56,7 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_LOTE_COBV;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 }

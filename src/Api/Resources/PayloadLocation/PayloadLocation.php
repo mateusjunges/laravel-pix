@@ -11,7 +11,7 @@ use RuntimeException;
 
 class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, FilterApiRequests
 {
-    private array $filters;
+    private array $filters = [];
 
     public function withFilters($filters): PayloadLocation
     {
@@ -26,11 +26,6 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
         return $this;
     }
 
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
-    }
-
     public function create(string $loc): array
     {
         $endpoint = $this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION;
@@ -42,7 +37,7 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
     {
         $endpoint = $this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION . $id;
 
-        return $this->request()->get($endpoint)->json();
+        return $this->request()->get($endpoint, $this->filters)->json();
     }
 
     public function detachChargeFromLocation(string $id): array
@@ -57,7 +52,7 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
         $endpoint = $this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 }

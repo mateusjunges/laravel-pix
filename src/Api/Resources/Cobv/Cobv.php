@@ -11,7 +11,7 @@ use RuntimeException;
 
 class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 {
-    private array $filters;
+    private array $filters = [];
 
     public function createWithTransactionId(string $transactionId, array $request): array
     {
@@ -36,7 +36,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
         $endpoint = $this->baseUrl . Endpoints::GET_COBV . $transactionId;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 
@@ -53,17 +53,12 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
         return $this;
     }
 
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
-    }
-
     public function all(): array
     {
         $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBV;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 }

@@ -12,7 +12,7 @@ use RuntimeException;
 class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 {
     private string $webhookUrl;
-    private array $filters;
+    private array $filters = [];
 
     public function webhookUrl(string $url): Webhook
     {
@@ -32,11 +32,6 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
             : $filters;
 
         return $this;
-    }
-
-    public function getFilters(array $filters): ?array
-    {
-        return !empty($filters) ? $filters : null;
     }
 
     public function create(string $pixKey): array
@@ -71,7 +66,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
         $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOKS;
 
         return $this->request()
-            ->get($endpoint, $this->getFilters($this->filters ?? []))
+            ->get($endpoint, $this->filters)
             ->json();
     }
 }
