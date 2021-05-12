@@ -35,21 +35,59 @@ Este comando vai copiar o arquivo `laravel-pix.php` para sua pasta config, com o
 <?php
 
 return [
-    'currency_code' => 986,
+
+    'transaction_currency_code' => 986,
 
     'country_code' => 'BR',
 
+    /*
+     | O PIX precisa definir seu GUI (Global Unique Identifier) para ser utilizado.
+     */
     'gui' => 'br.gov.bcb.pix',
 
     'country_phone_prefix' => '+55',
 
+    /*
+     * Tamanho do QR code quer será gerado pelo gerador implementado no pacote, em pixels.
+     */
     'qr_code_size' => 200,
 
+    /*
+     * Você pode definir um middleware para proteger a rota disponibilizada para gerar QR codes.
+     * O nome registrado para este middleware precisa ser definido aqui.
+     */
     'create_qr_code_route_middleware' => '',
 
+    /*
+     * Informações do Prestador de serviço de pagamento (PSP) que você está utilizando.
+     * base_url: URL base da API do seu PSP.
+     * oauth_bearer_token: Você pode definir o seu Token
+     */
     'psp' => [
-        'psp_base_url' => env('LARAVEL_PIX_PSP_BASE_URL'),
+        'base_url' => env('LARAVEL_PIX_PSP_BASE_URL'),
+        'oauth_token_url' => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
         'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+        'ssl_certificate' => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+        'client_secret' => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+        'client_id' => env('LARAVEL_PIX_PSP_CLIENT_ID'),
     ]
 ];
 ```
+
+# Endpoints
+Os endpoints disponibilizados por este pacote são os mesmos implementados pelo Banco Central, e [documentados aqui][doc_bacen].
+Entretanto, o seu provedor de serviços de pagamento (PSP) pode não implementar todos eles.
+
+A lista de endpoints completa está descrita aqui:
+
+- Cob:
+    - `PUT` `/cob/{txid}`: Cria uma cobrança imediata.
+    - `PATCH` `/cob/{txid}`: Revisar uma cobrança imediata.
+    - `GET` `/cob/{txid}`: Consultar uma cobrança imediata.
+    - `POST` `/cob`: Cria uma cobrança imediata com id de transação definido pelo PSP.
+    - `GET` `/cob`: Consultar lista de cobranças imediatas.
+
+
+
+
+[doc_bacen]: https://bacen.github.io/pix-api/index.html#/
