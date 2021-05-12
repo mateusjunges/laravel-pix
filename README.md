@@ -80,14 +80,28 @@ Entretanto, o seu provedor de serviços de pagamento (PSP) pode não implementar
 
 A lista de endpoints completa está descrita aqui:
 
-- Cob:
+- Cob (Reúne endpoints destinados a lidar com gerenciamento de cobranças imediatas)
     - `PUT` `/cob/{txid}`: Cria uma cobrança imediata.
     - `PATCH` `/cob/{txid}`: Revisar uma cobrança imediata.
     - `GET` `/cob/{txid}`: Consultar uma cobrança imediata.
     - `POST` `/cob`: Cria uma cobrança imediata com id de transação definido pelo PSP.
     - `GET` `/cob`: Consultar lista de cobranças imediatas.
 
+- CobV (Reúne endpoints destinados a lidar com gerenciamento de cobranças com vencimento.)
+    - `PUT` `/cobv/{txid}`: Cria uma cobrança com vencimento.
+    - `PATCH` `/cobv/{txid}`: Revisar uma cobrança com vencimento.
+    - `GET` `/cobv/{txid}`: Consultar uma cobrança com vencimento.
+    - `GET` `/cobv`: Consultar lista de cobranças com vencimento.
 
+- LoteCobV (Reúne endpoints destinados a lidar com gerenciamento de cobranças com vencimento em lote.)
+    - `PUT` `lotecobv/{id}`: Criar/Alterar lote de cobranças com vencimento.
+    - `PATCH` `lotecobv/{id}`: Utilizado para revisar cobranças específicas dentro de um lote de cobranças com vencimento.
+    - `GET` `lotecobv/{id}`: Utilizado para consultar um lote específico de cobranças com vencimento.
+    - `GET` `lotecobv/`: Consultar lotes de cobranças com vencimento.
+
+- PayloadLocation (Reúne endpoints destinados a lidar com configuração e remoção de locations para uso dos payloads)
+- Pix (Reúne endpoints destinados a lidar com gerenciamento de Pix recebidos.)
+- Webhook (Reúne endpoints para gerenciamento de notificações por parte do PSP recebedor ao usuário recebedor.)
 
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
