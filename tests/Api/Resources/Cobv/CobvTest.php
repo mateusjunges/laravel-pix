@@ -102,7 +102,7 @@ class CobvTest extends TestCase
     public function test_it_can_create_a_cobv_with_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => $this->response
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->response)
         ]);
 
         $transactionId = Str::random(26);
@@ -113,27 +113,28 @@ class CobvTest extends TestCase
 
         $response = Pix::cobv()->createWithTransactionId($transactionId, $request);
 
-        $this->assertEquals($this->response, $response);
-        $this->assertEquals($this->response, $response);
+        $this->assertEquals($this->response, $response->json());
+        $this->assertTrue($response->successful());
     }
 
     public function test_it_can_get_a_cobv_by_its_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => $this->getResponse
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse)
         ]);
 
         $transactionId = Str::random(26);
 
         $response = Pix::cobv()->getByTransactionId($transactionId);
 
-        $this->assertEquals($this->getResponse, $response);
+        $this->assertTrue($response->successful());
+        $this->assertEquals($this->getResponse, $response->json());
     }
 
     public function test_it_can_apply_filters_to_the_query()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => $this->getResponse
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse)
         ]);
 
         $transactionId = Str::random(26);
@@ -159,6 +160,7 @@ class CobvTest extends TestCase
             ]));
         });
 
-        $this->assertEquals($this->getResponse, $response);
+        $this->assertTrue($response->successful());
+        $this->assertEquals($this->getResponse, $response->json());
     }
 }

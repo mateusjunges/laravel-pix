@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api\Resources\Cob;
 
+use Illuminate\Http\Client\Response;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobEndpoints;
@@ -26,48 +27,38 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         return $this;
     }
 
-    public function create(string $transactionId, array $request): array
+    public function create(string $transactionId, array $request): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB . $transactionId);
 
-        return $this->request()
-            ->put($endpoint, $request)
-            ->json();
+        return $this->request()->put($endpoint, $request);
     }
 
-    public function createWithoutTransactionId(array $request): array
+    public function createWithoutTransactionId(array $request): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB);
 
-        return $this->request()
-            ->post($endpoint, $request)
-            ->json();
+        return $this->request()->post($endpoint, $request);
     }
 
-    public function getByTransactionId(string $transactionId): array
+    public function getByTransactionId(string $transactionId): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COB . $transactionId);
 
-        return $this->request()
-            ->get($endpoint)
-            ->json();
+        return $this->request()->get($endpoint);
     }
 
-    public function updateByTransactionId(string $transactionId, array $request): array
+    public function updateByTransactionId(string $transactionId, array $request): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::UPDATE_COB . $transactionId);
 
-        return $this->request()
-            ->patch($endpoint, $request)
-            ->json();
+        return $this->request()->patch($endpoint, $request);
     }
 
-    public function all(): array
+    public function all(): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBS);
 
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
+        return $this->request()->get($endpoint, $this->filters);
     }
 }

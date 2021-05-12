@@ -4,13 +4,13 @@ namespace Junges\Pix\Api\Contracts;
 
 interface ConsumesCobEndpoints extends ConsumesPixApi
 {
-    public function create(string $transactionId, array $request): array;
+    public function create(string $transactionId, array $request);
 
-    public function createWithoutTransactionId(array $request): array;
+    public function createWithoutTransactionId(array $request);
 
-    public function updateByTransactionId(string $transactionId, array $request): array;
+    public function updateByTransactionId(string $transactionId, array $request);
 
-    public function getByTransactionId(string $transactionId): array;
+    public function getByTransactionId(string $transactionId);
 
-    public function all(): array;
+    public function all();
 }

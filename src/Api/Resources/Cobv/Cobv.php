@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api\Resources\Cobv;
 
+use Illuminate\Http\Client\Response;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobvEndpoints;
@@ -12,33 +13,6 @@ use RuntimeException;
 class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 {
     private array $filters = [];
-
-    public function createWithTransactionId(string $transactionId, array $request): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
-
-        return $this->request()
-            ->put($endpoint, $request)
-            ->json();
-    }
-
-    public function updateWithTransactionId(string $transactionId, array $request): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
-
-        return $this->request()
-            ->patch($endpoint, $request)
-            ->json();
-    }
-
-    public function getByTransactionId(string $transactionId): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COBV . $transactionId);
-
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
-    }
 
     public function withFilters($filters): Cobv
     {
@@ -53,12 +27,31 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
         return $this;
     }
 
-    public function all(): array
+    public function createWithTransactionId(string $transactionId, array $request): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
+
+        return $this->request()->put($endpoint, $request);
+    }
+
+    public function updateWithTransactionId(string $transactionId, array $request): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
+
+        return $this->request()->patch($endpoint, $request);
+    }
+
+    public function getByTransactionId(string $transactionId): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COBV . $transactionId);
+
+        return $this->request()->get($endpoint, $this->filters);
+    }
+
+    public function all(): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBV);
 
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
+        return $this->request()->get($endpoint, $this->filters);
     }
 }

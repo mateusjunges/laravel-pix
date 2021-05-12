@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api\Resources\ReceivedPix;
 
+use Illuminate\Http\Client\Response;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesReceivedPixEndpoints;
@@ -12,36 +13,6 @@ use RuntimeException;
 class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixEndpoints
 {
     private array $filters = [];
-
-    public function getBye2eid(string $e2eid): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid);
-
-        return $this->request()->get($endpoint)->json();
-    }
-
-    public function refund(string $e2eid, string $refundId): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
-
-        return $this->request()->put($endpoint)->json();
-    }
-
-    public function consultRefund(string $e2eid, string $refundId): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
-
-        return $this->request()->get($endpoint)->json();
-    }
-
-    public function all(): array
-    {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX);
-
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
-    }
 
     public function withFilters($filters): ReceivedPix
     {
@@ -54,5 +25,33 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
             : $filters;
 
         return $this;
+    }
+
+    public function getBye2eid(string $e2eid): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid);
+
+        return $this->request()->get($endpoint);
+    }
+
+    public function refund(string $e2eid, string $refundId): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
+
+        return $this->request()->put($endpoint);
+    }
+
+    public function consultRefund(string $e2eid, string $refundId): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
+
+        return $this->request()->get($endpoint);
+    }
+
+    public function all(): Response
+    {
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX);
+
+        return $this->request()->get($endpoint, $this->filters);
     }
 }

@@ -54,7 +54,7 @@ class CobTest extends TestCase
     public function test_it_can_create_a_cob()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $this->response
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response, 200)
         ]);
 
         $request = json_decode(
@@ -64,9 +64,10 @@ class CobTest extends TestCase
 
         $transactionId = Str::random();
 
-        $cob = Pix::cob();
+        $cob = Pix::cob()->create($transactionId, $request);
 
-        $this->assertEquals($this->response, $cob->create($transactionId, $request));
+        $this->assertTrue($cob->successful());
+        $this->assertEquals($this->response, $cob->json());
     }
 
     public function test_it_can_create_a_cob_without_transaction_id()
@@ -80,18 +81,19 @@ class CobTest extends TestCase
             true
         );
 
-        $cob = Pix::cob();
+        $cob = Pix::cob()->createWithoutTransactionId($request);
 
-        $this->assertEquals($this->response, $cob->createWithoutTransactionId($request));
+        $this->assertTrue($cob->successful());
+        $this->assertEquals($this->response, $cob->json());
     }
 
     public function test_it_can_get_a_cob_by_its_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $this->response
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response)
         ]);
 
-        $this->assertEquals($this->response, Pix::cob()->getByTransactionId("OLtfsYyFwSLs3uGma6Ty5ZEKjg"));
+        $this->assertEquals($this->response, Pix::cob()->getByTransactionId("OLtfsYyFwSLs3uGma6Ty5ZEKjg")->json());
     }
 
     public function test_it_can_get_all_cobs()
@@ -113,20 +115,23 @@ class CobTest extends TestCase
         ];
 
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $response
+            'https://pix.example.com/v2/cob/*' => Http::response($response)
         ]);
 
         $filters = (new CobFilters())
             ->startingAt(now()->subMonth()->toISOString())
             ->endingAt(now()->addMonth()->toISOString());
 
-        $this->assertEquals($response, Pix::cob()->withFilters($filters)->all());
+        $cob = Pix::cob()->withFilters($filters)->all();
+
+        $this->assertEquals($response, $cob->json());
+        $this->assertTrue($cob->successful());
     }
 
     public function test_it_can_update_a_cob()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $this->response
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response)
         ]);
 
         $transactionId = Str::random();
@@ -136,7 +141,10 @@ class CobTest extends TestCase
             true
         );
 
-        $this->assertEquals($this->response, Pix::cob()->updateByTransactionId($transactionId, $request));
+        $cob = Pix::cob()->updateByTransactionId($transactionId, $request);
+
+        $this->assertEquals($this->response, $cob->json());
+        $this->assertTrue($cob->successful());
     }
 
     public function test_it_apply_filters_to_the_query()
@@ -158,7 +166,7 @@ class CobTest extends TestCase
         ];
 
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $response
+            'https://pix.example.com/v2/cob/*' => Http::response($response)
         ]);
 
         $start = now()->subMonth()->toISOString();
@@ -168,7 +176,7 @@ class CobTest extends TestCase
             ->startingAt($start)
             ->endingAt($end);
 
-        Pix::cob()->withFilters($filters)->all();
+        Pix::cob()->withFilters($filters)->all()->json();
 
         Http::assertSent(function(Request $request) use ($start, $end) {
             return $request->data() === ['inicio' => $start, 'fim' => $end]
@@ -181,10 +189,9 @@ class CobTest extends TestCase
         $cpf = '19220677091';
         $status = 'ATIVA';
 
-        $filters->cpf($cpf)
-            ->withStatus($status);
+        $filters->cpf($cpf)->withStatus($status);
 
-        Pix::cob()->withFilters($filters)->all();
+        Pix::cob()->withFilters($filters)->all()->json();
 
         Http::assertSent(function(Request $request) use ($start, $end, $status, $cpf) {
             return $request->data() === [

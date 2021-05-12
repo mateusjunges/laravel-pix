@@ -4,11 +4,11 @@ namespace Junges\Pix\Api\Contracts;
 
 interface ConsumesLoteCobvEndpoints extends ConsumesPixApi
 {
-    public function createBatch(string $batchId, array $request): array;
+    public function createBatch(string $batchId, array $request);
 
-    public function updateBatch(string $batchId, array $request): array;
+    public function updateBatch(string $batchId, array $request);
 
-    public function getByBatchId(string $batchId): array;
+    public function getByBatchId(string $batchId);
 
-    public function all(): array;
+    public function all();
 }

@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api\Resources\PayloadLocation;
 
+use Illuminate\Http\Client\Response;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesPayloadLocationEndpoints;
@@ -26,33 +27,31 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
         return $this;
     }
 
-    public function create(string $loc): array
+    public function create(string $loc): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION);
 
-        return $this->request()->post($endpoint, ['tipoCob' => $loc])->json();
+        return $this->request()->post($endpoint, ['tipoCob' => $loc]);
     }
 
-    public function getById(string $id): array
+    public function getById(string $id): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION . $id);
 
-        return $this->request()->get($endpoint, $this->filters)->json();
+        return $this->request()->get($endpoint, $this->filters);
     }
 
-    public function detachChargeFromLocation(string $id): array
+    public function detachChargeFromLocation(string $id): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DETACH_CHARGE_FROM_LOCATION . $id . Endpoints::PAYLOAD_LOCATION_TXID);
 
-        return $this->request()->delete($endpoint)->json();
+        return $this->request()->delete($endpoint);
     }
 
-    public function all(): array
+    public function all(): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION);
 
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
+        return $this->request()->get($endpoint, $this->filters);
     }
 }

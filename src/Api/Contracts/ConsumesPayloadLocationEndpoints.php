@@ -4,11 +4,11 @@ namespace Junges\Pix\Api\Contracts;
 
 interface ConsumesPayloadLocationEndpoints extends ConsumesPixApi
 {
-    public function create(string $loc): array;
+    public function create(string $loc);
 
-    public function all(): array;
+    public function all();
 
-    public function getById(string $id): array;
+    public function getById(string $id);
 
-    public function detachChargeFromLocation(string $id): array;
+    public function detachChargeFromLocation(string $id);
 }

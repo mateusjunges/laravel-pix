@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api\Resources\Webhook;
 
+use Illuminate\Http\Client\Response;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesWebhookEndpoints;
@@ -43,30 +44,24 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
             ->json();
     }
 
-    public function getByPixKey(string $pixKey): array
+    public function getByPixKey(string $pixKey): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey);
 
-        return $this->request()
-            ->get($endpoint)
-            ->json();
+        return $this->request()->get($endpoint);
     }
 
-    public function delete(string $pixKey): array
+    public function delete(string $pixKey): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DELETE_WEBHOOK . $pixKey);
 
-        return $this->request()
-            ->delete($endpoint)
-            ->json();
+        return $this->request()->delete($endpoint);
     }
 
-    public function all(): array
+    public function all(): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOKS);
 
-        return $this->request()
-            ->get($endpoint, $this->filters)
-            ->json();
+        return $this->request()->get($endpoint, $this->filters);
     }
 }
