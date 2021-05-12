@@ -4,7 +4,6 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
-use Junges\Pix\Support\Endpoints;
 
 class Auth implements AuthenticatesWithOauth
 {
