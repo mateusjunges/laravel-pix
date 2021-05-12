@@ -11,7 +11,6 @@ class QrCodeGenerator implements GeneratesQrCode
 {
     /**
      * @throws \Mpdf\QrCode\QrCodeException
-     * @throws Exceptions\PixException
      */
     public function withPayload(PixPayloadContract $payload): string
     {
