@@ -7,6 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesLoteCobvEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -48,8 +49,16 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
         return $this->request()->get($endpoint);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function all(): Response
     {
+        throw_if(
+            empty($this->filters),
+            ValidationException::filtersAreRequired()
+        );
+
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_LOTE_COBV);
 
         return $this->request()

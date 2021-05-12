@@ -7,6 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesReceivedPixEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -48,8 +49,16 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
         return $this->request()->get($endpoint);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function all(): Response
     {
+        throw_if(
+            empty($this->filters),
+            ValidationException::filtersAreRequired()
+        );
+
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX);
 
         return $this->request()->get($endpoint, $this->filters);

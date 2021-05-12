@@ -7,6 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesCobEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -55,8 +56,16 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
         return $this->request()->patch($endpoint, $request);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function all(): Response
     {
+        throw_if(
+            empty($this->filters),
+            ValidationException::filtersAreRequired()
+        );
+
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBS);
 
         return $this->request()->get($endpoint, $this->filters);
