@@ -25,7 +25,7 @@ class CobvFilters implements ApplyApiFilters
     private string $status;
     private string $cobvBatchId;
     private int $itemsPerPage;
-    private int $actualPage;
+    private int $currentPage;
 
     public function startingAt(string $start): CobvFilters
     {
@@ -81,9 +81,9 @@ class CobvFilters implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(int $actualPage): CobvFilters
+    public function currentPage(int $currentPage): CobvFilters
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $currentPage;
 
         return $this;
     }
@@ -94,6 +94,10 @@ class CobvFilters implements ApplyApiFilters
         return $this;
     }
 
+    /**
+     * @return array
+     * @throws ValidationException
+     */
     public function toArray(): array
     {
         if (empty($this->start) || empty($this->end)) {
@@ -105,10 +109,6 @@ class CobvFilters implements ApplyApiFilters
             self::END => $this->end,
         ];
 
-        if (!empty($this->locationPresent)) {
-            $filters[self::LOCATION_PRESENT] = $this->locationPresent;
-        }
-
         if (!empty($this->cpf)) {
             $filters[self::CPF] = $this->cpf;
         }
@@ -117,20 +117,24 @@ class CobvFilters implements ApplyApiFilters
             $filters[self::CNPJ] = $this->cnpj;
         }
 
+        if (!empty($this->locationPresent)) {
+            $filters[self::LOCATION_PRESENT] = $this->locationPresent;
+        }
+
         if (!empty($this->status)) {
             $filters[self::STATUS] = $this->status;
+        }
+
+        if (!empty($this->cobvBatchId)) {
+            $filters[self::COBV_BATCH_ID] = $this->cobvBatchId;
         }
 
         if (!empty($this->itemsPerPage)) {
             $filters[self::PAGINATION_ITEMS_PER_PAGE] = $this->itemsPerPage;
         }
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
-        }
-
-        if (!empty($this->cobvBatchId)) {
-            $filters[self::COBV_BATCH_ID] = $this->cobvBatchId;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->currentPage;
         }
 
         return $filters;

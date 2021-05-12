@@ -3,17 +3,18 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
+use Junges\Pix\Exceptions\ValidationException;
 
 class LoteCobvFilter implements ApplyApiFilters
 {
-    const PAGINATION_ACTUAL_PAGE = "paginacao.paginaAtual";
+    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
     const START = 'inicio';
     const END = 'fim';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
 
     private string $start;
     private string $end;
-    private int $actualPage;
+    private int $currentPage;
     private int $itemsPerPage;
 
     public function startingAt(string $start): LoteCobvFilter
@@ -28,9 +29,9 @@ class LoteCobvFilter implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(int $actualPage): LoteCobvFilter
+    public function currentPage(int $currentPage): LoteCobvFilter
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $currentPage;
         return $this;
     }
 
@@ -40,15 +41,23 @@ class LoteCobvFilter implements ApplyApiFilters
         return $this;
     }
 
+    /**
+     * @return array
+     * @throws ValidationException
+     */
     public function toArray(): array
     {
+        if (!empty($this->start) || empty($this->end)) {
+            throw new ValidationException("Os campos 'inicio' e 'fim' são obrigatórios.");
+        }
+
         $filters = [
             self::START => $this->start,
             self::END => $this->end,
         ];
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_CURRENT_PAGE] = $this->currentPage;
         }
 
         if (!empty($this->itemsPerPage)) {

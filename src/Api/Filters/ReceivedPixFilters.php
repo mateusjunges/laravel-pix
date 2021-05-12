@@ -3,6 +3,7 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
+use Junges\Pix\Exceptions\ValidationException;
 
 class ReceivedPixFilters implements ApplyApiFilters
 {
@@ -13,7 +14,7 @@ class ReceivedPixFilters implements ApplyApiFilters
     const REFUND_PRESENT = "devolucaoPresente";
     const CPF = "cpf";
     const CNPJ = "cnpj";
-    const PAGINATION_ACTUAL_PAGE = "paginacao.paginaAtual";
+    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
     const PAGINATION_ITEMS_PER_PAGE = "paginacao.itensPorPagina";
 
     private string $start;
@@ -23,7 +24,7 @@ class ReceivedPixFilters implements ApplyApiFilters
     private string $refundPresent;
     private string $cpf;
     private string $cnpj;
-    private string $actualPage;
+    private string $currentPage;
     private string $itemsPerPage;
 
     public function startingAt(string $start): ReceivedPixFilters
@@ -81,9 +82,9 @@ class ReceivedPixFilters implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(string $actualPage): ReceivedPixFilters
+    public function currentPage(string $currentPage): ReceivedPixFilters
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $currentPage;
         return $this;
     }
 
@@ -93,8 +94,16 @@ class ReceivedPixFilters implements ApplyApiFilters
         return $this;
     }
 
+    /**
+     * @return array
+     * @throws ValidationException
+     */
     public function toArray(): array
     {
+        if (empty($this->start) || empty($this->end)) {
+            throw new ValidationException("Os campos 'inicio' e 'fim' são obrigatórios.");
+        }
+
         $filters = [
             self::START => $this->start,
             self::END => $this->end
@@ -120,8 +129,8 @@ class ReceivedPixFilters implements ApplyApiFilters
             $filters[self::CNPJ] = $this->cnpj;
         }
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_CURRENT_PAGE] = $this->currentPage;
         }
 
         if (!empty($this->itemsPerPage)) {

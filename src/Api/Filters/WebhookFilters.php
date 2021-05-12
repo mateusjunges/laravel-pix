@@ -9,12 +9,12 @@ class WebhookFilters implements ApplyApiFilters
     const START = "inicio";
     const END = "fim";
     const PAGINATION_ITEMS_PER_PAGE = "paginacao.itensPorPagina";
-    const PAGINATION_ACTUAL_PAGE = "paginacao.paginaAtual";
+    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
 
     private string $start;
     private string $end;
     private string $itemsPerPage;
-    private string $actualPage;
+    private string $currentPage;
 
     public function startingAt(string $start): WebhookFilters
     {
@@ -39,7 +39,7 @@ class WebhookFilters implements ApplyApiFilters
 
     public function actualPage(string $actualPage): WebhookFilters
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $actualPage;
 
         return $this;
     }
@@ -56,8 +56,8 @@ class WebhookFilters implements ApplyApiFilters
             $filters[self::END] = $this->end;
         }
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_CURRENT_PAGE] = $this->currentPage;
         }
 
         if (!empty($this->itemsPerPage)) {

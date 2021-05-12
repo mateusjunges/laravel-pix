@@ -3,6 +3,7 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
+use Junges\Pix\Exceptions\ValidationException;
 
 class CobFilters implements ApplyApiFilters
 {
@@ -12,8 +13,8 @@ class CobFilters implements ApplyApiFilters
     const CNPJ = 'cnpj';
     const LOCATION_PRESENT = 'locationPresente';
     const STATUS = 'status';
+    const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
-    const PAGINATION_ACTUAL_PAGE = 'paginacao.paginaAtual';
 
     private string $start;
     private string $end;
@@ -22,7 +23,7 @@ class CobFilters implements ApplyApiFilters
     private string $locationPresent;
     private string $status;
     private int $itemsPerPage;
-    private int $actualPage;
+    private int $currentPage;
 
     public function startingAt(string $start): CobFilters
     {
@@ -78,15 +79,23 @@ class CobFilters implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(int $actualPage): CobFilters
+    public function currentPage(int $currentPage): CobFilters
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $currentPage;
 
         return $this;
     }
 
+    /**
+     * @return array
+     * @throws ValidationException
+     */
     public function toArray(): array
     {
+        if (empty($this->start) || empty($this->end)) {
+            throw new ValidationException("Os campos 'inicio' e 'fim' são obrigatórios.");
+        }
+
         $filters = [
             self::START => $this->start,
             self::END => $this->end,
@@ -112,8 +121,8 @@ class CobFilters implements ApplyApiFilters
             $filters[self::PAGINATION_ITEMS_PER_PAGE] = $this->itemsPerPage;
         }
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_CURRENT_PAGE] = $this->currentPage;
         }
 
         return $filters;

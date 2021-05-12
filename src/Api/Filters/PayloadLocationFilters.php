@@ -3,6 +3,7 @@
 namespace Junges\Pix\Api\Filters;
 
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
+use Junges\Pix\Exceptions\ValidationException;
 
 class PayloadLocationFilters implements ApplyApiFilters
 {
@@ -10,14 +11,14 @@ class PayloadLocationFilters implements ApplyApiFilters
     const END = 'fim';
     const TXID_PRESENT = "txIdPresente";
     const COB_TYPE = 'tipoCob';
-    const PAGINATION_ACTUAL_PAGE = 'paginacao.paginaAtual';
+    const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
 
     private string $start;
     private string $end;
     private string $transactionIdPresent;
     private string $cobType;
-    private string $actualPage;
+    private string $currentPage;
     private string $itemsPerPage;
 
     public function startingAt(string $start): PayloadLocationFilters
@@ -56,9 +57,9 @@ class PayloadLocationFilters implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(string $actualPage): PayloadLocationFilters
+    public function currentPage(string $currentPage): PayloadLocationFilters
     {
-        $this->actualPage = $actualPage;
+        $this->currentPage = $currentPage;
         return $this;
     }
 
@@ -68,8 +69,16 @@ class PayloadLocationFilters implements ApplyApiFilters
         return $this;
     }
 
+    /**
+     * @return array
+     * @throws ValidationException
+     */
     public function toArray(): array
     {
+        if (empty($this->start) || empty($this->end)) {
+            throw new ValidationException("Os campos 'inicio' e 'fim' são obrigatórios.");
+        }
+
         $filters = [
             self::START => $this->start,
             self::END => $this->end
@@ -83,8 +92,8 @@ class PayloadLocationFilters implements ApplyApiFilters
             $filters[self::COB_TYPE] = $this->cobType;
         }
 
-        if (!empty($this->actualPage)) {
-            $filters[self::PAGINATION_ACTUAL_PAGE] = $this->actualPage;
+        if (!empty($this->currentPage)) {
+            $filters[self::PAGINATION_CURRENT_PAGE] = $this->currentPage;
         }
 
         if (!empty($this->itemsPerPage)) {
