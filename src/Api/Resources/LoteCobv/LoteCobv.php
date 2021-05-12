@@ -28,7 +28,7 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
 
     public function createBatch(string $batchId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_LOTE_COBV . $batchId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_LOTE_COBV . $batchId);
 
         return $this->request()
             ->put($endpoint, $request)
@@ -37,7 +37,7 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
 
     public function updateBatch(string $batchId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::UPDATE_LOTE_COBV . $batchId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::UPDATE_LOTE_COBV . $batchId);
 
         return $this->request()
             ->patch($endpoint, $request)
@@ -46,14 +46,14 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
 
     public function getByBatchId(string $batchId): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_LOTE_COBV . $batchId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_LOTE_COBV . $batchId);
 
         return $this->request()->get($endpoint)->json();
     }
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_ALL_LOTE_COBV;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_LOTE_COBV);
 
         return $this->request()
             ->get($endpoint, $this->filters)

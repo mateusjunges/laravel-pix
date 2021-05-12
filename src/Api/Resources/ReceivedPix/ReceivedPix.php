@@ -15,28 +15,28 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function getBye2eid(string $e2eid): array
     {
-        $endpoint = $this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid);
 
         return $this->request()->get($endpoint)->json();
     }
 
     public function refund(string $e2eid, string $refundId): array
     {
-        $endpoint = $this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
 
         return $this->request()->put($endpoint)->json();
     }
 
     public function consultRefund(string $e2eid, string $refundId): array
     {
-        $endpoint = $this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
 
         return $this->request()->get($endpoint)->json();
     }
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::RECEIVED_PIX;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX);
 
         return $this->request()
             ->get($endpoint, $this->filters)

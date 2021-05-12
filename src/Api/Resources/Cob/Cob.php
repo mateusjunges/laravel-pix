@@ -28,7 +28,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function create(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COB . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB . $transactionId);
 
         return $this->request()
             ->put($endpoint, $request)
@@ -37,7 +37,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function createWithoutTransactionId(array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COB;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB);
 
         return $this->request()
             ->post($endpoint, $request)
@@ -46,7 +46,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function getByTransactionId(string $transactionId): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_COB . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COB . $transactionId);
 
         return $this->request()
             ->get($endpoint)
@@ -55,7 +55,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function updateByTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::UPDATE_COB . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::UPDATE_COB . $transactionId);
 
         return $this->request()
             ->patch($endpoint, $request)
@@ -64,7 +64,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBS;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBS);
 
         return $this->request()
             ->get($endpoint, $this->filters)

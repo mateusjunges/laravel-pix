@@ -45,7 +45,7 @@ trait InteractsWithDynamicPayload
 
     protected function getTransactionCurrency(): string
     {
-        return $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.currency_code', '986'));
+        return $this->formatValue(Pix::TRANSACTION_CURRENCY, config('laravel-pix.transaction_currency_code', '986'));
     }
 
     protected function getPointOfInitializationMethod(): string

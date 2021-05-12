@@ -15,6 +15,7 @@ class Api implements ConsumesPixApi
     protected string $certificate;
     protected string $certificatePassword;
     protected string $oauthToken;
+    protected array $additionalParams = [];
 
     public function __construct()
     {
@@ -92,6 +93,18 @@ class Api implements ConsumesPixApi
             ->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
                 'grant_type' => 'client_credentials'
             ])->json();
+    }
+
+    public function withAdditionalParams(array $params): Api
+    {
+        $this->additionalParams = $params;
+
+        return $this;
+    }
+
+    public function getEndpoint(string $endpoint): string
+    {
+        return $endpoint . "?" . http_build_query($this->additionalParams);
     }
 
     protected function getCertificate()

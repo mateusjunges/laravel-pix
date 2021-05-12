@@ -28,28 +28,28 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
 
     public function create(string $loc): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION);
 
         return $this->request()->post($endpoint, ['tipoCob' => $loc])->json();
     }
 
     public function getById(string $id): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION . $id;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION . $id);
 
         return $this->request()->get($endpoint, $this->filters)->json();
     }
 
     public function detachChargeFromLocation(string $id): array
     {
-        $endpoint = $this->baseUrl . Endpoints::DETACH_CHARGE_FROM_LOCATION . $id . Endpoints::PAYLOAD_LOCATION_TXID;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DETACH_CHARGE_FROM_LOCATION . $id . Endpoints::PAYLOAD_LOCATION_TXID);
 
         return $this->request()->delete($endpoint)->json();
     }
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION);
 
         return $this->request()
             ->get($endpoint, $this->filters)

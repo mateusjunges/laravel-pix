@@ -15,7 +15,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function createWithTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
 
         return $this->request()
             ->put($endpoint, $request)
@@ -24,7 +24,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function updateWithTransactionId(string $transactionId, array $request): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_COBV . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COBV . $transactionId);
 
         return $this->request()
             ->patch($endpoint, $request)
@@ -33,7 +33,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function getByTransactionId(string $transactionId): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_COBV . $transactionId;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COBV . $transactionId);
 
         return $this->request()
             ->get($endpoint, $this->filters)
@@ -55,7 +55,7 @@ class Cobv extends Api implements FilterApiRequests, ConsumesCobvEndpoints
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_ALL_COBV;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBV);
 
         return $this->request()
             ->get($endpoint, $this->filters)

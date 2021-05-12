@@ -36,7 +36,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function create(string $pixKey): array
     {
-        $endpoint = $this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey);
 
         return $this->request()
             ->put($endpoint, ['webhookUrl' => $this->webhookUrl])
@@ -45,7 +45,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function getByPixKey(string $pixKey): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey);
 
         return $this->request()
             ->get($endpoint)
@@ -54,7 +54,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function delete(string $pixKey): array
     {
-        $endpoint = $this->baseUrl . Endpoints::DELETE_WEBHOOK . $pixKey;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DELETE_WEBHOOK . $pixKey);
 
         return $this->request()
             ->delete($endpoint)
@@ -63,7 +63,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function all(): array
     {
-        $endpoint = $this->baseUrl . Endpoints::GET_WEBHOOKS;
+        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOKS);
 
         return $this->request()
             ->get($endpoint, $this->filters)

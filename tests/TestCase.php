@@ -28,7 +28,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         $app['config']->set('laravel-pix.country_phone_prefix', '+55');
-        $app['config']->set('laravel-pix.currency_code', 986);
+        $app['config']->set('laravel-pix.transaction_currency_code', 986);
         $app['config']->set('laravel-pix.country_code', 'BR');
         $app['config']->set('laravel-pix.gui', 'br.gov.bcb.pix');
         $app['config']->set('laravel-pix.psp.base_url', 'https://pix.example.com');
