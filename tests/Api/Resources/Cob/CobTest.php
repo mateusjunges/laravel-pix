@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\CobFilters;
+use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
@@ -207,5 +208,12 @@ class CobTest extends TestCase
                     'status' => $status
                 ]));
         });
+    }
+
+    public function test_it_throws_validation_exception_if_filters_are_not_set()
+    {
+        $this->expectException(ValidationException::class);
+
+        Pix::cob()->all()->json();
     }
 }

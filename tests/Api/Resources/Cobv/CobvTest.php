@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\CobvFilters;
+use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
@@ -162,5 +163,12 @@ class CobvTest extends TestCase
 
         $this->assertTrue($response->successful());
         $this->assertEquals($this->getResponse, $response->json());
+    }
+
+    public function test_it_throws_validation_exception_if_filters_are_not_set()
+    {
+        $this->expectException(ValidationException::class);
+
+        Pix::cobv()->all()->json();
     }
 }
