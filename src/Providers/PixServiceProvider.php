@@ -19,7 +19,9 @@ use Junges\Pix\Facades\CobvFacade;
 use Junges\Pix\Facades\PayloadLocationFacade;
 use Junges\Pix\Facades\ReceivedPixFacade;
 use Junges\Pix\Facades\WebhookFacade;
+use Junges\Pix\LaravelPix;
 use Junges\Pix\QrCodeGenerator;
+use Orchestra\Testbench\Contracts\Laravel;
 
 class PixServiceProvider extends ServiceProvider
 {
@@ -36,8 +38,8 @@ class PixServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind(GeneratesQrCode::class, QrCodeGenerator::class);
-        $this->app->bind(AuthenticatesWithOauth::class, Auth::class);
+        LaravelPix::generatesQrCodeUsing(QrCodeGenerator::class);
+        LaravelPix::authenticatesViaOauthUsing(Auth::class);
 
         $this->registerFacades();
     }
