@@ -7,10 +7,10 @@ use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 
 class Auth implements AuthenticatesWithOauth
 {
-    private string $clientId;
-    private string $clientSecret;
-    private string $certificate;
-    private ?string $certificatePassword;
+    protected string $clientId;
+    protected string $clientSecret;
+    protected string $certificate;
+    protected ?string $certificatePassword;
 
     public function __construct(
         string $clientId,
