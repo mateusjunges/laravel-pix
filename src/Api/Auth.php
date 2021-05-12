@@ -28,7 +28,8 @@ class Auth implements AuthenticatesWithOauth
     public function getToken(string $scopes = null)
     {
         $client = Http::withHeaders([
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
+            'Authorization' => "Basic " . base64_encode("{$this->clientId}:{$this->clientSecret}")
         ])->withOptions([
             'auth' => [$this->clientId, $this->clientSecret]
         ]);
