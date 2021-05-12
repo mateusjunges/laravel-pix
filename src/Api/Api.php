@@ -117,7 +117,7 @@ class Api implements ConsumesPixApi
 
         return $client->post($this->getOauthEndpoint(), [
             'grant_type' => 'client_credentials',
-            'scopes' => $scopes ?? "",
+            'scope' => $scopes ?? "",
         ])->json();
     }
 
