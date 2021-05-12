@@ -17,6 +17,7 @@ class Api implements ConsumesPixApi
     protected ?string $certificatePassword = null;
     protected ?string $oauthToken;
     protected array $additionalParams = [];
+    protected array $additionalOptions = [];
 
     public function __construct()
     {
@@ -108,6 +109,13 @@ class Api implements ConsumesPixApi
     public function withAdditionalParams(array $params): Api
     {
         $this->additionalParams = $params;
+
+        return $this;
+    }
+
+    public function withOptions(array $options): Api
+    {
+        $this->additionalOptions = $options;
 
         return $this;
     }
