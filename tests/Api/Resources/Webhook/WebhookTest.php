@@ -140,7 +140,7 @@ class WebhookTest extends TestCase
                     'inicio' => $start,
                     'fim' => $end,
                     'paginacao.paginaAtual' => $currentPage,
-                    'pagincao.itensPorPagina' => $itemsPerPage
+                    'paginacao.itensPorPagina' => $itemsPerPage
                 ]));
         });
     }
