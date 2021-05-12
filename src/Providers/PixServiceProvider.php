@@ -6,13 +6,11 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Auth;
-use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Api\Resources\Cob\Cob;
 use Junges\Pix\Api\Resources\Cobv\Cobv;
 use Junges\Pix\Api\Resources\PayloadLocation\PayloadLocation;
 use Junges\Pix\Api\Resources\ReceivedPix\ReceivedPix;
 use Junges\Pix\Api\Resources\Webhook\Webhook;
-use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Facades\ApiFacade;
 use Junges\Pix\Facades\CobFacade;
 use Junges\Pix\Facades\CobvFacade;
@@ -21,10 +19,11 @@ use Junges\Pix\Facades\ReceivedPixFacade;
 use Junges\Pix\Facades\WebhookFacade;
 use Junges\Pix\LaravelPix;
 use Junges\Pix\QrCodeGenerator;
-use Orchestra\Testbench\Contracts\Laravel;
 
 class PixServiceProvider extends ServiceProvider
 {
+    public static bool $verifySslCertificate = false;
+
     public function boot()
     {
         $this->registerRoutes();

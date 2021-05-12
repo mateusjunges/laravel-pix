@@ -6,6 +6,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
+use Junges\Pix\Providers\PixServiceProvider;
 
 class Api implements ConsumesPixApi
 {
@@ -16,7 +17,6 @@ class Api implements ConsumesPixApi
     protected ?string $certificatePassword = null;
     protected ?string $oauthToken;
     protected array $additionalParams = [];
-    public static bool $verifySslCertificate = false;
 
     public function __construct()
     {
@@ -60,16 +60,6 @@ class Api implements ConsumesPixApi
         $this->certificatePassword = $certificatePassword;
 
         return $this;
-    }
-
-    public static function validatingSslCertificate(bool $validate = true): void
-    {
-        self::$verifySslCertificate = $validate;
-    }
-
-    public static function withoutVerifyingSslCertificate(): void
-    {
-        self::validatingSslCertificate(false);
     }
 
     public function oauthToken(?string $oauthToken): Api
@@ -129,6 +119,6 @@ class Api implements ConsumesPixApi
 
     private function shouldVerifySslCertificate(): bool
     {
-        return static::$verifySslCertificate;
+        return PixServiceProvider::$verifySslCertificate;
     }
 }
