@@ -5,11 +5,13 @@ namespace Junges\Pix\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Junges\Pix\Api\Api;
-use Junges\Pix\Api\Features\Cob\Cob;
-use Junges\Pix\Api\Features\Cobv\Cobv;
-use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
-use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
-use Junges\Pix\Api\Features\Webhook\Webhook;
+use Junges\Pix\Api\Auth;
+use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
+use Junges\Pix\Api\Resources\Cob\Cob;
+use Junges\Pix\Api\Resources\Cobv\Cobv;
+use Junges\Pix\Api\Resources\PayloadLocation\PayloadLocation;
+use Junges\Pix\Api\Resources\ReceivedPix\ReceivedPix;
+use Junges\Pix\Api\Resources\Webhook\Webhook;
 use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Facades\ApiFacade;
 use Junges\Pix\Facades\CobFacade;
@@ -35,6 +37,7 @@ class PixServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(GeneratesQrCode::class, QrCodeGenerator::class);
+        $this->app->bind(AuthenticatesWithOauth::class, Auth::class);
 
         $this->registerFacades();
     }

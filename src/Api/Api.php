@@ -4,6 +4,7 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Support\Endpoints;
 
@@ -13,7 +14,7 @@ class Api implements ConsumesPixApi
     protected string $clientId;
     protected string $clientSecret;
     protected string $certificate;
-    protected string $certificatePassword;
+    protected ?string $certificatePassword = null;
     protected string $oauthToken;
     protected array $additionalParams = [];
     public static bool $verifySslCertificate = false;
@@ -98,25 +99,21 @@ class Api implements ConsumesPixApi
         return $client;
     }
 
+    protected function getCertificate()
+    {
+        return $this->certificatePassword ?? false
+                ? [$this->certificate, $this->certificatePassword]
+                : $this->certificate;
+    }
+
     public function getOauth2Token(string $scopes = null)
     {
-        $client = Http::withHeaders([
-            'Content-Type' => 'application/json'
-        ])->withOptions([
-            'auth' => [$this->clientId, $this->clientSecret]
-        ]);
-
-        if ($this->shouldVerifySslCertificate()) {
-            $client->withOptions([
-                'verify' => $this->certificate,
-                'cert' => $this->getCertificate()
-            ]);
-        }
-
-        return $client->post($this->getOauthEndpoint(), [
-            'grant_type' => 'client_credentials',
-            'scope' => $scopes ?? "",
-        ])->json();
+        return app(AuthenticatesWithOauth::class, [
+            'clientId' => $this->clientId,
+            'clientSecret' => $this->clientSecret,
+            'certificate' => $this->certificate,
+            'certificatePassword' => $this->certificatePassword
+        ])->getToken();
     }
 
     public function withAdditionalParams(array $params): Api
@@ -131,23 +128,8 @@ class Api implements ConsumesPixApi
         return $endpoint . "?" . http_build_query($this->additionalParams);
     }
 
-    protected function getCertificate()
-    {
-        return $this->certificatePassword ?? false
-                ? [$this->certificate, $this->certificatePassword]
-                : $this->certificate;
-    }
-
     private function shouldVerifySslCertificate(): bool
     {
         return static::$verifySslCertificate;
-    }
-
-    private function getOauthEndpoint()
-    {
-        if ($tokenEndpoint = config('laravel-pix.psp.oauth_token_url', false)) {
-            return $tokenEndpoint;
-        }
-        return $this->baseUrl . Endpoints::OAUTH_TOKEN;
     }
 }

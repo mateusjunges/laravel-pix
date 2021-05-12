@@ -16,6 +16,7 @@ class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
+        (new PixServiceProvider($this->app))->boot();
     }
 
     public function getPackageProviders($app)
@@ -32,5 +33,6 @@ class TestCase extends Orchestra
         $app['config']->set('laravel-pix.country_code', 'BR');
         $app['config']->set('laravel-pix.gui', 'br.gov.bcb.pix');
         $app['config']->set('laravel-pix.psp.base_url', 'https://pix.example.com');
+        $app['config']->set('laravel-pix.psp.oauth_token_url', 'https://pix.example.com/oauth/token');
     }
 }
