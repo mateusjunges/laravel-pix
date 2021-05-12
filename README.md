@@ -117,4 +117,86 @@ A lista de endpoints completa está descrita aqui:
     - `DELETE` `/webhook/{chave}`: Cancelar o webhook pix.
     - `GET` `/webhook`: Consultar webhooks cadastrados.
 
+# Configurações iniciais.
+Para iniciar a utilização da API Pix, você precisa autenticar com o seu PSP via OAuth.
+Para isso, é necessário informar o seu `client_id` e `client_secret`, disponibilizados pelo seu PSP.
+Isso deve ser feito no arquivo `.env` de sua aplicação:
+
+```text
+LARAVEL_PIX_PSP_CLIENT_SECRET="seu client_secret aqui"
+LARAVEL_PIX_PSP_CLIENT_ID="seu client_id aqui"
+```
+
+Vários PSP que disponibilizam a API Pix possuem uma URL para obtenção do token de acesso diferente da URL para a API. Portanto, você precisa
+configurar as duas URLs no seu `.env`:
+
+```text
+LARAVEL_PIX_PSP_OAUTH_URL="url para obtenção do access token"
+LARAVEL_PIX_PSP_BASE_URL="url da api pix"
+```
+
+Agora, todas as chamadas a API Pix utilizarão estas credencias, e você não precisa informar manualmente para cada requisição.
+Entretando, se por algum motivo você desejar alterar estas credenciais em tempo de execução, 
+é possível através dos métodos `->clientId()` e `->clientSecret()`, disponibilizados em todos os endpoints neste pacote. Um exemplo é mostrado abaixo:
+
+```php
+use Junges\Pix\Pix;
+
+$api = Pix::api()
+    ->clientId('client_id')
+    ->clientSecret('client_secret');
+```
+Estes métodos estão disponíveis em todos os recursos da api Pix: `cob`, `cobv`, `loteCobv`, `payloadLocation`, `receivedPix` e `webhook`.
+
+## Obtendo o token de acesso
+Este pacote disponibiliza uma implementação de autenticação geral, que pode ser utilizada da seguinte forma:
+```php
+use Junges\Pix\Pix;
+
+// Se você já informou o seu client_id e client_secret no .env, não é necessário informar nesta requisição.
+$token = Pix::api()->getOauth2Token()->json();
+```
+Alguns PSPs requerem a verificação de um certificado disponibilizado no momento da criação de sua aplicação. Este certificado pode ser informado
+no `.env`, ou informado na requisição através do método `certificate()`, e será carregado automaticamente na api. 
+
+```php
+use Junges\Pix\Pix;
+
+// Se você já informou o seu client_id e client_secret no .env, não é necessário informar nesta requisição.
+$token = Pix::api()->certificate('path/to/certificate')->getOauth2Token()->json();
+```
+
+Caso os endpoints do PSP utilizado necessitem da verificação deste certificado, você precisa informar 
+este pacote para fazer esta verificação. Isto pode ser feito através do `AppServiceProvider` da sua aplicação, bastando adicionar esta linha ao método
+`register`: 
+
+```php
+use Junges\Pix\LaravelPix;
+
+public function register()
+{
+    LaravelPix::validatingSslCertificate();
+}
+```
+Agora, todas as chamadas aos endpoints da API Pix farão a verificação com o certificado informado.
+
+
+implementada por alguns PSPs, mas que não serve para todos.
+Por isso, você pode criar a sua própria class de autenticação
+
+# Cob
+O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
+
+## Criando um cob
+
+Para criar uma cobrança instantânea, é necessário utilizar a api `cob`, disponibilizada pela classe `Pix`, neste pacote.
+
+```php
+use Junges\Pix\Pix;
+
+$cob = Pix::cob()->create('transactionId', $request);
+```
+
+
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
+
