@@ -14,7 +14,7 @@ class Api implements ConsumesPixApi
     protected string $clientSecret;
     protected string $certificate;
     protected ?string $certificatePassword = null;
-    protected string $oauthToken;
+    protected ?string $oauthToken;
     protected array $additionalParams = [];
     public static bool $verifySslCertificate = false;
 
@@ -72,7 +72,7 @@ class Api implements ConsumesPixApi
         self::validatingSslCertificate(false);
     }
 
-    public function oauthToken(string $oauthToken): Api
+    public function oauthToken(?string $oauthToken): Api
     {
         $this->oauthToken = $oauthToken;
 
