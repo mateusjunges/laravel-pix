@@ -37,9 +37,9 @@ class WebhookFilters implements ApplyApiFilters
         return $this;
     }
 
-    public function actualPage(string $actualPage): WebhookFilters
+    public function currentPage(string $currentPage): WebhookFilters
     {
-        $this->currentPage = $actualPage;
+        $this->currentPage = $currentPage;
 
         return $this;
     }

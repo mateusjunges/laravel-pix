@@ -27,13 +27,11 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
         return $this;
     }
 
-    public function create(string $pixKey, string $callbackUrl): array
+    public function create(string $pixKey, string $callbackUrl): Response
     {
         $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey);
 
-        return $this->request()
-            ->put($endpoint, ['webhookUrl' => $callbackUrl])
-            ->json();
+        return $this->request()->put($endpoint, ['webhookUrl' => $callbackUrl]);
     }
 
     public function getByPixKey(string $pixKey): Response
