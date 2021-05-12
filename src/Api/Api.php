@@ -6,7 +6,6 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
-use Junges\Pix\Support\Endpoints;
 
 class Api implements ConsumesPixApi
 {
