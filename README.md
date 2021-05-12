@@ -94,14 +94,27 @@ A lista de endpoints completa está descrita aqui:
     - `GET` `/cobv`: Consultar lista de cobranças com vencimento.
 
 - LoteCobV (Reúne endpoints destinados a lidar com gerenciamento de cobranças com vencimento em lote.)
-    - `PUT` `lotecobv/{id}`: Criar/Alterar lote de cobranças com vencimento.
-    - `PATCH` `lotecobv/{id}`: Utilizado para revisar cobranças específicas dentro de um lote de cobranças com vencimento.
-    - `GET` `lotecobv/{id}`: Utilizado para consultar um lote específico de cobranças com vencimento.
-    - `GET` `lotecobv/`: Consultar lotes de cobranças com vencimento.
+    - `PUT` `/lotecobv/{id}`: Criar/Alterar lote de cobranças com vencimento.
+    - `PATCH` `/lotecobv/{id}`: Utilizado para revisar cobranças específicas dentro de um lote de cobranças com vencimento.
+    - `GET` `/lotecobv/{id}`: Utilizado para consultar um lote específico de cobranças com vencimento.
+    - `GET` `/lotecobv`: Consultar lotes de cobranças com vencimento.
 
 - PayloadLocation (Reúne endpoints destinados a lidar com configuração e remoção de locations para uso dos payloads)
-- Pix (Reúne endpoints destinados a lidar com gerenciamento de Pix recebidos.)
-- Webhook (Reúne endpoints para gerenciamento de notificações por parte do PSP recebedor ao usuário recebedor.)
+    - `POST` `/loc`: Criar location do payload.
+    - `GET` `/loc`: Consultar locations cadastradas.
+    - `GET` `/loc/{id}`: Recuperar location do payload.
+    - `DELETE` `/loc/{id}/{txid}`: Desvincular uma cobrança de uma location.
 
+- Pix (Reúne endpoints destinados a lidar com gerenciamento de Pix recebidos.)
+    - `GET` `/pix/{e2eid}`: Consultar Pix.
+    - `GET` `/pix`: Consultar pix recebidos.
+    - `PUT` `/pix/{e2eid}/devolucao/{id}`: Solicitar devolucão.
+    - `GET` `/pix/{e2eid}/devolucao/{id}`: Consultar devolução.
+
+- Webhook (Reúne endpoints para gerenciamento de notificações por parte do PSP recebedor ao usuário recebedor.)
+    - `PUT` `/webhook/{chave}`: Configurar o webhook pix.
+    - `GET` `/webhook/{chave}`: Exibir informações acerca do webhook pix.
+    - `DELETE` `/webhook/{chave}`: Cancelar o webhook pix.
+    - `GET` `/webhook`: Consultar webhooks cadastrados.
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
