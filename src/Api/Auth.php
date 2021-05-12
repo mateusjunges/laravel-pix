@@ -4,6 +4,7 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
+use Junges\Pix\Providers\PixServiceProvider;
 
 class Auth implements AuthenticatesWithOauth
 {
@@ -56,7 +57,7 @@ class Auth implements AuthenticatesWithOauth
 
     private function shouldVerifySslCertificate(): bool
     {
-        return Api::$verifySslCertificate;
+        return PixServiceProvider::$verifySslCertificate;
     }
 
     public function getOauthEndpoint(): string
