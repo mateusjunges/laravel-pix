@@ -29,6 +29,24 @@ class PayloadLocationTest extends TestCase
         $this->assertTrue($payloadLocation->successful());
     }
 
+    public function test_it_can_get_a_location_by_id()
+    {
+        Http::fake([
+            'pix.example.com/v2/*' => Http::response($response = [
+                'id' => 7716,
+                'txid' => 'fda9460fe04e4f129b72863ae57ee22f',
+                'location' => 'pix.example.com/qr/v2/cobv/2353c790eefb11eaadc10242ac120002',
+                'tipoCob' => 'cobv',
+                'criacao' => '2020-03-11T21:19:51.013Z',
+            ])
+        ]);
+
+        $payload = Pix::payloadLocation()->getById(7716);
+
+        $this->assertTrue($payload->successful());
+        $this->assertEquals($response, $payload->json());
+    }
+
     public function test_it_can_get_all_stored_locations()
     {
         $response = json_decode(
