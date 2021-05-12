@@ -32,6 +32,6 @@ class ApiTest extends TestCase
 
         $api = new Api();
 
-        $this->assertEquals($response, $api->getOauth2Token());
+        $this->assertEquals($response, $api->getOauth2Token()->json());
     }
 }
