@@ -93,7 +93,7 @@ class CobFilters implements ApplyApiFilters
     public function toArray(): array
     {
         if (empty($this->start) || empty($this->end)) {
-            throw new ValidationException("Os campos 'inicio' e 'fim' são obrigatórios.");
+            throw ValidationException::invalidStartAndEndFields();
         }
 
         $filters = [

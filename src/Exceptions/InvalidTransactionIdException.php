@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Exceptions;
 
-class InvalidTransactionIdException extends PixException
+class InvalidTransactionIdException extends ValidationException
 {
     public static function transactionIdCantBeEmpty(): PixException
     {
