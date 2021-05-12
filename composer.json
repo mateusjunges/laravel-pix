@@ -12,7 +12,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "mpdf/qrcode": "^1.1",
-        "illuminate/support": "^7.0|^8.0"
+        "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0",
