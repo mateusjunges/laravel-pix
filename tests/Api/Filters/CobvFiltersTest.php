@@ -2,11 +2,11 @@
 
 namespace Junges\Pix\Tests\Api\Filters;
 
-use Junges\Pix\Api\Filters\CobFilters;
+use Junges\Pix\Api\Filters\CobvFilters;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Tests\TestCase;
 
-class CobFiltersTest extends TestCase
+class CobvFiltersTest extends TestCase
 {
     public function test_it_return_filters_in_the_correct_format()
     {
@@ -20,7 +20,7 @@ class CobFiltersTest extends TestCase
             'paginacao.paginaAtual' => 1
         ];
 
-        $filters = (new CobFilters())
+        $filters = (new CobvFilters())
             ->startingAt($start)
             ->withoutLocationPresent()
             ->cpf('12345678900')
@@ -36,6 +36,6 @@ class CobFiltersTest extends TestCase
     {
         $this->expectException(ValidationException::class);
 
-        (new CobFilters())->toArray();
+        (new CobvFilters())->toArray();
     }
 }
