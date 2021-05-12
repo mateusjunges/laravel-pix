@@ -115,7 +115,7 @@ class Api implements ConsumesPixApi
             ]);
         }
 
-        return $client->post($this->baseUrl . Endpoints::OAUTH_TOKEN, [
+        return $client->post($this->getOauthEndpoint(), [
             'grant_type' => 'client_credentials'
         ])->json();
     }
@@ -142,5 +142,13 @@ class Api implements ConsumesPixApi
     private function shouldVerifySslCertificate(): bool
     {
         return $this->verifySslCertificate;
+    }
+
+    private function getOauthEndpoint()
+    {
+        if ($tokenEndpoint = config('laravel-pix.psp.oauth_token_url', false)) {
+            return $tokenEndpoint;
+        }
+        return $this->baseUrl . Endpoints::OAUTH_TOKEN;
     }
 }
