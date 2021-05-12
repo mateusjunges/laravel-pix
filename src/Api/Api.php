@@ -16,7 +16,7 @@ class Api implements ConsumesPixApi
     protected string $certificatePassword;
     protected string $oauthToken;
     protected array $additionalParams = [];
-    private bool $verifySslCertificate = false;
+    public static bool $verifySslCertificate = false;
 
     public function __construct()
     {
@@ -62,16 +62,14 @@ class Api implements ConsumesPixApi
         return $this;
     }
 
-    public function validatingSslCertificate(bool $validate = true): Api
+    public static function validatingSslCertificate(bool $validate = true): void
     {
-        $this->verifySslCertificate = $validate;
-
-        return $this;
+        self::$verifySslCertificate = $validate;
     }
 
-    public function withoutVerifyingSslCertificate(): Api
+    public static function withoutVerifyingSslCertificate(): void
     {
-        return $this->validatingSslCertificate(false);
+        self::validatingSslCertificate(false);
     }
 
     public function oauthToken(string $oauthToken): Api
@@ -142,7 +140,7 @@ class Api implements ConsumesPixApi
 
     private function shouldVerifySslCertificate(): bool
     {
-        return $this->verifySslCertificate;
+        return static::$verifySslCertificate;
     }
 
     private function getOauthEndpoint()
