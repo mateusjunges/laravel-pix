@@ -123,7 +123,7 @@ class Api implements ConsumesPixApi
         return $this;
     }
 
-    public function getEndpoint(string $endpoint): string
+    protected function getEndpoint(string $endpoint): string
     {
         return $endpoint . "?" . http_build_query($this->additionalParams);
     }
