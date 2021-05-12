@@ -4,7 +4,7 @@ namespace Junges\Pix\Api\Contracts;
 
 interface ConsumesWebhookEndpoints extends ConsumesPixApi
 {
-    public function create(string $pixKey);
+    public function create(string $pixKey, string $callbackUrl);
 
     public function getByPixKey(string $pixKey);
 
