@@ -27,7 +27,7 @@ class Auth implements AuthenticatesWithOauth
         $this->certificatePassword = $certificatePassword;
     }
 
-    public function getToken(string $scopes = null): Response
+    public function getToken(string $scopes = null)
     {
         $client = Http::withHeaders([
             'Content-Type' => 'application/json',
