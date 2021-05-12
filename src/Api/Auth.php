@@ -2,6 +2,7 @@
 
 namespace Junges\Pix\Api;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Providers\PixServiceProvider;
@@ -26,7 +27,7 @@ class Auth implements AuthenticatesWithOauth
         $this->certificatePassword = $certificatePassword;
     }
 
-    public function getToken(string $scopes = null)
+    public function getToken(string $scopes = null): Response
     {
         $client = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -45,7 +46,7 @@ class Auth implements AuthenticatesWithOauth
         return $client->post($this->getOauthEndpoint(), [
             'grant_type' => 'client_credentials',
             'scope' => $scopes ?? "",
-        ])->json();
+        ]);
     }
 
     protected function getCertificate()
