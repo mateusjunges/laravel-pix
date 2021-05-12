@@ -16,6 +16,7 @@ class Api implements ConsumesPixApi
     protected string $certificatePassword;
     protected string $oauthToken;
     protected array $additionalParams = [];
+    private bool $verifySslCertificate = false;
 
     public function __construct()
     {
@@ -61,6 +62,18 @@ class Api implements ConsumesPixApi
         return $this;
     }
 
+    public function validatingSslCertificate(bool $validate = true): Api
+    {
+        $this->verifySslCertificate = $validate;
+
+        return $this;
+    }
+
+    public function withoutVerifyingSslCertificate(): Api
+    {
+        return $this->validatingSslCertificate(false);
+    }
+
     public function oauthToken(string $oauthToken): Api
     {
         $this->oauthToken = $oauthToken;
@@ -70,14 +83,21 @@ class Api implements ConsumesPixApi
 
     protected function request(): PendingRequest
     {
-        return Http::withHeaders([
+        $client =  Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'Cache-Control' => 'no-cache',
-        ])->withOptions([
-            'cert' => $this->getCertificate()
-        ])
-        ->withToken($this->oauthToken);
+        ]);
+
+        if ($this->shouldVerifySslCertificate()) {
+            $client->withOptions([
+                'cert' => $this->getCertificate()
+            ]);
+        }
+
+        $client->withToken($this->oauthToken);
+
+        return $client;
     }
 
     public function getOauth2Token()
@@ -112,5 +132,10 @@ class Api implements ConsumesPixApi
         return $this->certificatePassword ?? false
                 ? [$this->certificate, $this->certificatePassword]
                 : $this->certificate;
+    }
+
+    private function shouldVerifySslCertificate(): bool
+    {
+        return $this->verifySslCertificate;
     }
 }
