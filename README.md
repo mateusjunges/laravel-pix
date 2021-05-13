@@ -187,17 +187,47 @@ Por isso, você pode criar a sua própria class de autenticação
 # Cob
 O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
 
-## Criando um cob
+> Consulte a documentação oficial do banco central para informações sobre o request a ser enviado para cada endpoint, 
+> disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/put_cob__txid_).
 
+## Criando um cob
 Para criar uma cobrança instantânea, é necessário utilizar a api `cob`, disponibilizada pela classe `Pix`, neste pacote.
 
 ```php
 use Junges\Pix\Pix;
 
-$cob = Pix::cob()->create('transactionId', $request);
+$cob = Pix::cob()->create('transactionId', $request)->json();
 ```
 
-O request deve ser enviado de acordo com a documentação da API Pix, disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/put_cob__txid_).
+## Revisar uma cobrança imediata
+Para revisar uma cobrança imediata, deve ser utilizado o método `updateByTransactionId()`, informando o id da transação a ser atualizada e 
+os dados para atualização.
+
+```php
+use Junges\Pix\Pix;
+
+$updateCob = Pix::cob()->updateByTransactionId('transactionId', $dataToUpdate)->json();
+```
+
+## Consultando uma cobrança imediata
+Para consultar uma cobrança através de um determinado id de transação, você deve utilizar o método `getByTransactionId`, informando o id 
+da transação como parâmetro:
+
+```php
+use Junges\Pix\Pix;
+
+$cob = Pix::cob()->getByTransactionId('transactionId')->json();
+```
+## Criando cobranças imediatas sem `transactionId`
+Para criar uma cobrança imediata com `transactionId` definido pelo PSP, utilize o método `createWithoutTransactionId()`,
+informando apenas os dados para criação da cobrança, sem a necessidade de passar um id de transação:
+
+```php
+use Junges\Pix\Pix;
+
+$cob = Pix::cob()->createWithoutTransactionId($request);
+```
+
 
 
 
