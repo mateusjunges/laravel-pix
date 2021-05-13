@@ -228,6 +228,39 @@ use Junges\Pix\Pix;
 $cob = Pix::cob()->createWithoutTransactionId($request);
 ```
 
+## Consultando lista de cobranças imediatas
+Para consultar a lista de cobranças imediatas com parâmetros como inicio, fim, status e outros, utilize o método `all()`, 
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para toda requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\CobFilters;
+
+$filters = (new CobFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$cobs = Pix::cob()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `cob` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+cpf | `cpf()`
+cnpj | `cnpj()`
+cnpj | `cnpj()`
+locationPresente | `withLocationPresent()` ou `withoutLocationPresent()`
+status | `withStatus()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
+
 
 
 
