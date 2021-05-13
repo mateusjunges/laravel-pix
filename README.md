@@ -4,6 +4,19 @@
 
 > Work In Progress
 
+- [Instalação](#instalao)
+  - [Publicando os assets](#publicando-os-assets)
+  - [Publicando o arquivo de configuração](#publicando-o-arquivo-de-configurao)
+- [Endpoints](#endpoints)
+- [Configurações iniciais](#configuraes-iniciais)
+  - [Obtendo o token de acesso](#obtendo-o-token-de-acesso)
+- [Cob](#cob)
+  - [Criando uma cobrança imediata](#criando-um-cob)
+  - [Revisando uma cobrança imediata](#revisar-uma-cobrana-imediata)
+  - [Consultando uma cobrança imediata](#consultando-uma-cobrana-imediata)
+  - [Criar cobranças imediatas sem `transactionId`](#criando-cobranas-imediatas-sem-transactionid)
+  - [Consultando lista de cobranças imediatas](#consultando-lista-de-cobranas-imediatas)
+
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
 # Instalação
