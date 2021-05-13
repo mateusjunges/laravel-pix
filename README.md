@@ -197,6 +197,10 @@ use Junges\Pix\Pix;
 $cob = Pix::cob()->create('transactionId', $request);
 ```
 
+O request deve ser enviado de acordo com a documentação da API Pix, disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/put_cob__txid_).
+
+
+
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
 
