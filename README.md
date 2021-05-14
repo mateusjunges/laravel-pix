@@ -238,7 +238,7 @@ g
 O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
 
 > Consulte a documentação oficial do banco central para informações sobre o request a ser enviado para cada endpoint, 
-> disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/put_cob__txid_).
+> disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/).
 
 Para utilizar os endpoints do `cob`, utilize o método `cob()`, da class `Junges\Pix\Pix`:
 ```php
@@ -316,18 +316,70 @@ paginacao.paginaAtual | `currentPage()`
 paginacao.itensPorPagina | `itemsPerPage()`
 ---
 
-
-
-
-
-[doc_bacen]: https://bacen.github.io/pix-api/index.html#/
-
 # CobV
 O `CobV` reúne os endpoints destinados a lidar com o gerenciamento de cobranças com vencimento.
+
+> A documentação oficial do Banco Central do Brasil sobre os requests a serem enviados para cada endpoint pode 
+> ser visualizada [aqui](https://bacen.github.io/pix-api/index.html#/CobV)
+
 Para utilizar estes endpoints, utilize o método `cobv()`, da classe `Junges\Pix\Pix`:
 ```php
 $cobv = \Junges\Pix\Pix::cobv();
 ```
 
 ## Criando cobranças com vencimento
-Para criar uma cobrança com vencimento
+Para criar uma cobrança com vencimento, utilize o método `createWithTransactionId`:
+
+```php
+$cobv = \Junges\Pix\Pix::cobv()->createWithTransactionId('transactionId', $request)->json();
+```
+
+## Revisando cobranças com vencimento
+Para revisar e atualizar uma cobrança com vencimento, utilize o método `updateWithTransactionId`:
+
+```php
+$cobv = \Junges\Pix\Pix::cobv()->updateWithTransactionId('transactionId', $request)->json();
+```
+
+## Consultar uma cobrança com vencimento
+Para consultar uma cobrança com vencimento, você pode utilizar o método `getByTransactionId`, informando o id de transação da cobrança:
+
+```php
+$cobv = \Junges\Pix\Pix::cobv()->getByTransactionId('transactionId')->json();
+```
+
+## Consultar lista de cobranças com vencimento
+Para consultar a lista de cobranças imediatas com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\CobvFilters;
+
+$filters = (new CobvFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$cobs = Pix::cobv()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `cob` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+cpf | `cpf()`
+cnpj | `cnpj()`
+cnpj | `cnpj()`
+locationPresente | `withLocationPresent()` ou `withoutLocationPresent()`
+loteCobvId | `cobvBatchId()`
+status | `withStatus()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
+
+[doc_bacen]: https://bacen.github.io/pix-api/index.html#/
