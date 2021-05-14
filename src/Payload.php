@@ -11,7 +11,7 @@ class Payload implements PixPayloadContract
     use InteractsWithPayload;
 
     protected string $pixKey;
-    protected string $description;
+    protected ?string $description;
     protected string $merchantName;
     protected string $merchantCity;
     protected string $transaction_id;
@@ -29,7 +29,7 @@ class Payload implements PixPayloadContract
         return $this;
     }
 
-    public function description(string $description): Payload
+    public function description(?string $description): Payload
     {
         $this->description = Str::length($description) > Pix::MAX_DESCRIPTION_LENGTH
             ? substr($description, 0, Pix::MAX_DESCRIPTION_LENGTH)
