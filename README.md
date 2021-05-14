@@ -3,6 +3,8 @@
 # Uma solução simples para integrar a sua aplicação Laravel com a API PIX do Banco Central do Brasil
 
 [![Continuous Integration](https://github.com/mateusjunges/laravel-pix/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/mateusjunges/laravel-pix/actions/workflows/run-tests.yml)
+[![StyleCI](https://styleci.io/repos/364809206/shield?style=flat)](https://styleci.io/repos/364809206)
+
 
 
 > Work In Progress
