@@ -193,15 +193,54 @@ public function register()
 ```
 Agora, todas as chamadas aos endpoints da API Pix farão a verificação com o certificado informado.
 
+Caso a classe de autenticação disponibilizada por este pacote não funcione para obter o access token no seu PSP, 
+você pode criar sua própria implementação, bastando criar uma classe e extender a class `Junges\Pix\Api\Auth`:
 
-implementada por alguns PSPs, mas que não serve para todos.
-Por isso, você pode criar a sua própria class de autenticação
+```php
+<?php
 
+namespace App\Pix;
+
+use Junges\Pix\Api\Auth;
+
+class CustomAuthentication extends Auth
+{
+    public function getToken(string $scopes = null)
+    {
+        // Metodo para retornar o token de acesso
+    }
+    
+    public function getOauthEndpoint() : string{
+        // Retorna o endpoint que deve ser utilizado para autenticação. 
+        // Você precisa informar a URL completa.
+    }
+}
+```
+
+Agora, é necessário informar este pacote para utilizar a sua classe para obtenção do token de acesso.
+Você pode fazer isso através do `AppServiceProvider` da sua aplicação:
+
+
+```php
+public function boot()
+{
+    \Junges\Pix\LaravelPix::authenticatesViaOauthUsing(CustomAuthentication::class);
+}
+```
+
+Agora, sua classe de autenticação com sua própria lógica será utilizada para obter o token de acesso, e o método `getOAuthToken()` retorna o 
+conteúdo retornado pelo método `getToken` desta classe.
+g
 # Cob
 O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
 
 > Consulte a documentação oficial do banco central para informações sobre o request a ser enviado para cada endpoint, 
 > disponível [neste link](https://bacen.github.io/pix-api/index.html#/Cob/put_cob__txid_).
+
+Para utilizar os endpoints do `cob`, utilize o método `cob()`, da class `Junges\Pix\Pix`:
+```php
+$cob = \Junges\Pix\Pix::cob();
+```
 
 ## Criando um cob
 Para criar uma cobrança instantânea, é necessário utilizar a api `cob`, disponibilizada pela classe `Pix`, neste pacote.
@@ -280,3 +319,12 @@ paginacao.itensPorPagina | `itemsPerPage()`
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
 
+# CobV
+O `CobV` reúne os endpoints destinados a lidar com o gerenciamento de cobranças com vencimento.
+Para utilizar estes endpoints, utilize o método `cobv()`, da classe `Junges\Pix\Pix`:
+```php
+$cobv = \Junges\Pix\Pix::cobv();
+```
+
+## Criando cobranças com vencimento
+Para criar uma cobrança com vencimento
