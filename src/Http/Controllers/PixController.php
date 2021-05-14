@@ -13,8 +13,10 @@ class PixController
 {
     /**
      * @param CreateQrCodeRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     *
      * @throws PixException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function create(CreateQrCodeRequest $request)
     {
@@ -26,7 +28,7 @@ class PixController
                 ->merchantCity($request->input('merchant_city'))
                 ->amount($request->input('amount'))
                 ->transactionId($request->input('transaction_id'));
-        }catch (InvalidPixKeyException $exception) {
+        } catch (InvalidPixKeyException $exception) {
             return response()->json($exception->getMessage());
         }
 
@@ -39,8 +41,8 @@ class PixController
         $qrCode = Pix::createQrCode($payload);
 
         return response()->json([
-            'payload' => $payload_string,
-            'base64_qr_code' => $qrCode
+            'payload'        => $payload_string,
+            'base64_qr_code' => $qrCode,
         ], Response::HTTP_OK);
     }
 }

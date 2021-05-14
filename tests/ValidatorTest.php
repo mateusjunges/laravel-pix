@@ -13,7 +13,6 @@ class ValidatorTest extends TestCase
         $this->assertFalse(Validator::validateRandom($this->cnpjKey));
         $this->assertFalse(Validator::validateRandom($this->emailKey));
         $this->assertFalse(Validator::validateRandom($this->phoneNumberKey));
-
     }
 
     public function test_it_can_validate_email_keys()
@@ -32,7 +31,6 @@ class ValidatorTest extends TestCase
         $this->assertFalse(Validator::validateCPF($this->cnpjKey));
         $this->assertFalse(Validator::validateCPF($this->phoneNumberKey));
         $this->assertFalse(Validator::validateCPF($this->emailKey));
-
     }
 
     public function test_it_can_validate_cnpj_keys()

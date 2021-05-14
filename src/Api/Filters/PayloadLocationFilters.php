@@ -9,7 +9,7 @@ class PayloadLocationFilters implements ApplyApiFilters
 {
     const START = 'inicio';
     const END = 'fim';
-    const TXID_PRESENT = "txIdPresente";
+    const TXID_PRESENT = 'txIdPresente';
     const COB_TYPE = 'tipoCob';
     const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
@@ -24,54 +24,63 @@ class PayloadLocationFilters implements ApplyApiFilters
     public function startingAt(string $start): PayloadLocationFilters
     {
         $this->start = $start;
+
         return $this;
     }
 
     public function endingAt(string $end): PayloadLocationFilters
     {
         $this->end = $end;
+
         return $this;
     }
 
     public function withTransactionIdPresent(): PayloadLocationFilters
     {
-        $this->transactionIdPresent = "true";
+        $this->transactionIdPresent = 'true';
+
         return $this;
     }
 
     public function withoutTransactionIdPresent(): PayloadLocationFilters
     {
-        $this->transactionIdPresent = "false";
+        $this->transactionIdPresent = 'false';
+
         return $this;
     }
 
     public function withTypeCob(): PayloadLocationFilters
     {
-        $this->cobType = "cob";
+        $this->cobType = 'cob';
+
         return $this;
     }
 
     public function withTypeCobv(): PayloadLocationFilters
     {
-        $this->cobType = "cobv";
+        $this->cobType = 'cobv';
+
         return $this;
     }
 
     public function currentPage(string $currentPage): PayloadLocationFilters
     {
         $this->currentPage = $currentPage;
+
         return $this;
     }
 
     public function itemsPerPage(string $itemsPerPage): PayloadLocationFilters
     {
         $this->itemsPerPage = $itemsPerPage;
+
         return $this;
     }
 
     /**
-     * @return array
      * @throws ValidationException
+     *
+     * @return array
      */
     public function toArray(): array
     {
@@ -81,7 +90,7 @@ class PayloadLocationFilters implements ApplyApiFilters
 
         $filters = [
             self::START => $this->start,
-            self::END => $this->end
+            self::END   => $this->end,
         ];
 
         if (!empty($this->transactionIdPresent)) {

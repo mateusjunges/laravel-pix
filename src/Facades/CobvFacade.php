@@ -8,8 +8,8 @@ use Junges\Pix\Api\Features\Cobv\CobvRequest;
 use Junges\Pix\Api\Features\Cobv\UpdateCobvRequest;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static Cobv baseUrl(string $baseUrl);
  * @method static Cobv clientId(string $clientId);
  * @method static Cobv clientSecret(string $clientSecret);

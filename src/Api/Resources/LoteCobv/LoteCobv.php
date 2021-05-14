@@ -17,7 +17,7 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
 
     public function withFilters($filters): LoteCobv
     {
-        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+        if (!is_array($filters) && !$filters instanceof ApplyApiFilters) {
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
@@ -30,21 +30,21 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
 
     public function createBatch(string $batchId, array $request): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_LOTE_COBV . $batchId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_LOTE_COBV.$batchId);
 
         return $this->request()->put($endpoint, $request);
     }
 
     public function updateBatch(string $batchId, array $request): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::UPDATE_LOTE_COBV . $batchId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::UPDATE_LOTE_COBV.$batchId);
 
         return $this->request()->patch($endpoint, $request);
     }
 
     public function getByBatchId(string $batchId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_LOTE_COBV . $batchId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_LOTE_COBV.$batchId);
 
         return $this->request()->get($endpoint);
     }
@@ -59,7 +59,7 @@ class LoteCobv extends Api implements ConsumesLoteCobvEndpoints, FilterApiReques
             ValidationException::filtersAreRequired()
         );
 
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_LOTE_COBV);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_ALL_LOTE_COBV);
 
         return $this->request()
             ->get($endpoint, $this->filters);

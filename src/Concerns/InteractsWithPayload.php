@@ -2,8 +2,6 @@
 
 namespace Junges\Pix\Concerns;
 
-use Illuminate\Support\Str;
-use Junges\Pix\Exceptions\InvalidAmountException;
 use Junges\Pix\Exceptions\InvalidMerchantInformationException;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 use Junges\Pix\Pix;
@@ -47,11 +45,11 @@ trait InteractsWithPayload
 
         $key = $this->pixKey ?? false
                 ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_KEY, $this->pixKey)
-                : "";
+                : '';
 
         $description = $this->description ?? false
                 ? $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_DESCRIPTION, $this->description)
-                : "";
+                : '';
 
         return $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION, $gui, $key, $description);
     }
@@ -90,6 +88,7 @@ trait InteractsWithPayload
         if (empty($this->merchantName)) {
             throw InvalidMerchantInformationException::merchantCityCantBeEmpty();
         }
+
         return $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity);
     }
 
@@ -106,19 +105,19 @@ trait InteractsWithPayload
     public function toStringWithoutCrc16(): string
     {
         return $this->getPayloadFormat()
-            . $this->getMerchantAccountInformation()
-            . $this->getMerchantCategoryCode()
-            . $this->gettransactionCurrency()
-            . $this->getTransactionAmount()
-            . $this->getCountryCode()
-            . $this->getMerchantName()
-            . $this->getMerchantCity()
-            . $this->getAdditionalDataFieldTemplate();
+            .$this->getMerchantAccountInformation()
+            .$this->getMerchantCategoryCode()
+            .$this->gettransactionCurrency()
+            .$this->getTransactionAmount()
+            .$this->getCountryCode()
+            .$this->getMerchantName()
+            .$this->getMerchantCity()
+            .$this->getAdditionalDataFieldTemplate();
     }
 
     protected function buildPayload(): string
     {
-        return $this->toStringWithoutCrc16() . $this->getCRC16($this->toStringWithoutCrc16());
+        return $this->toStringWithoutCrc16().$this->getCRC16($this->toStringWithoutCrc16());
     }
 
     public function getPixKey(): string

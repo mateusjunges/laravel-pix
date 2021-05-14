@@ -11,6 +11,6 @@ class ValidationException extends PixException
 
     public static function filtersAreRequired()
     {
-        return new static("Não é possível realizar esta requisição sem utilizar filtros.");
+        return new static('Não é possível realizar esta requisição sem utilizar filtros.');
     }
 }

@@ -20,29 +20,29 @@ class CobTest extends TestCase
     {
         parent::setUp();
         $this->response = [
-            "calendario" => [
-                "criacao" => "2021-05-11T03:07:23.845Z",
-                "expiracao" => 36000
+            'calendario' => [
+                'criacao'   => '2021-05-11T03:07:23.845Z',
+                'expiracao' => 36000,
             ],
-            "txid" => "OLtfsYyFwSLs3uGma6Ty5ZEKjg",
-            "revisao" => 0,
-            "loc"=> [
-                "id"=> 24,
-                "location"=> "pix-h.example.com/v2/265d9f2d3cdc4a1ba0b311ff2812d0dc",
-                "tipoCob"=> "cob",
-                "criacao"=> "2021-05-11T03:07:23.880Z"
+            'txid'    => 'OLtfsYyFwSLs3uGma6Ty5ZEKjg',
+            'revisao' => 0,
+            'loc'     => [
+                'id'      => 24,
+                'location'=> 'pix-h.example.com/v2/265d9f2d3cdc4a1ba0b311ff2812d0dc',
+                'tipoCob' => 'cob',
+                'criacao' => '2021-05-11T03:07:23.880Z',
             ],
-            "location" => "pix-h.example.com/v2/265d9f2d3cdc4a1ba0b311ff2812d0dc",
-            "status"=> "ATIVA",
-            "devedor"=> [
-                "cpf"=> "54484011042",
-                "nome"=> "Fulano de Tal"
+            'location' => 'pix-h.example.com/v2/265d9f2d3cdc4a1ba0b311ff2812d0dc',
+            'status'   => 'ATIVA',
+            'devedor'  => [
+                'cpf' => '54484011042',
+                'nome'=> 'Fulano de Tal',
             ],
-            "valor"=> [
-                "original"=> "8.00"
+            'valor'=> [
+                'original'=> '8.00',
             ],
-            "chave"=> $this->randomKey,
-            "solicitacaoPagador"=> "Pagamento de serviço"
+            'chave'             => $this->randomKey,
+            'solicitacaoPagador'=> 'Pagamento de serviço',
         ];
     }
 
@@ -55,7 +55,7 @@ class CobTest extends TestCase
     public function test_it_can_create_a_cob()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => Http::response($this->response, 200)
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response, 200),
         ]);
 
         $request = json_decode(
@@ -74,7 +74,7 @@ class CobTest extends TestCase
     public function test_it_can_create_a_cob_without_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => $this->response
+            'https://pix.example.com/v2/cob/*' => $this->response,
         ]);
 
         $request = json_decode(
@@ -91,32 +91,32 @@ class CobTest extends TestCase
     public function test_it_can_get_a_cob_by_its_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => Http::response($this->response)
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response),
         ]);
 
-        $this->assertEquals($this->response, Pix::cob()->getByTransactionId("OLtfsYyFwSLs3uGma6Ty5ZEKjg")->json());
+        $this->assertEquals($this->response, Pix::cob()->getByTransactionId('OLtfsYyFwSLs3uGma6Ty5ZEKjg')->json());
     }
 
     public function test_it_can_get_all_cobs()
     {
         $response = [
-            "parametros" => [
-                "inicio" => "2021-04-11T03:45:34.192Z",
-                "fim" => "2021-06-11T03:45:34.192Z",
-                "paginacao" => [
-                    "paginaAtual" => 0,
-                    "itensPorPagina" => 100,
-                    "quantidadeDePaginas" => 0,
-                    "quantidadeTotalDeItens" => 0
+            'parametros' => [
+                'inicio'    => '2021-04-11T03:45:34.192Z',
+                'fim'       => '2021-06-11T03:45:34.192Z',
+                'paginacao' => [
+                    'paginaAtual'            => 0,
+                    'itensPorPagina'         => 100,
+                    'quantidadeDePaginas'    => 0,
+                    'quantidadeTotalDeItens' => 0,
                 ],
-                "cpf" => "12345678900",
-                "locationPresente" => "false"
+                'cpf'              => '12345678900',
+                'locationPresente' => 'false',
             ],
-            "cobs" => []
+            'cobs' => [],
         ];
 
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => Http::response($response)
+            'https://pix.example.com/v2/cob/*' => Http::response($response),
         ]);
 
         $filters = (new CobFilters())
@@ -132,7 +132,7 @@ class CobTest extends TestCase
     public function test_it_can_update_a_cob()
     {
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => Http::response($this->response)
+            'https://pix.example.com/v2/cob/*' => Http::response($this->response),
         ]);
 
         $transactionId = Str::random();
@@ -151,23 +151,23 @@ class CobTest extends TestCase
     public function test_it_apply_filters_to_the_query()
     {
         $response = [
-            "parametros" => [
-                "inicio" => "2021-04-11T03:45:34.192Z",
-                "fim" => "2021-06-11T03:45:34.192Z",
-                "paginacao" => [
-                    "paginaAtual" => 0,
-                    "itensPorPagina" => 100,
-                    "quantidadeDePaginas" => 0,
-                    "quantidadeTotalDeItens" => 0
+            'parametros' => [
+                'inicio'    => '2021-04-11T03:45:34.192Z',
+                'fim'       => '2021-06-11T03:45:34.192Z',
+                'paginacao' => [
+                    'paginaAtual'            => 0,
+                    'itensPorPagina'         => 100,
+                    'quantidadeDePaginas'    => 0,
+                    'quantidadeTotalDeItens' => 0,
                 ],
-                "cpf" => "12345678900",
-                "locationPresente" => "false"
+                'cpf'              => '12345678900',
+                'locationPresente' => 'false',
             ],
-            "cobs" => []
+            'cobs' => [],
         ];
 
         Http::fake([
-            'https://pix.example.com/v2/cob/*' => Http::response($response)
+            'https://pix.example.com/v2/cob/*' => Http::response($response),
         ]);
 
         $start = now()->subMonth()->toISOString();
@@ -179,11 +179,11 @@ class CobTest extends TestCase
 
         Pix::cob()->withFilters($filters)->all()->json();
 
-        Http::assertSent(function(Request $request) use ($start, $end) {
+        Http::assertSent(function (Request $request) use ($start, $end) {
             return $request->data() === ['inicio' => $start, 'fim' => $end]
                 || Str::contains($request->url(), http_build_query([
                     'inicio' => $start,
-                    'fim' => $end,
+                    'fim'    => $end,
                 ]));
         });
 
@@ -194,18 +194,18 @@ class CobTest extends TestCase
 
         Pix::cob()->withFilters($filters)->all()->json();
 
-        Http::assertSent(function(Request $request) use ($start, $end, $status, $cpf) {
+        Http::assertSent(function (Request $request) use ($start, $end, $status, $cpf) {
             return $request->data() === [
-                    'inicio' => $start,
-                    'fim' => $end,
-                    'cpf' => $cpf,
-                    'status' => $status
-                ]
+                'inicio' => $start,
+                'fim'    => $end,
+                'cpf'    => $cpf,
+                'status' => $status,
+            ]
                 || Str::contains($request->url(), http_build_query([
                     'inicio' => $start,
-                    'fim' => $end,
-                    'cpf' => $cpf,
-                    'status' => $status
+                    'fim'    => $end,
+                    'cpf'    => $cpf,
+                    'status' => $status,
                 ]));
         });
     }

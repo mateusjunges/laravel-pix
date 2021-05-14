@@ -12,13 +12,13 @@ class ReceivedPixFiltersTest extends TestCase
     public function test_it_return_filters_in_the_correct_format()
     {
         $expected = [
-            'inicio' => $start = now()->subMonth()->toISOString(),
-            'fim' => $end = now()->subMonth()->toISOString(),
-            "txIdPresente" => "false",
-            'cpf' => "12345678900",
+            'inicio'                   => $start = now()->subMonth()->toISOString(),
+            'fim'                      => $end = now()->subMonth()->toISOString(),
+            'txIdPresente'             => 'false',
+            'cpf'                      => '12345678900',
             'paginacao.itensPorPagina' => 2,
-            'paginacao.paginaAtual' => 1,
-            'txid' => $txid = Str::random()
+            'paginacao.paginaAtual'    => 1,
+            'txid'                     => $txid = Str::random(),
         ];
 
         $filters = (new ReceivedPixFilters())

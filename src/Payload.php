@@ -19,8 +19,10 @@ class Payload implements PixPayloadContract
 
     /**
      * @param string $pixKey
-     * @return $this
+     *
      * @throws Exceptions\PixException
+     *
+     * @return $this
      */
     public function pixKey(string $pixKey): Payload
     {
@@ -77,8 +79,9 @@ class Payload implements PixPayloadContract
     }
 
     /**
-     * @return string
      * @throws Exceptions\PixException
+     *
+     * @return string
      */
     public function getPayload(): string
     {

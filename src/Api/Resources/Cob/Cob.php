@@ -17,7 +17,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function withFilters($filters): Cob
     {
-        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+        if (!is_array($filters) && !$filters instanceof ApplyApiFilters) {
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
@@ -30,28 +30,28 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
 
     public function create(string $transactionId, array $request): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB . $transactionId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_COB.$transactionId);
 
         return $this->request()->put($endpoint, $request);
     }
 
     public function createWithoutTransactionId(array $request): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_COB);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_COB);
 
         return $this->request()->post($endpoint, $request);
     }
 
     public function getByTransactionId(string $transactionId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_COB . $transactionId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_COB.$transactionId);
 
         return $this->request()->get($endpoint);
     }
 
     public function updateByTransactionId(string $transactionId, array $request): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::UPDATE_COB . $transactionId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::UPDATE_COB.$transactionId);
 
         return $this->request()->patch($endpoint, $request);
     }
@@ -66,7 +66,7 @@ class Cob extends Api implements ConsumesCobEndpoints, FilterApiRequests
             ValidationException::filtersAreRequired()
         );
 
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_ALL_COBS);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_ALL_COBS);
 
         return $this->request()->get($endpoint, $this->filters);
     }

@@ -30,11 +30,11 @@ return [
      * oauth_bearer_token: Você pode definir o seu Token
      */
     'psp' => [
-        'base_url' => env('LARAVEL_PIX_PSP_BASE_URL'),
-        'oauth_token_url' => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
+        'base_url'           => env('LARAVEL_PIX_PSP_BASE_URL'),
+        'oauth_token_url'    => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
         'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
-        'ssl_certificate' => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
-        'client_secret' => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
-        'client_id' => env('LARAVEL_PIX_PSP_CLIENT_ID'),
-    ]
+        'ssl_certificate'    => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+        'client_secret'      => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+        'client_id'          => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+    ],
 ];

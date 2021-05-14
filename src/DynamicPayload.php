@@ -69,8 +69,9 @@ class DynamicPayload implements PixPayloadContract
     }
 
     /**
-     * @return string
      * @throws Exceptions\PixException
+     *
+     * @return string
      */
     public function getPayload(): string
     {

@@ -16,7 +16,7 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function withFilters($filters): Webhook
     {
-        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+        if (!is_array($filters) && !$filters instanceof ApplyApiFilters) {
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
@@ -29,28 +29,28 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
 
     public function create(string $pixKey, string $callbackUrl): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_WEBHOOK . $pixKey);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_WEBHOOK.$pixKey);
 
         return $this->request()->put($endpoint, ['webhookUrl' => $callbackUrl]);
     }
 
     public function getByPixKey(string $pixKey): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOK . $pixKey);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_WEBHOOK.$pixKey);
 
         return $this->request()->get($endpoint);
     }
 
     public function delete(string $pixKey): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DELETE_WEBHOOK . $pixKey);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::DELETE_WEBHOOK.$pixKey);
 
         return $this->request()->delete($endpoint);
     }
 
     public function all(): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_WEBHOOKS);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_WEBHOOKS);
 
         return $this->request()->get($endpoint, $this->filters);
     }

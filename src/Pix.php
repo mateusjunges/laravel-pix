@@ -38,7 +38,6 @@ class Pix
     const MAX_AMOUNT_LENGTH = 13;
     const MIN_TRANSACTION_ID_LENGTH = 26;
 
-
     const RANDOM_KEY_TYPE = 'random';
     const CPF_KEY_TYPE = 'cpf';
     const CNPJ_KEY_TYPE = 'cnpj';
@@ -50,7 +49,7 @@ class Pix
         Pix::CPF_KEY_TYPE,
         Pix::CNPJ_KEY_TYPE,
         Pix::PHONE_NUMBER_KEY_TYPE,
-        Pix::EMAIL_KEY_TYPE
+        Pix::EMAIL_KEY_TYPE,
     ];
 
     public static function createQrCode(Payload $payload)
@@ -65,6 +64,7 @@ class Pix
 
     /**
      * This method allows you to use only OAuth endpoints.
+     *
      * @return Api
      */
     public static function api(): Api
@@ -74,6 +74,7 @@ class Pix
 
     /**
      * Manage instant charges.
+     *
      * @return Cob
      */
     public static function cob(): Cob
@@ -83,6 +84,7 @@ class Pix
 
     /**
      * Manage charges with a due date.
+     *
      * @return Cobv
      */
     public static function cobv(): Cobv
@@ -92,6 +94,7 @@ class Pix
 
     /**
      * Manage batch of charges with due date.
+     *
      * @return LoteCobv
      */
     public static function loteCobv(): LoteCobv
@@ -100,7 +103,8 @@ class Pix
     }
 
     /**
-     * Manage pix key webhooks
+     * Manage pix key webhooks.
+     *
      * @return Webhook
      */
     public static function webhook(): Webhook
@@ -110,6 +114,7 @@ class Pix
 
     /**
      * Manage location configuration to use with payloads.
+     *
      * @return PayloadLocation
      */
     public static function payloadLocation(): PayloadLocation
@@ -119,6 +124,7 @@ class Pix
 
     /**
      * Manage received pix.
+     *
      * @return ReceivedPix
      */
     public static function receivedPix(): ReceivedPix

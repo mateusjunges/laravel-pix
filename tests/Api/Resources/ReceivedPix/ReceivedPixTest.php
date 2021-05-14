@@ -14,23 +14,23 @@ class ReceivedPixTest extends TestCase
     {
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
-                'endToEndId' => 'E12345678202009091221abcdef12345',
-                'txid' => 'cd1fe328c875481285a6f233ae41b662',
-                'valor' => '100.00',
-                'horario' => '2020-09-10T13:03:33.902Z',
+                'endToEndId'  => 'E12345678202009091221abcdef12345',
+                'txid'        => 'cd1fe328c875481285a6f233ae41b662',
+                'valor'       => '100.00',
+                'horario'     => '2020-09-10T13:03:33.902Z',
                 'infoPagador' => 'Reforma da casa',
-                'devolucoes' => [
+                'devolucoes'  => [
                     0 => [
-                        'id' => '000AAA111',
-                        'rtrId' => 'D12345678202009091000abcde123456',
-                        'valor' => '11.00',
+                        'id'      => '000AAA111',
+                        'rtrId'   => 'D12345678202009091000abcde123456',
+                        'valor'   => '11.00',
                         'horario' => [
                             'solicitacao' => '2020-09-10T13:03:33.902Z',
                         ],
                         'status' => 'EM_PROCESSAMENTO',
                     ],
                 ],
-            ])
+            ]),
         ]);
 
         $pix = Pix::receivedPix()->getBye2eid('E12345678202009091221abcdef12345');
@@ -42,7 +42,7 @@ class ReceivedPixTest extends TestCase
     public function test_it_can_issue_refunds()
     {
         Http::fake([
-            'pix.example.com/v2/*' => Http::response($response = ['valor' => '7.89'])
+            'pix.example.com/v2/*' => Http::response($response = ['valor' => '7.89']),
         ]);
 
         $pix = Pix::receivedPix()->refund('E12345678202009091221abcdef12345', '123456');
@@ -55,14 +55,14 @@ class ReceivedPixTest extends TestCase
     {
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
-                'id' => '123456',
-                'rtrId' => 'D12345678202009091000abcde123456',
-                'valor' => '7.89',
+                'id'      => '123456',
+                'rtrId'   => 'D12345678202009091000abcde123456',
+                'valor'   => '7.89',
                 'horario' => [
                     'solicitacao' => '2020-09-11T15:25:59.411Z',
                 ],
                 'status' => 'EM_PROCESSAMENTO',
-            ])
+            ]),
         ]);
 
         $pix = Pix::receivedPix()->consultRefund('E12345678202009091221abcdef12345', '123456');
@@ -76,12 +76,12 @@ class ReceivedPixTest extends TestCase
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
                 'parametros' => [
-                    'inicio' => '2020-04-01T00:00:00Z',
-                    'fim' => '2020-04-01T23:59:59Z',
+                    'inicio'    => '2020-04-01T00:00:00Z',
+                    'fim'       => '2020-04-01T23:59:59Z',
                     'paginacao' => [
-                        'paginaAtual' => 0,
-                        'itensPorPagina' => 100,
-                        'quantidadeDePaginas' => 1,
+                        'paginaAtual'            => 0,
+                        'itensPorPagina'         => 100,
+                        'quantidadeDePaginas'    => 1,
                         'quantidadeTotalDeItens' => 2,
                     ],
                 ],
@@ -93,7 +93,7 @@ class ReceivedPixTest extends TestCase
                         '$ref' => 'openapi.yaml#/components/examples/pixResponse2/value',
                     ],
                 ],
-            ])
+            ]),
         ]);
 
         $filters = (new ReceivedPixFilters())

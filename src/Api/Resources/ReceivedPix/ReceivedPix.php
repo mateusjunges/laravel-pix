@@ -17,7 +17,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function withFilters($filters): ReceivedPix
     {
-        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+        if (!is_array($filters) && !$filters instanceof ApplyApiFilters) {
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
@@ -30,21 +30,21 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function getBye2eid(string $e2eid): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid);
 
         return $this->request()->get($endpoint);
     }
 
     public function refund(string $e2eid, string $refundId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid.Endpoints::RECEIVED_PIX_REFUND.$refundId);
 
         return $this->request()->put($endpoint);
     }
 
     public function consultRefund(string $e2eid, string $refundId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX . $e2eid . Endpoints::RECEIVED_PIX_REFUND . $refundId);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid.Endpoints::RECEIVED_PIX_REFUND.$refundId);
 
         return $this->request()->get($endpoint);
     }
@@ -59,7 +59,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
             ValidationException::filtersAreRequired()
         );
 
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::RECEIVED_PIX);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX);
 
         return $this->request()->get($endpoint, $this->filters);
     }

@@ -3,14 +3,11 @@
 namespace Junges\Pix\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Junges\Pix\Api\Features\Cobv\CobvRequest;
-use Junges\Pix\Api\Features\Cobv\UpdateCobvRequest;
-use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
 use Junges\Pix\Api\Features\ReceivedPix\ReceivedPix;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static ReceivedPix baseUrl(string $baseUrl);
  * @method static ReceivedPix clientId(string $clientId);
  * @method static ReceivedPix clientSecret(string $clientSecret);

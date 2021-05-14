@@ -11,6 +11,6 @@ class InvalidTransactionIdException extends ValidationException
 
     public static function invalidLengthForDynamicPayload(): PixException
     {
-        return new static(__("The transaction_id length for dynamic payload should be at least 26 characters"));
+        return new static(__('The transaction_id length for dynamic payload should be at least 26 characters'));
     }
 }

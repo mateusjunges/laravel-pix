@@ -22,74 +22,74 @@ class CobvTest extends TestCase
         parent::setUp();
         $this->response = [
             'calendario' => [
-                'criacao' => '2020-09-09T20:15:00.358Z',
-                'dataDeVencimento' => '2020-12-31',
+                'criacao'                => '2020-09-09T20:15:00.358Z',
+                'dataDeVencimento'       => '2020-12-31',
                 'validadeAposVencimento' => 30,
             ],
-            'txid' => '7978c0c97ea847e78e8849634473c1f1',
+            'txid'    => '7978c0c97ea847e78e8849634473c1f1',
             'revisao' => 0,
-            'loc' =>[
-                'id' => 789,
+            'loc'     => [
+                'id'       => 789,
                 'location' => 'pix.example.com/qr/c2/cobv/9d36b84fc70b478fb95c12729b90ca25',
-                'tipoCob' => 'cobv'
+                'tipoCob'  => 'cobv',
             ],
-            'status' => 'ATIVA',
+            'status'  => 'ATIVA',
             'devedor' => [
                 'logradouro' => 'Rua 15, Numero 1, Bairro Luz',
-                'cidade' => 'Belo Horizonte',
-                'uf' => 'MG',
-                'cep' => '99000750',
-                'cnpj' => '12345678000195',
-                'nome' => 'Empresa de Serviços SA',
+                'cidade'     => 'Belo Horizonte',
+                'uf'         => 'MG',
+                'cep'        => '99000750',
+                'cnpj'       => '12345678000195',
+                'nome'       => 'Empresa de Serviços SA',
             ],
             'recebedor' => [
                 'logradouro' => 'Rua 15 Numero 1200, Bairro São Luiz',
-                'cidade' => 'São Paulo',
-                'uf' => 'SP',
-                'cep' => '70800100',
-                'cnpj' => '56989000019533',
-                'nome' => 'Empresa de Logística SA',
+                'cidade'     => 'São Paulo',
+                'uf'         => 'SP',
+                'cep'        => '70800100',
+                'cnpj'       => '56989000019533',
+                'nome'       => 'Empresa de Logística SA',
             ],
             'valor' => [
                 'original' => '567.89',
             ],
-            'chave' => 'a1f4102e-a446-4a57-bcce-6fa48899c1d1',
-            'solicitacaoPagador' => 'Informar cartão fidelidade'
+            'chave'              => 'a1f4102e-a446-4a57-bcce-6fa48899c1d1',
+            'solicitacaoPagador' => 'Informar cartão fidelidade',
         ];
         $this->getResponse = [
             'calendario' => [
-                'criacao' => '2020-09-09T20:15:00.358Z',
-                'dataDeVencimento' => '2020-12-31',
+                'criacao'                => '2020-09-09T20:15:00.358Z',
+                'dataDeVencimento'       => '2020-12-31',
                 'validadeAposVencimento' => 30,
             ],
-            'txid' => '7978c0c97ea847e78e8849634473c1f1',
+            'txid'    => '7978c0c97ea847e78e8849634473c1f1',
             'revisao' => 0,
-            'loc' => [
-                'id' => 789,
+            'loc'     => [
+                'id'       => 789,
                 'location' => 'pix.example.com/qr/c2/cobv/9d36b84fc70b478fb95c12729b90ca25',
-                'tipoCob' => 'cobv',
+                'tipoCob'  => 'cobv',
             ],
-            'status' => 'ATIVA',
+            'status'  => 'ATIVA',
             'devedor' => [
                 'logradouro' => 'Rua 15, Numero 1, Bairro Luz',
-                'cidade' => 'Belo Horizonte',
-                'uf' => 'MG',
-                'cep' => '99000750',
-                'cnpj' => '12345678000195',
-                'nome' => 'Empresa de Serviços SA',
+                'cidade'     => 'Belo Horizonte',
+                'uf'         => 'MG',
+                'cep'        => '99000750',
+                'cnpj'       => '12345678000195',
+                'nome'       => 'Empresa de Serviços SA',
             ],
             'recebedor' => [
                 'logradouro' => 'Rua 15 Numero 1200, Bairro São Luiz',
-                'cidade' => 'São Paulo',
-                'uf' => 'SP',
-                'cep' => '70800100',
-                'cnpj' => '56989000019533',
-                'nome' => 'Empresa de Logística SA',
+                'cidade'     => 'São Paulo',
+                'uf'         => 'SP',
+                'cep'        => '70800100',
+                'cnpj'       => '56989000019533',
+                'nome'       => 'Empresa de Logística SA',
             ],
             'valor' => [
                 'original' => '567.89',
             ],
-            'chave' => 'a1f4102e-a446-4a57-bcce-6fa48899c1d1',
+            'chave'              => 'a1f4102e-a446-4a57-bcce-6fa48899c1d1',
             'solicitacaoPagador' => 'Informar cartão fidelidade',
         ];
     }
@@ -103,7 +103,7 @@ class CobvTest extends TestCase
     public function test_it_can_create_a_cobv_with_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => Http::response($this->response)
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->response),
         ]);
 
         $transactionId = Str::random(26);
@@ -121,7 +121,7 @@ class CobvTest extends TestCase
     public function test_it_can_get_a_cobv_by_its_transaction_id()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse)
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse),
         ]);
 
         $transactionId = Str::random(26);
@@ -135,7 +135,7 @@ class CobvTest extends TestCase
     public function test_it_can_apply_filters_to_the_query()
     {
         Http::fake([
-            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse)
+            'https://pix.example.com/v2/cobv/*' => Http::response($this->getResponse),
         ]);
 
         $transactionId = Str::random(26);
@@ -148,16 +148,16 @@ class CobvTest extends TestCase
 
         $response = Pix::cobv()->withFilters($filters)->getByTransactionId($transactionId);
 
-        Http::assertSent(function(Request $request) use ($cpf, $start, $end) {
+        Http::assertSent(function (Request $request) use ($cpf, $start, $end) {
             return $request->data() === [
                 'inicio' => $start,
-                'fim' => $end,
-                'cpf' => $cpf,
+                'fim'    => $end,
+                'cpf'    => $cpf,
             ] ||
             Str::contains($request->url(), http_build_query([
                 'inicio' => $start,
-                'fim' => $end,
-                'cpf' => $cpf,
+                'fim'    => $end,
+                'cpf'    => $cpf,
             ]));
         });
 

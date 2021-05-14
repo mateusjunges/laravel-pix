@@ -7,15 +7,15 @@ use Junges\Pix\Exceptions\ValidationException;
 
 class ReceivedPixFilters implements ApplyApiFilters
 {
-    const START = "inicio";
-    const END = "fim";
-    const TXID = "txid";
-    const TXID_PRESENT = "txIdPresente";
-    const REFUND_PRESENT = "devolucaoPresente";
-    const CPF = "cpf";
-    const CNPJ = "cnpj";
-    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
-    const PAGINATION_ITEMS_PER_PAGE = "paginacao.itensPorPagina";
+    const START = 'inicio';
+    const END = 'fim';
+    const TXID = 'txid';
+    const TXID_PRESENT = 'txIdPresente';
+    const REFUND_PRESENT = 'devolucaoPresente';
+    const CPF = 'cpf';
+    const CNPJ = 'cnpj';
+    const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
+    const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
 
     private string $start;
     private string $end;
@@ -30,73 +30,84 @@ class ReceivedPixFilters implements ApplyApiFilters
     public function startingAt(string $start): ReceivedPixFilters
     {
         $this->start = $start;
+
         return $this;
     }
 
     public function endingAt(string $end): ReceivedPixFilters
     {
         $this->end = $end;
+
         return $this;
     }
 
     public function transactionId(string $transactionId): ReceivedPixFilters
     {
         $this->transactionId = $transactionId;
+
         return $this;
     }
 
     public function withTransactionIdPresent(): ReceivedPixFilters
     {
-        $this->transactionIdPresent = "true";
+        $this->transactionIdPresent = 'true';
+
         return $this;
     }
 
     public function withoutTransactionIdPresent(): ReceivedPixFilters
     {
-        $this->transactionIdPresent = "false";
+        $this->transactionIdPresent = 'false';
+
         return $this;
     }
 
-
     public function withRefundPresent(): ReceivedPixFilters
     {
-        $this->refundPresent = "true";
+        $this->refundPresent = 'true';
+
         return $this;
     }
 
     public function withoutRefundPresent(): ReceivedPixFilters
     {
-        $this->refundPresent = "false";
+        $this->refundPresent = 'false';
+
         return $this;
     }
 
     public function cpf(string $cpf): ReceivedPixFilters
     {
         $this->cpf = $cpf;
+
         return $this;
     }
 
     public function cnpj(string $cnpj): ReceivedPixFilters
     {
         $this->cnpj = $cnpj;
+
         return $this;
     }
 
     public function currentPage(string $currentPage): ReceivedPixFilters
     {
         $this->currentPage = $currentPage;
+
         return $this;
     }
 
     public function itemsPerPage(string $itemsPerPage): ReceivedPixFilters
     {
         $this->itemsPerPage = $itemsPerPage;
+
         return $this;
     }
 
     /**
-     * @return array
      * @throws ValidationException
+     *
+     * @return array
      */
     public function toArray(): array
     {
@@ -106,7 +117,7 @@ class ReceivedPixFilters implements ApplyApiFilters
 
         $filters = [
             self::START => $this->start,
-            self::END => $this->end
+            self::END   => $this->end,
         ];
 
         if (!empty($this->transactionId)) {

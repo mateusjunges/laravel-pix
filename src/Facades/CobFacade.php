@@ -7,8 +7,8 @@ use Junges\Pix\Api\Features\Cob\Cob;
 use Junges\Pix\Api\Features\Cob\CobRequest;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static Cob baseUrl(string $baseUrl);
  * @method static Cob clientId(string $clientId);
  * @method static Cob clientSecret(string $clientSecret);

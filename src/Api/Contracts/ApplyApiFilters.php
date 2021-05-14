@@ -6,5 +6,4 @@ use Illuminate\Contracts\Support\Arrayable;
 
 interface ApplyApiFilters extends Arrayable
 {
-
 }

@@ -21,8 +21,8 @@ class PayloadTest extends TestCase
         $payload = (new Payload())
             ->transactionId($this->transactionId)
             ->pixKey($this->randomKey)
-            ->merchantName("Fulano de Tal")
-            ->merchantCity("BRASILIA");
+            ->merchantName('Fulano de Tal')
+            ->merchantCity('BRASILIA');
 
         $crc16 = $payload->getCRC16($payload->toStringWithoutCrc16());
 
@@ -36,9 +36,9 @@ class PayloadTest extends TestCase
         $payload = (new Payload())
             ->transactionId($this->transactionId)
             ->pixKey($this->randomKey)
-            ->merchantName("Fulano de Tal")
-            ->description("Test description")
-            ->merchantCity("BRASILIA");
+            ->merchantName('Fulano de Tal')
+            ->description('Test description')
+            ->merchantCity('BRASILIA');
 
         $crc16 = $payload->getCRC16($payload->toStringWithoutCrc16());
         $expected = "00020126780014br.gov.bcb.pix01367d9f0335-8dcc-4054-9bf9-0dbd61d369060216Test description5204000053039865802BR5913Fulano de Tal6008BRASILIA62200516{$this->transactionId}{$crc16}";
@@ -51,10 +51,10 @@ class PayloadTest extends TestCase
         $payload = (new Payload())
             ->transactionId($this->transactionId)
             ->pixKey($this->randomKey)
-            ->merchantName("Fulano de Tal")
-            ->description("Test description")
-            ->amount("894.87")
-            ->merchantCity("BRASILIA");
+            ->merchantName('Fulano de Tal')
+            ->description('Test description')
+            ->amount('894.87')
+            ->merchantCity('BRASILIA');
 
         $crc16 = $payload->getCRC16($payload->toStringWithoutCrc16());
         $expected = "00020126780014br.gov.bcb.pix01367d9f0335-8dcc-4054-9bf9-0dbd61d369060216Test description5204000053039865406894.875802BR5913Fulano de Tal6008BRASILIA62200516{$this->transactionId}{$crc16}";

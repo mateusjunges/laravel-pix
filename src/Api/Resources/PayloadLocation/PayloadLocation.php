@@ -17,7 +17,7 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
 
     public function withFilters($filters): PayloadLocation
     {
-        if (! is_array($filters) && ! $filters instanceof ApplyApiFilters) {
+        if (!is_array($filters) && !$filters instanceof ApplyApiFilters) {
             throw new RuntimeException("Filters should be an instance of 'FilterApiRequests' or an array.");
         }
 
@@ -30,21 +30,21 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
 
     public function create(string $loc): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::CREATE_PAYLOAD_LOCATION);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_PAYLOAD_LOCATION);
 
         return $this->request()->post($endpoint, ['tipoCob' => $loc]);
     }
 
     public function getById(string $id): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION . $id);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_PAYLOAD_LOCATION.$id);
 
         return $this->request()->get($endpoint, $this->filters);
     }
 
     public function detachChargeFromLocation(string $id): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::DETACH_CHARGE_FROM_LOCATION . $id . Endpoints::PAYLOAD_LOCATION_TXID);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::DETACH_CHARGE_FROM_LOCATION.$id.Endpoints::PAYLOAD_LOCATION_TXID);
 
         return $this->request()->delete($endpoint);
     }
@@ -59,7 +59,7 @@ class PayloadLocation extends Api implements ConsumesPayloadLocationEndpoints, F
             ValidationException::filtersAreRequired()
         );
 
-        $endpoint = $this->getEndpoint($this->baseUrl . Endpoints::GET_PAYLOAD_LOCATION);
+        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::GET_PAYLOAD_LOCATION);
 
         return $this->request()->get($endpoint, $this->filters);
     }

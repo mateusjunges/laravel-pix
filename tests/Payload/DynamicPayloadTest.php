@@ -21,9 +21,9 @@ class DynamicPayloadTest extends TestCase
         $payload = (new DynamicPayload())
             ->transactionId($this->transactionId)
             ->mustBeUnique()
-            ->url("pix.example.com/8b3da2f39a4140d1a91abd93113bd441")
-            ->merchantName("Fulano de Tal")
-            ->merchantCity("BRASILIA");
+            ->url('pix.example.com/8b3da2f39a4140d1a91abd93113bd441')
+            ->merchantName('Fulano de Tal')
+            ->merchantCity('BRASILIA');
 
         $crc16 = $payload->getCRC16($payload->toStringWithoutCrc16());
 
@@ -37,9 +37,9 @@ class DynamicPayloadTest extends TestCase
         $payload = (new DynamicPayload())
             ->transactionId($this->transactionId)
             ->mustBeUnique()
-            ->url("https://pix.example.com/8b3da2f39a4140d1a91abd93113bd441")
-            ->merchantName("Fulano de Tal")
-            ->merchantCity("BRASILIA");
+            ->url('https://pix.example.com/8b3da2f39a4140d1a91abd93113bd441')
+            ->merchantName('Fulano de Tal')
+            ->merchantCity('BRASILIA');
 
         $this->assertStringNotContainsString('http', $payload->getPayload());
         $this->assertStringNotContainsString('https', $payload->getPayload());

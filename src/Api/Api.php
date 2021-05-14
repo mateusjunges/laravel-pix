@@ -72,15 +72,15 @@ class Api implements ConsumesPixApi
 
     protected function request(): PendingRequest
     {
-        $client =  Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
+        $client = Http::withHeaders([
+            'Content-Type'  => 'application/json',
+            'Accept'        => 'application/json',
             'Cache-Control' => 'no-cache',
         ]);
 
         if ($this->shouldVerifySslCertificate()) {
             $client->withOptions([
-                'cert' => $this->getCertificate()
+                'cert' => $this->getCertificate(),
             ]);
         }
 
@@ -99,10 +99,10 @@ class Api implements ConsumesPixApi
     public function getOauth2Token(string $scopes = null)
     {
         return app(AuthenticatesWithOauth::class, [
-            'clientId' => $this->clientId,
-            'clientSecret' => $this->clientSecret,
-            'certificate' => $this->certificate,
-            'certificatePassword' => $this->certificatePassword
+            'clientId'            => $this->clientId,
+            'clientSecret'        => $this->clientSecret,
+            'certificate'         => $this->certificate,
+            'certificatePassword' => $this->certificatePassword,
         ])->getToken();
     }
 
@@ -122,7 +122,7 @@ class Api implements ConsumesPixApi
 
     protected function getEndpoint(string $endpoint): string
     {
-        return $endpoint . "?" . http_build_query($this->additionalParams);
+        return $endpoint.'?'.http_build_query($this->additionalParams);
     }
 
     private function shouldVerifySslCertificate(): bool

@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Facade;
 use Junges\Pix\Api\Features\PayloadLocation\PayloadLocation;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static PayloadLocation baseUrl(string $baseUrl);
  * @method static PayloadLocation clientId(string $clientId);
  * @method static PayloadLocation clientSecret(string $clientSecret);

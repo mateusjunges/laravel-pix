@@ -21,6 +21,6 @@ class ParserTest extends TestCase
     {
         $this->expectException(ParserException::class);
 
-        Parser::getKeyType("");
+        Parser::getKeyType('');
     }
 }

@@ -11,13 +11,13 @@ class CobvFiltersTest extends TestCase
     public function test_it_return_filters_in_the_correct_format()
     {
         $expected = [
-            'inicio' => $start = now()->subMonth()->toISOString(),
-            'fim' => $end = now()->subMonth()->toISOString(),
-            'locationPresente' => "false",
-            'cpf' => '12345678900',
-            'status' => 'ATIVA',
+            'inicio'                   => $start = now()->subMonth()->toISOString(),
+            'fim'                      => $end = now()->subMonth()->toISOString(),
+            'locationPresente'         => 'false',
+            'cpf'                      => '12345678900',
+            'status'                   => 'ATIVA',
             'paginacao.itensPorPagina' => 2,
-            'paginacao.paginaAtual' => 1
+            'paginacao.paginaAtual'    => 1,
         ];
 
         $filters = (new CobvFilters())

@@ -46,17 +46,17 @@ class PixServiceProvider extends ServiceProvider
     private function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . "/../../config/laravel-pix.php" => config_path('laravel-pix.php')
+            __DIR__.'/../../config/laravel-pix.php' => config_path('laravel-pix.php'),
         ], 'laravel-pix-config');
 
         $this->publishes([
-            __DIR__ . "/../../public" => public_path('vendor/laravel-pix')
-        ],'laravel-pix-assets');
+            __DIR__.'/../../public' => public_path('vendor/laravel-pix'),
+        ], 'laravel-pix-assets');
     }
 
     private function bootBladeDirectives(): void
     {
-        Blade::directive('laravelPixAssets',function() {
+        Blade::directive('laravelPixAssets', function () {
             $path = asset('vendor/laravel-pix/css/app.css');
 
             return "<link rel='stylesheet' href='{$path}'>";
@@ -65,12 +65,12 @@ class PixServiceProvider extends ServiceProvider
 
     private function registerRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__ . "/../../routes/laravel-pix-routes.php");
+        $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-pix-routes.php');
     }
 
     private function registerViews(): void
     {
-        $this->loadViewsFrom(__DIR__ . "/../../resources/views", 'laravel-pix');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'laravel-pix');
     }
 
     private function registerFacades(): void

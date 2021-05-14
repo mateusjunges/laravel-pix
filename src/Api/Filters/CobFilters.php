@@ -49,18 +49,20 @@ class CobFilters implements ApplyApiFilters
     public function cnpj(string $cnpj): CobFilters
     {
         $this->cnpj = $cnpj;
+
         return $this;
     }
 
     public function withLocationPresent(): CobFilters
     {
-        $this->locationPresent = "true";
+        $this->locationPresent = 'true';
+
         return $this;
     }
 
     public function withoutLocationPresent(): CobFilters
     {
-        $this->locationPresent = "false";
+        $this->locationPresent = 'false';
 
         return $this;
     }
@@ -87,8 +89,9 @@ class CobFilters implements ApplyApiFilters
     }
 
     /**
-     * @return array
      * @throws ValidationException
+     *
+     * @return array
      */
     public function toArray(): array
     {
@@ -98,7 +101,7 @@ class CobFilters implements ApplyApiFilters
 
         $filters = [
             self::START => $this->start,
-            self::END => $this->end,
+            self::END   => $this->end,
         ];
 
         if (!empty($this->locationPresent)) {

@@ -15,11 +15,11 @@ class CreateQrCodeRequest extends FormRequest
     {
         return [
             'transaction_id' => ['required', 'string', 'max:25'],
-            'key' => ['required', 'string'],
-            'merchant_name' => ['required', 'string', 'max:25'],
-            'merchant_city' => ['required', 'string', 'max:15'],
-            'description' => ['sometimes', 'string', 'max:40'],
-            'amount' => ['required'],
+            'key'            => ['required', 'string'],
+            'merchant_name'  => ['required', 'string', 'max:25'],
+            'merchant_city'  => ['required', 'string', 'max:15'],
+            'description'    => ['sometimes', 'string', 'max:40'],
+            'amount'         => ['required'],
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace Junges\Pix\Tests\Api\Resources\Webhook;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use Junges\Pix\Api\Filters\CobFilters;
 use Junges\Pix\Api\Filters\WebhookFilters;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
@@ -15,7 +14,7 @@ class WebhookTest extends TestCase
     public function test_it_can_create_a_webhook()
     {
         Http::fake([
-            'pix.example.com/v2/*' => Http::response([], 200)
+            'pix.example.com/v2/*' => Http::response([], 200),
         ]);
 
         $url = 'pix.example.com/webhook';
@@ -29,7 +28,7 @@ class WebhookTest extends TestCase
     public function test_it_can_delete_a_webhook()
     {
         Http::fake([
-            'pix.example.com/v2/*' => Http::response([], 200)
+            'pix.example.com/v2/*' => Http::response([], 200),
         ]);
 
         $webhook = Pix::webhook()->delete($this->randomKey);
@@ -42,9 +41,9 @@ class WebhookTest extends TestCase
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
                 'webhookUrl' => 'https://pix.example.com/api/webhook/',
-                'chave' => $this->randomKey,
-                'criacao' => '2020-11-11T10:15:00.358Z',
-            ], 200)
+                'chave'      => $this->randomKey,
+                'criacao'    => '2020-11-11T10:15:00.358Z',
+            ], 200),
         ]);
 
         $webhook = Pix::webhook()->getByPixKey($this->randomKey);
@@ -58,12 +57,12 @@ class WebhookTest extends TestCase
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
                 'parametros' => [
-                    'inicio' => '2020-04-01T00:00:00Z',
-                    'fim' => '2020-04-01T23:59:59Z',
+                    'inicio'    => '2020-04-01T00:00:00Z',
+                    'fim'       => '2020-04-01T23:59:59Z',
                     'paginacao' => [
-                        'paginaAtual' => 0,
-                        'itensPorPagina' => 100,
-                        'quantidadeDePaginas' => 1,
+                        'paginaAtual'            => 0,
+                        'itensPorPagina'         => 100,
+                        'quantidadeDePaginas'    => 1,
                         'quantidadeTotalDeItens' => 1,
                     ],
                 ],
@@ -72,7 +71,7 @@ class WebhookTest extends TestCase
                         '$ref' => 'openapi.yaml#/components/examples/webhookResponse1/value',
                     ],
                 ],
-            ])
+            ]),
         ]);
 
         $webhooks = Pix::webhook()->all();
@@ -81,19 +80,17 @@ class WebhookTest extends TestCase
         $this->assertEquals($response, $webhooks->json());
     }
 
-
     public function test_it_apply_filters_to_the_query()
     {
-
         Http::fake([
             'https://pix.example.com/v2/*' => Http::response($response = [
                 'parametros' => [
-                    'inicio' => '2020-04-01T00:00:00Z',
-                    'fim' => '2020-04-01T23:59:59Z',
+                    'inicio'    => '2020-04-01T00:00:00Z',
+                    'fim'       => '2020-04-01T23:59:59Z',
                     'paginacao' => [
-                        'paginaAtual' => 0,
-                        'itensPorPagina' => 100,
-                        'quantidadeDePaginas' => 1,
+                        'paginaAtual'            => 0,
+                        'itensPorPagina'         => 100,
+                        'quantidadeDePaginas'    => 1,
                         'quantidadeTotalDeItens' => 1,
                     ],
                 ],
@@ -102,7 +99,7 @@ class WebhookTest extends TestCase
                         '$ref' => 'openapi.yaml#/components/examples/webhookResponse1/value',
                     ],
                 ],
-            ])
+            ]),
         ]);
 
         $start = now()->subMonth()->toISOString();
@@ -114,11 +111,11 @@ class WebhookTest extends TestCase
 
         Pix::webhook()->withFilters($filters)->all()->json();
 
-        Http::assertSent(function(Request $request) use ($start, $end) {
+        Http::assertSent(function (Request $request) use ($start, $end) {
             return $request->data() === ['inicio' => $start, 'fim' => $end]
                 || Str::contains($request->url(), http_build_query([
                     'inicio' => $start,
-                    'fim' => $end,
+                    'fim'    => $end,
                 ]));
         });
 
@@ -129,20 +126,19 @@ class WebhookTest extends TestCase
 
         Pix::cob()->withFilters($filters)->all()->json();
 
-        Http::assertSent(function(Request $request) use ($start, $end, $itemsPerPage, $currentPage) {
+        Http::assertSent(function (Request $request) use ($start, $end, $itemsPerPage, $currentPage) {
             return $request->data() === [
-                    'inicio' => $start,
-                    'fim' => $end,
-                    'paginacao.paginaAtual' => $currentPage,
-                    'paginacao.itensPorPagina' => $itemsPerPage
-                ]
+                'inicio'                   => $start,
+                'fim'                      => $end,
+                'paginacao.paginaAtual'    => $currentPage,
+                'paginacao.itensPorPagina' => $itemsPerPage,
+            ]
                 || Str::contains($request->url(), http_build_query([
-                    'inicio' => $start,
-                    'fim' => $end,
-                    'paginacao.paginaAtual' => $currentPage,
-                    'paginacao.itensPorPagina' => $itemsPerPage
+                    'inicio'                   => $start,
+                    'fim'                      => $end,
+                    'paginacao.paginaAtual'    => $currentPage,
+                    'paginacao.itensPorPagina' => $itemsPerPage,
                 ]));
         });
     }
-
 }

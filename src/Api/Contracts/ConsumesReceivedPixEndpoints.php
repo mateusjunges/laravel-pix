@@ -11,5 +11,4 @@ interface ConsumesReceivedPixEndpoints extends ConsumesPixApi
     public function consultRefund(string $e2eid, string $refundId);
 
     public function refund(string $e2eid, string $refundId);
-
 }

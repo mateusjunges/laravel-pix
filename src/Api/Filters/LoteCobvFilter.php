@@ -7,7 +7,7 @@ use Junges\Pix\Exceptions\ValidationException;
 
 class LoteCobvFilter implements ApplyApiFilters
 {
-    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
+    const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
     const START = 'inicio';
     const END = 'fim';
     const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
@@ -20,30 +20,35 @@ class LoteCobvFilter implements ApplyApiFilters
     public function startingAt(string $start): LoteCobvFilter
     {
         $this->start = $start;
+
         return $this;
     }
 
     public function endingAt(string $end): LoteCobvFilter
     {
         $this->end = $end;
+
         return $this;
     }
 
     public function currentPage(int $currentPage): LoteCobvFilter
     {
         $this->currentPage = $currentPage;
+
         return $this;
     }
 
     public function itemsPerPage(int $itemsPerPage): LoteCobvFilter
     {
         $this->itemsPerPage = $itemsPerPage;
+
         return $this;
     }
 
     /**
-     * @return array
      * @throws ValidationException
+     *
+     * @return array
      */
     public function toArray(): array
     {
@@ -53,7 +58,7 @@ class LoteCobvFilter implements ApplyApiFilters
 
         $filters = [
             self::START => $this->start,
-            self::END => $this->end,
+            self::END   => $this->end,
         ];
 
         if (!empty($this->currentPage)) {

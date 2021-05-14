@@ -56,7 +56,7 @@ class Parser
         $phone = str_replace('+55', '', $phone);
         $phone = preg_replace('/[^\d]+/', '', $phone);
 
-        return config('laravel-pix.country_phone_code', '+55') . $phone;
+        return config('laravel-pix.country_phone_code', '+55').$phone;
     }
 
     public static function parseTransactionId(string $transaction_id): string

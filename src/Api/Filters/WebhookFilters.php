@@ -6,10 +6,10 @@ use Junges\Pix\Api\Contracts\ApplyApiFilters;
 
 class WebhookFilters implements ApplyApiFilters
 {
-    const START = "inicio";
-    const END = "fim";
-    const PAGINATION_ITEMS_PER_PAGE = "paginacao.itensPorPagina";
-    const PAGINATION_CURRENT_PAGE = "paginacao.paginaAtual";
+    const START = 'inicio';
+    const END = 'fim';
+    const PAGINATION_ITEMS_PER_PAGE = 'paginacao.itensPorPagina';
+    const PAGINATION_CURRENT_PAGE = 'paginacao.paginaAtual';
 
     private string $start;
     private string $end;

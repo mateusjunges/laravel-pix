@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Facade;
 use Junges\Pix\Api\Features\Webhook\Webhook;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static Webhook baseUrl(string $baseUrl);
  * @method static Webhook clientId(string $clientId);
  * @method static Webhook clientSecret(string $clientSecret);

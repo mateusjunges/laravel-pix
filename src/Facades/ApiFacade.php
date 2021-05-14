@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Facade;
 use Junges\Pix\Api\Api;
 
 /**
- * Class ApiConsumes
- * @package Junges\Pix\Facades
+ * Class ApiConsumes.
+ *
  * @method static Api baseUrl(string $baseUrl);
  * @method static Api clientId(string $clientId);
  * @method static Api clientSecret(string $clientSecret);

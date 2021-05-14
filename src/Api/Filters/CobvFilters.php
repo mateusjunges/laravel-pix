@@ -51,18 +51,20 @@ class CobvFilters implements ApplyApiFilters
     public function cnpj(string $cnpj): CobvFilters
     {
         $this->cnpj = $cnpj;
+
         return $this;
     }
 
     public function withLocationPresent(): CobvFilters
     {
-        $this->locationPresent = "true";
+        $this->locationPresent = 'true';
+
         return $this;
     }
 
     public function withoutLocationPresent(): CobvFilters
     {
-        $this->locationPresent = "false";
+        $this->locationPresent = 'false';
 
         return $this;
     }
@@ -91,12 +93,14 @@ class CobvFilters implements ApplyApiFilters
     public function cobvBatchId(string $cobvBatchId): CobvFilters
     {
         $this->cobvBatchId = $cobvBatchId;
+
         return $this;
     }
 
     /**
-     * @return array
      * @throws ValidationException
+     *
+     * @return array
      */
     public function toArray(): array
     {
@@ -106,7 +110,7 @@ class CobvFilters implements ApplyApiFilters
 
         $filters = [
             self::START => $this->start,
-            self::END => $this->end,
+            self::END   => $this->end,
         ];
 
         if (!empty($this->cpf)) {

@@ -20,10 +20,10 @@ class PayloadLocationTest extends TestCase
         );
 
         Http::fake([
-            'pix.example.com/v2/*' => Http::response($response)
+            'pix.example.com/v2/*' => Http::response($response),
         ]);
 
-        $payloadLocation = Pix::payloadLocation()->create("cob");
+        $payloadLocation = Pix::payloadLocation()->create('cob');
 
         $this->assertEquals($response, $payloadLocation->json());
         $this->assertTrue($payloadLocation->successful());
@@ -33,12 +33,12 @@ class PayloadLocationTest extends TestCase
     {
         Http::fake([
             'pix.example.com/v2/*' => Http::response($response = [
-                'id' => 7716,
-                'txid' => 'fda9460fe04e4f129b72863ae57ee22f',
+                'id'       => 7716,
+                'txid'     => 'fda9460fe04e4f129b72863ae57ee22f',
                 'location' => 'pix.example.com/qr/v2/cobv/2353c790eefb11eaadc10242ac120002',
-                'tipoCob' => 'cobv',
-                'criacao' => '2020-03-11T21:19:51.013Z',
-            ])
+                'tipoCob'  => 'cobv',
+                'criacao'  => '2020-03-11T21:19:51.013Z',
+            ]),
         ]);
 
         $payload = Pix::payloadLocation()->getById(7716);
@@ -55,7 +55,7 @@ class PayloadLocationTest extends TestCase
         );
 
         Http::fake([
-            'pix.example.com/v2/*' => Http::response($response)
+            'pix.example.com/v2/*' => Http::response($response),
         ]);
 
         $filters = (new PayloadLocationFilters())
@@ -71,7 +71,7 @@ class PayloadLocationTest extends TestCase
     public function test_it_can_apply_filters()
     {
         Http::fake([
-            'https://pix.example.com/v2/*' => Http::response([])
+            'https://pix.example.com/v2/*' => Http::response([]),
         ]);
 
         $start = now()->subMonth()->toISOString();
@@ -83,11 +83,11 @@ class PayloadLocationTest extends TestCase
 
         Pix::cob()->withFilters($filters)->all()->json();
 
-        Http::assertSent(function(Request $request) use ($start, $end) {
+        Http::assertSent(function (Request $request) use ($start, $end) {
             return $request->data() === ['inicio' => $start, 'fim' => $end]
                 || Str::contains($request->url(), http_build_query([
                     'inicio' => $start,
-                    'fim' => $end,
+                    'fim'    => $end,
                 ]));
         });
     }
@@ -96,11 +96,11 @@ class PayloadLocationTest extends TestCase
     {
         Http::fake([
             'https://pix.example.com/v2/*' => Http::response($response = [
-                'id' => 2316,
+                'id'       => 2316,
                 'location' => 'pix.example.com/qr/v2/a8534e273ecb47d3ac30613104544466',
-                'tipoCob' => 'cob',
-                'criacao' => '2020-05-31T19:39:54.013Z',
-            ], 200)
+                'tipoCob'  => 'cob',
+                'criacao'  => '2020-05-31T19:39:54.013Z',
+            ], 200),
         ]);
 
         $payload = Pix::payloadLocation()->detachChargeFromLocation(2316);

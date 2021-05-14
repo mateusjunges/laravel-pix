@@ -2,15 +2,14 @@
 
 namespace Junges\Pix\Concerns;
 
-use Illuminate\Support\Str;
-use Junges\Pix\Exceptions\InvalidAmountException;
 use Junges\Pix\Exceptions\InvalidMerchantInformationException;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
 use Junges\Pix\Pix;
 
 trait InteractsWithDynamicPayload
 {
-    use FormatPayloadValues, HasCR16;
+    use FormatPayloadValues;
+    use HasCR16;
 
     protected function getAdditionalDataFieldTemplate(): string
     {
@@ -26,7 +25,6 @@ trait InteractsWithDynamicPayload
     protected function getMerchantAccountInformation(): string
     {
         $gui = $this->formatValue(Pix::MERCHANT_ACCOUNT_INFORMATION_GUI, config('laravel-pix.gui', 'br.gov.bcb.pix'));
-
 
         $url = $this->formatValue(
             Pix::MERCHANT_ACCOUNT_INFORMATION_URL,
@@ -77,6 +75,7 @@ trait InteractsWithDynamicPayload
         if (empty($this->merchantName)) {
             throw InvalidMerchantInformationException::merchantCityCantBeEmpty();
         }
+
         return $this->formatValue(Pix::MERCHANT_CITY, $this->merchantCity);
     }
 
@@ -93,19 +92,19 @@ trait InteractsWithDynamicPayload
     public function toStringWithoutCrc16(): string
     {
         return $this->getPayloadFormat()
-            . $this->getPointOfInitializationMethod()
-            . $this->getMerchantAccountInformation()
-            . $this->getMerchantCategoryCode()
-            . $this->gettransactionCurrency()
-            . $this->getTransactionAmount()
-            . $this->getCountryCode()
-            . $this->getMerchantName()
-            . $this->getMerchantCity()
-            . $this->getAdditionalDataFieldTemplate();
+            .$this->getPointOfInitializationMethod()
+            .$this->getMerchantAccountInformation()
+            .$this->getMerchantCategoryCode()
+            .$this->gettransactionCurrency()
+            .$this->getTransactionAmount()
+            .$this->getCountryCode()
+            .$this->getMerchantName()
+            .$this->getMerchantCity()
+            .$this->getAdditionalDataFieldTemplate();
     }
 
     protected function buildPayload(): string
     {
-        return $this->toStringWithoutCrc16() . $this->getCRC16($this->toStringWithoutCrc16());
+        return $this->toStringWithoutCrc16().$this->getCRC16($this->toStringWithoutCrc16());
     }
 }

@@ -11,11 +11,11 @@ class PayloadLocationFiltersTest extends TestCase
     public function test_it_return_filters_in_the_correct_format()
     {
         $expected = [
-            'inicio' => $start = now()->subMonth()->toISOString(),
-            'fim' => $end = now()->subMonth()->toISOString(),
-            "txIdPresente" => "false",
+            'inicio'                   => $start = now()->subMonth()->toISOString(),
+            'fim'                      => $end = now()->subMonth()->toISOString(),
+            'txIdPresente'             => 'false',
             'paginacao.itensPorPagina' => 2,
-            'paginacao.paginaAtual' => 1
+            'paginacao.paginaAtual'    => 1,
         ];
 
         $filters = (new PayloadLocationFilters())

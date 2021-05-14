@@ -15,14 +15,13 @@ class Validator implements PerformKeyValidations
 
     public static function validateCPF(string $cpf): bool
     {
-        $cpf = preg_replace("/[^0-9]/", "", $cpf);
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
         if (Str::length($cpf) !== 11) {
             return false;
         }
 
         for ($t = 9; $t < 11; $t++) {
-
             for ($d = 0, $c = 0; $c < $t; $c++) {
                 $d += $cpf[$c] * (($t + 1) - $c);
             }
@@ -43,7 +42,7 @@ class Validator implements PerformKeyValidations
             return false;
         }
 
-        $cnpj = preg_replace("/[^0-9]/", "", $cnpj);
+        $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
 
         if (Str::length($cnpj) !== 14) {
             return false;
@@ -57,7 +56,6 @@ class Validator implements PerformKeyValidations
         $sum_2 = 0;
 
         for ($i = 0; $i < 13; $i++) {
-
             $j = $j == 1 ? 9 : $j;
             $k = $k == 1 ? 9 : $k;
 
@@ -74,7 +72,7 @@ class Validator implements PerformKeyValidations
         $first_digit = $sum_1 % 11 < 2 ? 0 : 11 - $sum_1 % 11;
         $second_digit = $sum_2 % 11 < 2 ? 0 : 11 - $sum_2 % 11;
 
-        return (($cnpj[12] == $first_digit) && ($cnpj[13] == $second_digit));
+        return ($cnpj[12] == $first_digit) && ($cnpj[13] == $second_digit);
     }
 
     public static function validateEmail(string $key): bool
@@ -88,9 +86,9 @@ class Validator implements PerformKeyValidations
     {
         $phone = str_replace(config('laravel-pix.country_phone_prefix', '+55'), '', $phone);
         $phone = preg_replace('/[^\d]+/', '', $phone);
-        $phone = config('laravel-pix.country_phone_prefix', '+55') . $phone;
+        $phone = config('laravel-pix.country_phone_prefix', '+55').$phone;
 
-        if (! preg_match('/^(\+55)?(\d{10,11})$/', $phone)) {
+        if (!preg_match('/^(\+55)?(\d{10,11})$/', $phone)) {
             return false;
         }
 
@@ -102,7 +100,7 @@ class Validator implements PerformKeyValidations
      */
     public static function validate(string $type, string $key): bool
     {
-        if (! in_array($type, Pix::KEY_TYPES)) {
+        if (!in_array($type, Pix::KEY_TYPES)) {
             throw InvalidPixKeyException::invalidKeyType($type);
         }
 
@@ -121,5 +119,4 @@ class Validator implements PerformKeyValidations
                 throw InvalidPixKeyException::invalidKeyType($type);
         }
     }
-
 }
