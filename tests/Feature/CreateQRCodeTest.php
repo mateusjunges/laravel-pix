@@ -30,8 +30,12 @@ class CreateQRCodeTest extends TestCase
             'merchant_name' => 'Mateus Junges'
         ]);
 
-        $this->assertIsArray($response->decodeResponseJson()->json()['errors']);
-        $this->assertEquals(json_encode($expected), json_encode($response->decodeResponseJson()->json()));
+        $responseArray = is_array($response->decodeResponseJson())
+            ? $response->decodeResponseJson()
+            : $response->decodeResponseJson()->json();
+
+        $this->assertIsArray($responseArray['errors']);
+        $this->assertEquals(json_encode($expected), json_encode($responseArray));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $response = $this->json('GET', 'laravel-pix/pix/create', [
@@ -52,8 +56,12 @@ class CreateQRCodeTest extends TestCase
             ]
         ];
 
-        $this->assertIsArray($response->decodeResponseJson()->json()['errors']);
-        $this->assertEquals(json_encode($expected), json_encode($response->decodeResponseJson()->json()));
+        $responseArray = is_array($response->decodeResponseJson())
+            ? $response->decodeResponseJson()
+            : $response->decodeResponseJson()->json();
+
+        $this->assertIsArray($responseArray['errors']);
+        $this->assertEquals(json_encode($expected), json_encode($responseArray));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
