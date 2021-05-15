@@ -356,7 +356,7 @@ $cobv = \Junges\Pix\Pix::cobv()->getByTransactionId('transactionId')->json();
 ```
 
 ## Consultar lista de cobranças com vencimento
-Para consultar a lista de cobranças imediatas com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+Para consultar a lista de cobranças imediatas com vencimento com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
 passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
 disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
 a requisição com o método `withFilters()`:
@@ -372,7 +372,7 @@ $filters = (new CobvFilters())
 $cobs = Pix::cobv()->withFilters($filters)->all()->json();
 ```
 
-A lista de filtros disponíveis para o endpoint `cob` é listada aqui:
+A lista de filtros disponíveis para o endpoint `cobv` é listada aqui:
 
 ---
 Filtro | Método utilizado
@@ -390,6 +390,67 @@ paginacao.itensPorPagina | `itemsPerPage()`
 ---
 
 # LoteCobV
+O `loteCobV` reúne os endpoints destinados a lidar com o gerenciamento de cobranças com vencimento em lote.
+
+> A documentação oficial do Banco Central do Brasil a respeito dos requests que devem ser enviados em cada
+> requisiçao pode se encontrada [neste link](https://bacen.github.io/pix-api/index.html#/LoteCobV);
+
+Para utilizar estes endpointes, utilize o método `loteCobv()`, da classe `Junges\Pix\Pix`:
+
+```php
+$cobv = \Junges\Pix\Pix::loteCobv();
+```
+
+## Criando cobrança com vencimento em lote
+Para criar cobranças com vencimento em lote utilize o método `createBatch()`, informando o id do lote e as cobranças que
+devem ser incluídas:
+
+```php
+$batch = \Junges\Pix\Pix::loteCobv()->createBatch('batchId', $request)->json();
+```
+## Revisar lotes de cobranças com vencimento
+Para atualizar dados de um lote de cobranças, utilize o método `updateBatch()`, informando o id do lote a ser
+atualizado e os novos dados:
+
+```php
+$batch = \Junges\Pix\Pix::loteCobv()->updateBatch('batchIdToUpdate', $request)->json();
+```
+
+## Consultar um lote de cobranças com vencimento
+Para consultar um lote de cobranças com vencimento, utilize o método `getByBatchId()`, informando o id do lote
+que deseja consultar:
+
+```php
+$batch = \Junges\Pix\Pix::loteCobv()->getByBatchId('batchId')->json();
+```
+
+## Consultar lista de cobranças com vencimento em lote:
+Para consultar a lista de cobranças com vencimento em lote com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\LoteCobvFilter;
+
+$filters = (new LoteCobvFilter())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$cobs = Pix::loteCobv()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `loteCobv` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
 
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
