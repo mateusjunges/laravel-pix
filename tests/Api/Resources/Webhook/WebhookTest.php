@@ -174,7 +174,7 @@ class WebhookTest extends TestCase
 
         $webhook = Pix::webhook()->delete($this->randomKey);
 
-        Event::assertDispatched(WebhookDeletedEvent::class, function(WebhookDeletedEvent $event) {
+        Event::assertDispatched(WebhookDeletedEvent::class, function (WebhookDeletedEvent $event) {
             return $event->pixKey === $this->randomKey;
         });
 
