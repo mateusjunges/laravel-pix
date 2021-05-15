@@ -21,6 +21,11 @@
   - [Consultando uma cobrança imediata](#consultando-uma-cobrana-imediata)
   - [Criar cobranças imediatas sem `transactionId`](#criando-cobranas-imediatas-sem-transactionid)
   - [Consultando lista de cobranças imediatas](#consultando-lista-de-cobranas-imediatas)
+- [CobV](#cobv)
+  - [Criando uma cobrança com vencimento](#criando-cobranas-com-vencimento)
+  - [Revisando cobranças com vencimento](#revisando-cobranas-com-vencimento)
+  - [Consultando uma cobrança com vencimento](#consultar-uma-cobrana-com-vencimento)
+  - [Consultar lista de cobranças com vencimento](#consultar-lista-de-cobranas-com-vencimento)
 
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
@@ -383,5 +388,8 @@ status | `withStatus()`
 paginacao.paginaAtual | `currentPage()`
 paginacao.itensPorPagina | `itemsPerPage()`
 ---
+
+# LoteCobV
+
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
