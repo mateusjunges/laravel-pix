@@ -476,14 +476,68 @@ paginacao.itensPorPagina | `itemsPerPage()`
 
 
 # Payload Location
+O payload location reúne os endpoints destinados a lidar com a configuração e remoção dos locations utilizados nos payloads.
+
+Para utilizar o payload location, utilize o método `payloadLocation()`, da classe `Junges\Pix\Pix`:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation();
+```
 
 ## Criar location do payload
+Para criar uma location do payload, utilize o método `create`, passando a location que deseja criar:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation()->create('payload-location')->json();
+```
 
 ## Consultar locations cadastradas
+Para consultar a lista de locations cadastrados, com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
 
-## Recuperar location do payload
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\PayloadLocationFilters;
+
+$filters = (new PayloadLocationFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$cobs = Pix::payloadLocation()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `payloadLocation` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+txIdPresente | `withTransactionIdPresent()` ou `withoutTransactionIdPresent`
+tipoCob | `withTypeCob()` ou `withTypeCobv()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
+
+## Recuperar location do 
+Para consultar a location de um payload, você deve utilizar o método `getById()`:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation()->getById('payload-location-id')->json();
+```
 
 ## Desvincular uma cobrança de uma location
+Para desvincular uma cobrança de uma location, você deve utilizar o método `detachChargeFromLocation()`,
+informando o id da location:
+
+```php
+$detach = \Junges\Pix\Pix::payloadLocation()->detachChargeFromLocation('payload-location-id')->json();
+```
+
+ecutado com sucesso, a entidade `loc` não apresentará mais um `transaction_id`, 
+se apresentava anteriormente à chamada. Adicionalmente, a entidade `cob` ou `cobv` associada ao `txid` desvinculado também passará a não mais apresentar um location. Esta operação não altera o `status` da `cob` ou `cobv` em questão.
 
 # Pix recebidos
 
