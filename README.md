@@ -31,6 +31,22 @@
   - [Revisando lotes de cobranças com vencimento](#revisar-lotes-de-cobranas-com-vencimento)
   - [Consultar lote de cobrança com vecimento](#consultar-um-lote-de-cobranas-com-vencimento)
   - [Consultar lista de lotes de cobrança com vencimento](#consultar-lista-de-cobranas-com-vencimento-em-lote)
+- [Payload Location](#payload-location)
+  - [Criar location do payload](#criar-location-do-payload)
+  - [Consultar locations cadastradas](#consultar-locations-cadastradas)
+  - [Recuperar location do payload](#recuperar-location-do-payload)
+  - [Desvincular uma cobrança de um location](#desvincular-uma-cobrana-de-uma-location)
+- [Pix recebidos](#pix-recebidos)
+  - [Consultar um pix recebido](#consultar-pix)
+  - [Consultar lista de pix recebidos](#consultar-pix-recebidos)
+  - [Solicitar devolução de um pix](#solicitar-devoluo)
+  - [Consultar uma devolução de pix](#consultar-devoluo)
+- [Webhooks](#webhooks)
+  - [Configurar o webhook pix](#configurar-o-webhook-pix)
+  - [Exibir informações sobre o webhook pix](#exibir-informaes-sobre-o-webhook-pix)
+  - [Cancelar o webhook pix](#cancelar-o-webhook-pix)
+  - [Consutlar webhooks cadastrados](#consultar-webhooks-cadastrados)
+
 
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
@@ -459,3 +475,34 @@ paginacao.itensPorPagina | `itemsPerPage()`
 
 
 [doc_bacen]: https://bacen.github.io/pix-api/index.html#/
+
+
+# Payload Location
+
+## Criar location do payload
+
+## Consultar locations cadastradas
+
+## Recuperar location do payload
+
+## Desvincular uma cobrança de uma location
+
+# Pix recebidos
+
+## Consultar pix
+
+## Consultar pix recebidos 
+
+## Solicitar devolução
+
+## Consultar devolução
+
+# Webhooks
+
+## Configurar o webhook pix
+
+## Exibir informações sobre o webhook pix
+
+## Cancelar o webhook pix
+
+## Consultar webhooks cadastrados
