@@ -7,6 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesReceivedPixEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Events\ReceivedPix\RefundRequestedEvent;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
@@ -39,7 +40,11 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
     {
         $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid.Endpoints::RECEIVED_PIX_REFUND.$refundId);
 
-        return $this->request()->put($endpoint);
+        $refund = $this->request()->put($endpoint);
+
+        event(new RefundRequestedEvent($refund->json()));
+
+        return $refund;
     }
 
     public function consultRefund(string $e2eid, string $refundId): Response

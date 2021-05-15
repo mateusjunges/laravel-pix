@@ -2,8 +2,10 @@
 
 namespace Junges\Pix\Tests\Api\Resources\ReceivedPix;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Filters\ReceivedPixFilters;
+use Junges\Pix\Events\ReceivedPix\RefundRequestedEvent;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
@@ -111,5 +113,23 @@ class ReceivedPixTest extends TestCase
         $this->expectException(ValidationException::class);
 
         Pix::receivedPix()->all()->json();
+    }
+
+    public function test_it_dispatches_refund_requested_event_when_a_refund_is_issued()
+    {
+        Event::fake();
+
+        Http::fake([
+            'pix.example.com/v2/*' => Http::response($response = ['valor' => '7.89']),
+        ]);
+
+        $pix = Pix::receivedPix()->refund('E12345678202009091221abcdef12345', '123456');
+
+        Event::assertDispatched(RefundRequestedEvent::class, function(RefundRequestedEvent $event) {
+            return $event->refund['valor'] === '7.89';
+        });
+
+        $this->assertTrue($pix->successful());
+        $this->assertEquals($response, $pix->json());
     }
 }
