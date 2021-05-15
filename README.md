@@ -457,7 +457,7 @@ $filters = (new LoteCobvFilter())
     ->startingAt(now()->subMonth()->toISOString())
     ->endingAt(now()->addMonth()->toISOString());
 
-$cobs = Pix::loteCobv()->withFilters($filters)->all()->json();
+$batches = Pix::loteCobv()->withFilters($filters)->all()->json();
 ```
 
 A lista de filtros disponíveis para o endpoint `loteCobv` é listada aqui:
@@ -505,7 +505,7 @@ $filters = (new PayloadLocationFilters())
     ->startingAt(now()->subMonth()->toISOString())
     ->endingAt(now()->addMonth()->toISOString());
 
-$cobs = Pix::payloadLocation()->withFilters($filters)->all()->json();
+$locs = Pix::payloadLocation()->withFilters($filters)->all()->json();
 ```
 
 A lista de filtros disponíveis para o endpoint `payloadLocation` é listada aqui:
@@ -569,7 +569,7 @@ $filters = (new ReceivedPixFilters())
     ->startingAt(now()->subMonth()->toISOString())
     ->endingAt(now()->addMonth()->toISOString());
 
-$cobs = Pix::receivedPix()->withFilters($filters)->all()->json();
+$pix = Pix::receivedPix()->withFilters($filters)->all()->json();
 ```
 
 A lista de filtros disponíveis para o endpoint `receivedPix` é listada aqui:
@@ -604,11 +604,62 @@ $refund = \Junges\Pix\Pix::receivedPix()->consultRefund('e2eid', 'refundId')->js
 ```
 
 # Webhooks
+Reúne endpoints para gerenciamento de notificações por parte do PSP recebedor ao usuário recebedor.
+
+Para gerenciar webhooks, utilize o método `webhook`, da classe `Junges\Pix\Pix`:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook();
+```
 
 ## Configurar o webhook pix
+Este é o endpoint para configuração do serviço de notificações acerca de Pix recebidos. Somente Pix associados a um txid serão notificados.
+Para configurar um webhook, você deve utilizar o método `create`, informando a chave pix e o URL para onde o webhook deve ser enviado:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->create('pixKey', 'https://url-do-webhook.com')->json();
+```
 
 ## Exibir informações sobre o webhook pix
+Para consultar um webhook, utilize o método `getByPixKey`, informando a chave pix associada ao webhook:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->getByPixKey('pixKey')->json();
+```
 
 ## Cancelar o webhook pix
+Para remover um webhook, utilize o método `delete`, informando a chave pix associada ao webhook:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->delete('pixKey')->json();
+```
 
 ## Consultar webhooks cadastrados
+Para consultar todos os webhooks cadastrados, utilize o método `all`:
+
+```php
+$webhooks = \Junges\Pix\Pix::webhook()->all()->json();
+```
+Também é possível incluir alguns filtros, como inicio, fim e paginação, mas neste endpoint nenhum deles é obritagtório:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\WebhookFilters;
+
+$filters = (new WebhookFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$webhooks = Pix::webhook()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `webhook` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
