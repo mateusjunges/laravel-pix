@@ -7,6 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesWebhookEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
+use Junges\Pix\Events\WebhookCreatedEvent;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 
@@ -31,7 +32,11 @@ class Webhook extends Api implements ConsumesWebhookEndpoints, FilterApiRequests
     {
         $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::CREATE_WEBHOOK.$pixKey);
 
-        return $this->request()->put($endpoint, ['webhookUrl' => $callbackUrl]);
+        $webhook = $this->request()->put($endpoint, ['webhookUrl' => $callbackUrl]);
+
+        event(new WebhookCreatedEvent($webhook->json()));
+
+        return $webhook;
     }
 
     public function getByPixKey(string $pixKey): Response
