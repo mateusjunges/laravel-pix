@@ -26,6 +26,11 @@
   - [Revisando cobranças com vencimento](#revisando-cobranas-com-vencimento)
   - [Consultando uma cobrança com vencimento](#consultar-uma-cobrana-com-vencimento)
   - [Consultar lista de cobranças com vencimento](#consultar-lista-de-cobranas-com-vencimento)
+- [LoteCobV](#lotecobv)
+  - [Criando cobranças com vencimento em lote](#criando-cobrana-com-vencimento-em-lote)
+  - [Revisando lotes de cobranças com vencimento](#revisar-lotes-de-cobranas-com-vencimento)
+  - [Consultar lote de cobrança com vecimento](#consultar-um-lote-de-cobranas-com-vencimento)
+  - [Consultar lista de lotes de cobrança com vencimento](#consultar-lista-de-cobranas-com-vencimento-em-lote)
 
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
