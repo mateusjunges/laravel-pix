@@ -42,7 +42,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
         $refund = $this->request()->put($endpoint);
 
-        event(new RefundRequestedEvent($refund->json()));
+        event(new RefundRequestedEvent($refund->json(), $e2eid, $refundId));
 
         return $refund;
     }

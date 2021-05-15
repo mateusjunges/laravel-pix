@@ -123,10 +123,16 @@ class ReceivedPixTest extends TestCase
             'pix.example.com/v2/*' => Http::response($response = ['valor' => '7.89']),
         ]);
 
-        $pix = Pix::receivedPix()->refund('E12345678202009091221abcdef12345', '123456');
+        $e2eid = 'E12345678202009091221abcdef12345';
+        $refundId = '123456';
 
-        Event::assertDispatched(RefundRequestedEvent::class, function(RefundRequestedEvent $event) {
-            return $event->refund['valor'] === '7.89';
+        $pix = Pix::receivedPix()->refund($e2eid, $refundId);
+
+        Event::assertDispatched(RefundRequestedEvent::class,
+            function(RefundRequestedEvent $event) use ($e2eid, $refundId) {
+                return $event->refund['valor'] === '7.89'
+                    && $event->e2eid === $e2eid
+                    && $event->refundId === $refundId;
         });
 
         $this->assertTrue($pix->successful());
