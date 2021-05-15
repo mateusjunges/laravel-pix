@@ -5,8 +5,6 @@
 [![Continuous Integration](https://github.com/mateusjunges/laravel-pix/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/mateusjunges/laravel-pix/actions/workflows/run-tests.yml)
 [![StyleCI](https://styleci.io/repos/364809206/shield?style=flat)](https://styleci.io/repos/364809206)
 
-
-
 > Work In Progress
 
 - [Instalação](#instalao)
@@ -459,7 +457,7 @@ $filters = (new LoteCobvFilter())
     ->startingAt(now()->subMonth()->toISOString())
     ->endingAt(now()->addMonth()->toISOString());
 
-$cobs = Pix::loteCobv()->withFilters($filters)->all()->json();
+$batches = Pix::loteCobv()->withFilters($filters)->all()->json();
 ```
 
 A lista de filtros disponíveis para o endpoint `loteCobv` é listada aqui:
@@ -478,31 +476,190 @@ paginacao.itensPorPagina | `itemsPerPage()`
 
 
 # Payload Location
+O payload location reúne os endpoints destinados a lidar com a configuração e remoção dos locations utilizados nos payloads.
+
+Para utilizar o payload location, utilize o método `payloadLocation()`, da classe `Junges\Pix\Pix`:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation();
+```
 
 ## Criar location do payload
+Para criar uma location do payload, utilize o método `create`, passando a location que deseja criar:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation()->create('payload-location')->json();
+```
 
 ## Consultar locations cadastradas
+Para consultar a lista de locations cadastrados, com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
 
-## Recuperar location do payload
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\PayloadLocationFilters;
+
+$filters = (new PayloadLocationFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$locs = Pix::payloadLocation()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `payloadLocation` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+txIdPresente | `withTransactionIdPresent()` ou `withoutTransactionIdPresent`
+tipoCob | `withTypeCob()` ou `withTypeCobv()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
+
+## Recuperar location do 
+Para consultar a location de um payload, você deve utilizar o método `getById()`:
+
+```php
+$payloadLocation = \Junges\Pix\Pix::payloadLocation()->getById('payload-location-id')->json();
+```
 
 ## Desvincular uma cobrança de uma location
+Para desvincular uma cobrança de uma location, você deve utilizar o método `detachChargeFromLocation()`,
+informando o id da location:
+
+```php
+$detach = \Junges\Pix\Pix::payloadLocation()->detachChargeFromLocation('payload-location-id')->json();
+```
+
+ecutado com sucesso, a entidade `loc` não apresentará mais um `transaction_id`, 
+se apresentava anteriormente à chamada. Adicionalmente, a entidade `cob` ou `cobv` associada ao `txid` desvinculado também passará a não mais apresentar um location. Esta operação não altera o `status` da `cob` ou `cobv` em questão.
 
 # Pix recebidos
+Este método reúne endpoints destinados a lidar com gerenciamento de Pix recebidos.
+
+Para utilizá-lo, utilize o método `receivedPix`, da classe `Junges\Pix\Pix`:
+
+```php
+$receivedPix = \Junges\Pix\Pix::receivedPix();
+```
 
 ## Consultar pix
+Você pode consultar um pix recebido através do id end to end (e2eid):
+
+```php
+$pix = \Junges\Pix\Pix::receivedPix()->getBye2eid('pix-e2eid')->json()
+```
 
 ## Consultar pix recebidos 
+Para consultar a lista de todos os pix recebidos, com parâmetros como inicio, fim, status e outros, utilize o método `all()`,
+passando os filtros necessários. Os filtros `inicio` e `fim` são obrigatórios para todas as requisição neste endpoint. Este pacote
+disponibiliza uma api para aplicação de filtros na requisição, bastando instanciar uma nova classe para os filtros desejados e aplicá-los
+a requisição com o método `withFilters()`:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\ReceivedPixFilters;
+
+$filters = (new ReceivedPixFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$pix = Pix::receivedPix()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `receivedPix` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+txid | `transactionId()`
+txIdPresente | `withTransactionIdPresent()` ou `withoutTransactionIdPresent`
+devolucaoPresente | `withRefundPresent()` ou `withoutRefundPresent()`
+cpf | `cpf()`
+cnpj | `cnpj()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
 
 ## Solicitar devolução
+Você pode solicitar uma devolução de um pix recebido através do método `refund`, informando o id `e2eid` do pix a ser devolvido
+e um id para a devolução:
+
+```php
+$refundPix = \Junges\Pix\Pix::receivedPix()->refund('e2eid', 'refundId')->json();
+```
 
 ## Consultar devolução
+Você pode consultar uma devolução através do id desta devolução e do `e2eid` do pix:
+
+```php
+$refund = \Junges\Pix\Pix::receivedPix()->consultRefund('e2eid', 'refundId')->json();
+```
 
 # Webhooks
+Reúne endpoints para gerenciamento de notificações por parte do PSP recebedor ao usuário recebedor.
+
+Para gerenciar webhooks, utilize o método `webhook`, da classe `Junges\Pix\Pix`:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook();
+```
 
 ## Configurar o webhook pix
+Este é o endpoint para configuração do serviço de notificações acerca de Pix recebidos. Somente Pix associados a um txid serão notificados.
+Para configurar um webhook, você deve utilizar o método `create`, informando a chave pix e o URL para onde o webhook deve ser enviado:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->create('pixKey', 'https://url-do-webhook.com')->json();
+```
 
 ## Exibir informações sobre o webhook pix
+Para consultar um webhook, utilize o método `getByPixKey`, informando a chave pix associada ao webhook:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->getByPixKey('pixKey')->json();
+```
 
 ## Cancelar o webhook pix
+Para remover um webhook, utilize o método `delete`, informando a chave pix associada ao webhook:
+
+```php
+$webhook = \Junges\Pix\Pix::webhook()->delete('pixKey')->json();
+```
 
 ## Consultar webhooks cadastrados
+Para consultar todos os webhooks cadastrados, utilize o método `all`:
+
+```php
+$webhooks = \Junges\Pix\Pix::webhook()->all()->json();
+```
+Também é possível incluir alguns filtros, como inicio, fim e paginação, mas neste endpoint nenhum deles é obritagtório:
+
+```php
+use Junges\Pix\Pix;
+use Junges\Pix\Api\Filters\WebhookFilters;
+
+$filters = (new WebhookFilters())
+    ->startingAt(now()->subMonth()->toISOString())
+    ->endingAt(now()->addMonth()->toISOString());
+
+$webhooks = Pix::webhook()->withFilters($filters)->all()->json();
+```
+
+A lista de filtros disponíveis para o endpoint `webhook` é listada aqui:
+
+---
+Filtro | Método utilizado
+--- | ---
+inicio | `startingAt()`
+fim | `endingAt()`
+paginacao.paginaAtual | `currentPage()`
+paginacao.itensPorPagina | `itemsPerPage()`
+---
