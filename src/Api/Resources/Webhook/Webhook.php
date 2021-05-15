@@ -7,7 +7,7 @@ use Junges\Pix\Api\Api;
 use Junges\Pix\Api\Contracts\ApplyApiFilters;
 use Junges\Pix\Api\Contracts\ConsumesWebhookEndpoints;
 use Junges\Pix\Api\Contracts\FilterApiRequests;
-use Junges\Pix\Events\WebhookCreatedEvent;
+use Junges\Pix\Events\Webhooks\WebhookCreatedEvent;
 use Junges\Pix\Support\Endpoints;
 use RuntimeException;
 

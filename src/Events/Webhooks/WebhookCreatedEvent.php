@@ -1,6 +1,6 @@
 <?php
 
-namespace Junges\Pix\Events;
+namespace Junges\Pix\Events\Webhooks;
 
 class WebhookCreatedEvent
 {

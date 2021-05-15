@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\WebhookFilters;
-use Junges\Pix\Events\WebhookCreatedEvent;
+use Junges\Pix\Events\Webhooks\WebhookCreatedEvent;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
 
