@@ -128,12 +128,14 @@ class ReceivedPixTest extends TestCase
 
         $pix = Pix::receivedPix()->refund($e2eid, $refundId);
 
-        Event::assertDispatched(RefundRequestedEvent::class,
-            function(RefundRequestedEvent $event) use ($e2eid, $refundId) {
+        Event::assertDispatched(
+            RefundRequestedEvent::class,
+            function (RefundRequestedEvent $event) use ($e2eid, $refundId) {
                 return $event->refund['valor'] === '7.89'
                     && $event->e2eid === $e2eid
                     && $event->refundId === $refundId;
-        });
+            }
+        );
 
         $this->assertTrue($pix->successful());
         $this->assertEquals($response, $pix->json());
