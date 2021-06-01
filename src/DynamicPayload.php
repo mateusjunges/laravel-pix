@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Junges\Pix\Concerns\InteractsWithDynamicPayload;
 use Junges\Pix\Contracts\PixPayloadContract;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
+use Throwable;
 
 class DynamicPayload implements PixPayloadContract
 {
@@ -68,11 +69,6 @@ class DynamicPayload implements PixPayloadContract
         return $this;
     }
 
-    /**
-     * @throws Exceptions\PixException
-     *
-     * @return string
-     */
     public function getPayload(): string
     {
         return $this->buildPayload();
