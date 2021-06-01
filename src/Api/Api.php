@@ -10,6 +10,7 @@ use Junges\Pix\Providers\PixServiceProvider;
 
 class Api implements ConsumesPixApi
 {
+//    protected Psp
     protected string $baseUrl;
     protected string $clientId;
     protected string $clientSecret;
