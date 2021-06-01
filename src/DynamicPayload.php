@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Junges\Pix\Concerns\InteractsWithDynamicPayload;
 use Junges\Pix\Contracts\PixPayloadContract;
 use Junges\Pix\Exceptions\InvalidTransactionIdException;
-use Throwable;
 
 class DynamicPayload implements PixPayloadContract
 {
