@@ -68,11 +68,6 @@ class DynamicPayload implements PixPayloadContract
         return $this;
     }
 
-    /**
-     * @throws Exceptions\PixException
-     *
-     * @return string
-     */
     public function getPayload(): string
     {
         return $this->buildPayload();

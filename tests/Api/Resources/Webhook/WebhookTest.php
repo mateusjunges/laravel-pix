@@ -3,9 +3,12 @@
 namespace Junges\Pix\Tests\Api\Resources\Webhook;
 
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\WebhookFilters;
+use Junges\Pix\Events\Webhooks\WebhookCreatedEvent;
+use Junges\Pix\Events\Webhooks\WebhookDeletedEvent;
 use Junges\Pix\Pix;
 use Junges\Pix\Tests\TestCase;
 
@@ -28,7 +31,7 @@ class WebhookTest extends TestCase
     public function test_it_can_delete_a_webhook()
     {
         Http::fake([
-            'pix.example.com/v2/*' => Http::response([], 200),
+            'pix.example.com/v2/*' => Http::response([], 204),
         ]);
 
         $webhook = Pix::webhook()->delete($this->randomKey);
@@ -140,5 +143,41 @@ class WebhookTest extends TestCase
                     'paginacao.itensPorPagina' => $itemsPerPage,
                 ]));
         });
+    }
+
+    public function test_it_dispatches_webhook_created_event_if_a_webhook_is_created()
+    {
+        Event::fake();
+
+        Http::fake([
+            'pix.example.com/v2/*' => Http::response([], 200),
+        ]);
+
+        $url = 'pix.example.com/webhook';
+        $key = $this->randomKey;
+
+        $webhook = Pix::webhook()->create($key, $url);
+        $this->assertTrue($webhook->successful());
+
+        Event::assertDispatched(WebhookCreatedEvent::class, function (WebhookCreatedEvent $event) {
+            return is_array($event->webhook);
+        });
+    }
+
+    public function test_it_dispatches_webhook_deleted_event_if_a_webhook_is_deleted()
+    {
+        Event::fake();
+
+        Http::fake([
+            'pix.example.com/v2/*' => Http::response([], 204),
+        ]);
+
+        $webhook = Pix::webhook()->delete($this->randomKey);
+
+        Event::assertDispatched(WebhookDeletedEvent::class, function (WebhookDeletedEvent $event) {
+            return $event->pixKey === $this->randomKey;
+        });
+
+        $this->assertTrue($webhook->successful());
     }
 }
