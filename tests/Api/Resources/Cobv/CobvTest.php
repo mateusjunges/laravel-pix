@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\CobvFilters;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
+use Junges\Pix\Psp;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
 
@@ -116,6 +117,29 @@ class CobvTest extends TestCase
 
         $this->assertEquals($this->response, $response->json());
         $this->assertTrue($response->successful());
+    }
+
+    public function test_it_can_create_a_cobv_using_non_default_psp()
+    {
+        Http::fake([
+            $this->dummyPspUrl => Http::response($this->response),
+        ]);
+
+        $transactionId = Str::random(26);
+        $request = json_decode(
+            '{"calendario":{"dataDeVencimento":"2020-12-31","validadeAposVencimento":30},"loc":{"id":789},"devedor":{"logradouro":"Alameda Souza, Numero 80, Bairro Braz","cidade":"Recife","uf":"PE","cep":"70011750","cpf":"12345678909","nome":"Francisco da Silva"},"valor":{"original":"123.45","multa":{"modalidade":"2","valorPerc":"15.00"},"juros":{"modalidade":"2","valorPerc":"2.00"},"desconto":{"modalidade":"1","descontoDataFixa":[{"data":"2020-11-30","valorPerc":"30.00"}]}},"chave":"5f84a4c5-c5cb-4599-9f13-7eb4d419dacc","solicitacaoPagador":"Cobrança dos serviços prestados."}',
+            true
+        );
+
+        $response = Pix::cobv()->usingPsp('dummy-psp')->createWithTransactionId($transactionId, $request);
+
+        Http::assertSent(function(Request $request) {
+            return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
+        });
+
+        $this->assertEquals($this->response, $response->json());
+        $this->assertTrue($response->successful());
+        $this->assertEquals('default', Psp::getDefaultPsp());
     }
 
     public function test_it_can_get_a_cobv_by_its_transaction_id()

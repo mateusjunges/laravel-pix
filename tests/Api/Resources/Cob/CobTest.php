@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\CobFilters;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
+use Junges\Pix\Psp;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
 
@@ -69,6 +70,64 @@ class CobTest extends TestCase
 
         $this->assertTrue($cob->successful());
         $this->assertEquals($this->response, $cob->json());
+    }
+
+    public function test_i_can_use_cob_switching_psps()
+    {
+        Http::fake([
+            $this->dummyPspUrl => Http::response($this->response, 200),
+        ]);
+
+        $request = json_decode(
+            '{"calendario":{"expiracao":3600},"devedor":{"cnpj":"12345678000195","nome":"Empresa de Serviços SA"},"valor":{"original":"37.00","modalidadeAlteracao":1},"chave":"7d9f0335-8dcc-4054-9bf9-0dbd61d36906","solicitacaoPagador":"Serviço realizado.","infoAdicionais":[{"nome":"Campo 1","valor":"Informação Adicional1 do PSP-Recebedor"},{"nome":"Campo 2","valor":"Informação Adicional2 do PSP-Recebedor"}]}',
+            true
+        );
+
+        $transactionId = Str::random();
+
+        $cob = Pix::cob()->usingPsp('dummy-psp')->create($transactionId, $request);
+
+        $this->assertTrue($cob->successful());
+        $this->assertEquals($this->response, $cob->json());
+        $this->assertEquals('default', Psp::getDefaultPsp());
+    }
+
+    public function test_it_returns_to_default_psp_if_i_switch_in_only_one_request()
+    {
+        Http::fake([
+            'https://pix.dummy-psp.com/v2/cob/*' => Http::response($this->response, 200),
+        ]);
+
+        $request = json_decode(
+            '{"calendario":{"expiracao":3600},"devedor":{"cnpj":"12345678000195","nome":"Empresa de Serviços SA"},"valor":{"original":"37.00","modalidadeAlteracao":1},"chave":"7d9f0335-8dcc-4054-9bf9-0dbd61d36906","solicitacaoPagador":"Serviço realizado.","infoAdicionais":[{"nome":"Campo 1","valor":"Informação Adicional1 do PSP-Recebedor"},{"nome":"Campo 2","valor":"Informação Adicional2 do PSP-Recebedor"}]}',
+            true
+        );
+
+        $transactionId = Str::random();
+
+        $cob = Pix::cob();
+
+        $response = $cob->usingPsp('dummy-psp')->create($transactionId, $request);
+
+        Http::assertSent(function(Request $request) {
+            return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
+        });
+
+        $this->assertTrue($response->successful());
+        $this->assertEquals($this->response, $response->json());
+        $this->assertEquals('dummy-psp', $cob->getPsp()->getCurrentPsp());
+
+        Http::fake([
+            'https://pix.example.com/v2/*' => Http::response($this->response, 200),
+        ]);
+
+        $cob = Pix::cob();
+
+        $response = $cob->create($transactionId, $request);
+
+        $this->assertTrue($response->successful());
+        $this->assertEquals($this->response, $response->json());
+        $this->assertEquals('default', Psp::getDefaultPsp());
     }
 
     public function test_it_can_create_a_cob_without_transaction_id()

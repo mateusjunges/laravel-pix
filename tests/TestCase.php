@@ -12,6 +12,7 @@ class TestCase extends Orchestra
     public string $cnpjKey = '07.949.599/0001-53';
     public string $phoneNumberKey = '+5542999999999';
     public string $emailKey = 'mateus@junges.dev';
+    public string $dummyPspUrl = 'https://pix.dummy-psp.com/v2/*';
 
     public function setUp(): void
     {
@@ -32,7 +33,9 @@ class TestCase extends Orchestra
         $app['config']->set('laravel-pix.transaction_currency_code', 986);
         $app['config']->set('laravel-pix.country_code', 'BR');
         $app['config']->set('laravel-pix.gui', 'br.gov.bcb.pix');
-        $app['config']->set('laravel-pix.psp.base_url', 'https://pix.example.com/v2');
-        $app['config']->set('laravel-pix.psp.oauth_token_url', 'https://pix.example.com/oauth/token');
+        $app['config']->set('laravel-pix.psp.default.base_url', 'https://pix.example.com/v2');
+        $app['config']->set('laravel-pix.psp.default.oauth_token_url', 'https://pix.example.com/oauth/token');
+        $app['config']->set('laravel-pix.psp.dummy-psp.base_url', 'https://pix.dummy-psp.com/v2');
+        $app['config']->set('laravel-pix.psp.dummy-psp.oauth_token_url', 'https://pix.dummy-psp.com/oauth/token');
     }
 }
