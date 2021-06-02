@@ -40,7 +40,7 @@ class WebhookTest extends TestCase
 
         $webhook = Pix::webhook()->usingPsp('dummy-psp')->create($key, $url);
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 

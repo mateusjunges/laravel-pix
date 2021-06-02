@@ -64,7 +64,7 @@ class ReceivedPixTest extends TestCase
 
         $pix = Pix::receivedPix()->usingPsp('dummy-psp')->refund('E12345678202009091221abcdef12345', '123456');
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 

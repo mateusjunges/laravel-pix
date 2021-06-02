@@ -43,7 +43,7 @@ class PayloadLocationTest extends TestCase
 
         $payloadLocation = Pix::payloadLocation()->usingPsp('dummy-psp')->create('cob');
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 

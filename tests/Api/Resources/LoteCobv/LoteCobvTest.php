@@ -61,7 +61,7 @@ class LoteCobvTest extends TestCase
 
         $response = Pix::loteCobv()->usingPsp('dummy-psp')->createBatch($id, $request);
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 

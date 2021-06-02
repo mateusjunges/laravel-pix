@@ -109,7 +109,7 @@ class CobTest extends TestCase
 
         $response = $cob->usingPsp('dummy-psp')->create($transactionId, $request);
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 

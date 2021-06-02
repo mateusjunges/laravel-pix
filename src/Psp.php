@@ -6,7 +6,7 @@ use Junges\Pix\Exceptions\Psp\InvalidPspException;
 
 class Psp
 {
-    public static string $defaultPsp = "default";
+    public static string $defaultPsp = 'default';
     public ?string $currentPsp = null;
 
     public static function getConfig(): Psp
@@ -45,32 +45,32 @@ class Psp
 
     public function getOauthTokenUrl(): string
     {
-        return $this->getPspConfig($this->getCurrentPsp())['oauth_token_url'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['oauth_token_url'] ?? '';
     }
 
     public function getPspSSLCertificate(): string
     {
-        return $this->getPspConfig($this->getCurrentPsp())['ssl_certificate'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['ssl_certificate'] ?? '';
     }
 
     public function getPspBaseUrl(): string
     {//dd($this->getPspConfig($this->getCurrentPsp()));
-        return $this->getPspConfig($this->getCurrentPsp())['base_url'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['base_url'] ?? '';
     }
 
     public function getPspClientId(): string
     {
-        return $this->getPspConfig($this->getCurrentPsp())['client_id'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['client_id'] ?? '';
     }
 
     public function getPspClientSecret(): string
     {
-        return $this->getPspConfig($this->getCurrentPsp())['client_secret'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['client_secret'] ?? '';
     }
 
     public function getPspOauthBearerToken(): string
     {
-        return $this->getPspConfig($this->getCurrentPsp())['oauth_bearer_token'] ?? "";
+        return $this->getPspConfig($this->getCurrentPsp())['oauth_bearer_token'] ?? '';
     }
 
     private function getPspConfig(string $psp)
