@@ -5,6 +5,7 @@ namespace Junges\Pix\Tests\Api;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Api;
+use Junges\Pix\Api\Auth;
 use Junges\Pix\Tests\TestCase;
 use Mockery as m;
 
@@ -33,5 +34,22 @@ class ApiTest extends TestCase
         $api = new Api();
 
         $this->assertEquals($response, $api->getOauth2Token()->json());
+    }
+
+    public function test_it_can_instantiate_the_correct_class_for_each_psp()
+    {
+        $this->app['config']->set('laravel-pix.psp.dummy-psp.authentication_class', DummyPspAuth::class);
+
+        $api = (new Api())->usingPsp('dummy-psp');
+
+        $this->assertEquals('test_token', $api->getOauth2Token());
+    }
+}
+
+class DummyPspAuth extends Auth
+{
+    public function getToken(string $scopes = null)
+    {
+        return 'test_token';
     }
 }

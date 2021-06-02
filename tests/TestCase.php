@@ -35,6 +35,7 @@ class TestCase extends Orchestra
         $app['config']->set('laravel-pix.gui', 'br.gov.bcb.pix');
         $app['config']->set('laravel-pix.psp.default.base_url', 'https://pix.example.com/v2');
         $app['config']->set('laravel-pix.psp.default.oauth_token_url', 'https://pix.example.com/oauth/token');
+        $app['config']->set('laravel-pix.psp.default.authentication_class', \Junges\Pix\Api\Contracts\AuthenticatesPSPs::class);
         $app['config']->set('laravel-pix.psp.dummy-psp.base_url', 'https://pix.dummy-psp.com/v2');
         $app['config']->set('laravel-pix.psp.dummy-psp.oauth_token_url', 'https://pix.dummy-psp.com/oauth/token');
     }

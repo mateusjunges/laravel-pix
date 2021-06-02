@@ -3,26 +3,28 @@
 namespace Junges\Pix\Api;
 
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
+use Junges\Pix\Api\Contracts\AuthenticatesPSPs;
 use Junges\Pix\Providers\PixServiceProvider;
-use Junges\Pix\Psp;
 
-class Auth implements AuthenticatesWithOauth
+class Auth implements AuthenticatesPSPs
 {
     protected string $clientId;
     protected string $clientSecret;
     protected string $certificate;
+    protected string $currentPspOauthEndpoint;
     protected ?string $certificatePassword;
 
     public function __construct(
         string $clientId,
         string $clientSecret,
         string $certificate,
+        string $currentPspOauthEndpoint,
         ?string $certificatePassword
     ) {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->certificate = $certificate;
+        $this->currentPspOauthEndpoint = $currentPspOauthEndpoint;
         $this->certificatePassword = $certificatePassword;
     }
 
@@ -62,6 +64,6 @@ class Auth implements AuthenticatesWithOauth
 
     public function getOauthEndpoint(): string
     {
-        return Psp::getConfig()->getOauthTokenUrl();
+        return $this->currentPspOauthEndpoint;
     }
 }

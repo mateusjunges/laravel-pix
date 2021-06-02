@@ -2,7 +2,7 @@
 
 namespace Junges\Pix;
 
-use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
+use Junges\Pix\Api\Contracts\AuthenticatesPSPs;
 use Junges\Pix\Contracts\GeneratesQrCode;
 use Junges\Pix\Providers\PixServiceProvider;
 
@@ -23,9 +23,9 @@ class LaravelPix
         app()->singleton(GeneratesQrCode::class, $callback);
     }
 
-    public static function authenticatesViaOauthUsing(string $callback): void
+    public static function authenticatesUsing(string $callback): void
     {
-        app()->singleton(AuthenticatesWithOauth::class, $callback);
+        app()->singleton(AuthenticatesPSPs::class, $callback);
     }
 
     public static function useAsDefaultPsp(string $psp = 'default'): void
