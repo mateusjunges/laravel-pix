@@ -5,7 +5,6 @@ namespace Junges\Pix\Api;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesPSPs;
 use Junges\Pix\Providers\PixServiceProvider;
-use Junges\Pix\Psp;
 
 class Auth implements AuthenticatesPSPs
 {

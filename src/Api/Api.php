@@ -4,7 +4,6 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Api\Contracts\AuthenticatesPSPs;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Providers\PixServiceProvider;
 use Junges\Pix\Psp;
@@ -134,7 +133,7 @@ class Api implements ConsumesPixApi
             'clientSecret'            => $this->clientSecret,
             'certificate'             => $this->certificate,
             'certificatePassword'     => $this->certificatePassword,
-            'currentPspOauthEndpoint' => $this->psp->getOauthTokenUrl()
+            'currentPspOauthEndpoint' => $this->psp->getOauthTokenUrl(),
         ])->getToken();
     }
 

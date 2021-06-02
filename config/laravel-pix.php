@@ -38,7 +38,7 @@ return [
             'ssl_certificate'      => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
             'client_secret'        => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
             'client_id'            => env('LARAVEL_PIX_PSP_CLIENT_ID'),
-            'authentication_class' => \Junges\Pix\Api\Contracts\AuthenticatesPSPs::class
+            'authentication_class' => \Junges\Pix\Api\Contracts\AuthenticatesPSPs::class,
         ],
     ],
 ];
