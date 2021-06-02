@@ -276,6 +276,16 @@ public function boot()
     \Junges\Pix\LaravelPix::useAsDefaultPsp('your-default-psp-here');
 }
 ```
+Para alterar o PSP em tempo de execução, você deve utilizar o método `usingPsp()`, disponível em todos os endpoints implementados neste pacote:
+
+```php
+\Junges\Pix\Pix::cob()->usingPsp('your-psp-here');
+\Junges\Pix\Pix::cobv()->usingPsp('your-psp-here');
+\Junges\Pix\Pix::loteCobv()->usingPsp('your-psp-here');
+\Junges\Pix\Pix::payloadLocation()->usingPsp('your-psp-here');
+\Junges\Pix\Pix::receivedPix()->usingPsp('your-psp-here');
+\Junges\Pix\Pix::webhook()->usingPsp('your-psp-here');
+```
 
 # Cob
 O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
