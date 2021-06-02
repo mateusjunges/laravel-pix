@@ -26,6 +26,7 @@ return [
 
     /*
      * Informações do Prestador de serviço de pagamento (PSP) que você está utilizando.
+     * Você pode utilizar vários psps com este pacote, bastando adicionar um novo array com configurações.
      * base_url: URL base da API do seu PSP.
      * oauth_bearer_token: Você pode definir o seu Token
      */

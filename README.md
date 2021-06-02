@@ -13,6 +13,7 @@
 - [Endpoints](#endpoints)
 - [Configurações iniciais](#configuraes-iniciais)
   - [Obtendo o token de acesso](#obtendo-o-token-de-acesso)
+  - [Configurando PSPs](#configurando-psps)
 - [Cob](#cob)
   - [Criando uma cobrança imediata](#criando-um-cob)
   - [Revisando uma cobrança imediata](#revisar-uma-cobrana-imediata)
@@ -100,19 +101,22 @@ return [
      */
     'create_qr_code_route_middleware' => '',
 
-    /*
+     /*
      * Informações do Prestador de serviço de pagamento (PSP) que você está utilizando.
+     * Você pode utilizar vários psps com este pacote, bastando adicionar um novo array com configurações.
      * base_url: URL base da API do seu PSP.
      * oauth_bearer_token: Você pode definir o seu Token
      */
     'psp' => [
-        'base_url' => env('LARAVEL_PIX_PSP_BASE_URL'),
-        'oauth_token_url' => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
-        'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
-        'ssl_certificate' => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
-        'client_secret' => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
-        'client_id' => env('LARAVEL_PIX_PSP_CLIENT_ID'),
-    ]
+        'default' => [
+            'base_url'           => env('LARAVEL_PIX_PSP_BASE_URL'),
+            'oauth_token_url'    => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
+            'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+            'ssl_certificate'    => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+            'client_secret'      => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+            'client_id'          => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+        ]
+    ],
 ];
 ```
 
@@ -256,10 +260,23 @@ public function boot()
     \Junges\Pix\LaravelPix::authenticatesViaOauthUsing(CustomAuthentication::class);
 }
 ```
-
-Agora, sua classe de autenticação com sua própria lógica será utilizada para obter o token de acesso, e o método `getOAuthToken()` retorna o 
+Agora, sua classe de autenticação com sua própria lógica será utilizada para obter o token de acesso, e o método `getOAuthToken()` retorna o
 conteúdo retornado pelo método `getToken` desta classe.
-g
+
+## Configurando PSPs
+Se você possui integrações com mais de um psp, você pode configurar os parâmetros individuais para cara um no arquivo de configurações deste pacote, 
+em `config/laravel-pix.php`. 
+
+O PSP default utilizado pelo pacote está definido na key `default`, do array de PSPs. Você pode alterar o PSP padrão através do método `useAsDefaultPsp()`,
+no seu service provider:
+
+```php
+public function boot()
+{
+    \Junges\Pix\LaravelPix::useAsDefaultPsp('your-default-psp-here');
+}
+```
+
 # Cob
 O Cob reúne os endpoints relacionados a criação de cobranças instantâneas.
 
