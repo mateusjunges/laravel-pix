@@ -2,12 +2,15 @@
 
 namespace Junges\Pix\Tests\Api\Resources\ReceivedPix;
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\ReceivedPixFilters;
 use Junges\Pix\Events\ReceivedPix\RefundRequestedEvent;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
+use Junges\Pix\Psp;
 use Junges\Pix\Tests\TestCase;
 
 class ReceivedPixTest extends TestCase
@@ -51,6 +54,23 @@ class ReceivedPixTest extends TestCase
 
         $this->assertTrue($pix->successful());
         $this->assertEquals($response, $pix->json());
+    }
+
+    public function test_it_can_issue_refunds_using_non_default_psp()
+    {
+        Http::fake([
+            $this->dummyPspUrl => Http::response($response = ['valor' => '7.89']),
+        ]);
+
+        $pix = Pix::receivedPix()->usingPsp('dummy-psp')->refund('E12345678202009091221abcdef12345', '123456');
+
+        Http::assertSent(function (Request $request) {
+            return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
+        });
+
+        $this->assertTrue($pix->successful());
+        $this->assertEquals($response, $pix->json());
+        $this->assertEquals('default', Psp::getDefaultPsp());
     }
 
     public function test_it_can_consult_a_issued_refund()

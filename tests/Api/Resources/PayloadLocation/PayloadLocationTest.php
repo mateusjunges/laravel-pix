@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Junges\Pix\Api\Filters\PayloadLocationFilters;
 use Junges\Pix\Exceptions\ValidationException;
 use Junges\Pix\Pix;
+use Junges\Pix\Psp;
 use Junges\Pix\Tests\TestCase;
 
 class PayloadLocationTest extends TestCase
@@ -27,6 +28,28 @@ class PayloadLocationTest extends TestCase
 
         $this->assertEquals($response, $payloadLocation->json());
         $this->assertTrue($payloadLocation->successful());
+    }
+
+    public function test_it_can_create_a_payload_location_using_non_default_psp()
+    {
+        $response = json_decode(
+            '{"id":7716,"location":"pix.example.com/qr/v2/2353c790eefb11eaadc10242ac120002","tipoCob":"cob","criacao":"2020-03-11T21:19:51.013Z"}',
+            true
+        );
+
+        Http::fake([
+            $this->dummyPspUrl => Http::response($response),
+        ]);
+
+        $payloadLocation = Pix::payloadLocation()->usingPsp('dummy-psp')->create('cob');
+
+        Http::assertSent(function (Request $request) {
+            return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
+        });
+
+        $this->assertEquals($response, $payloadLocation->json());
+        $this->assertTrue($payloadLocation->successful());
+        $this->assertEquals('default', Psp::getDefaultPsp());
     }
 
     public function test_it_can_get_a_location_by_id()

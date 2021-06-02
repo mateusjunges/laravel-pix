@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Providers\PixServiceProvider;
+use Junges\Pix\Psp;
 
 class Api implements ConsumesPixApi
 {
@@ -18,14 +19,17 @@ class Api implements ConsumesPixApi
     protected ?string $oauthToken;
     protected array $additionalParams = [];
     protected array $additionalOptions = [];
+    protected Psp $psp;
 
     public function __construct()
     {
-        $this->oauthToken(config('laravel-pix.psp.oauth_bearer_token', ''))
-            ->certificate(config('laravel-pix.psp.ssl_certificate', ''))
-            ->baseUrl(config('laravel-pix.psp.base_url', ''))
-            ->clientId(config('laravel-pix.psp.client_id', ''))
-            ->clientSecret(config('laravel-pix.psp.client_secret', ''));
+        $this->psp = new Psp();
+
+        $this->oauthToken($this->psp->getPspOauthBearerToken())
+            ->certificate($this->psp->getPspSSLCertificate())
+            ->baseUrl($this->psp->getPspBaseUrl())
+            ->clientId($this->psp->getPspClientId())
+            ->clientSecret($this->psp->getPspClientSecret());
     }
 
     public function baseUrl(string $baseUrl): Api
@@ -68,6 +72,31 @@ class Api implements ConsumesPixApi
         $this->oauthToken = $oauthToken;
 
         return $this;
+    }
+
+    public function usingPsp(string $psp): Api
+    {
+        $this->psp->currentPsp($psp);
+
+        $this->oauthToken($this->psp->getPspOauthBearerToken())
+            ->certificate($this->psp->getPspSSLCertificate())
+            ->baseUrl($this->psp->getPspBaseUrl())
+            ->clientId($this->psp->getPspClientId())
+            ->clientSecret($this->psp->getPspClientSecret());
+
+        return $this;
+    }
+
+    public function usingDefaultPsp(): Api
+    {
+        $this->psp->currentPsp(Psp::getDefaultPsp());
+
+        return $this;
+    }
+
+    public function getPsp(): Psp
+    {
+        return $this->psp;
     }
 
     protected function request(): PendingRequest

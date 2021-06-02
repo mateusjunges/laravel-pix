@@ -26,15 +26,18 @@ return [
 
     /*
      * Informações do Prestador de serviço de pagamento (PSP) que você está utilizando.
+     * Você pode utilizar vários psps com este pacote, bastando adicionar um novo array com configurações.
      * base_url: URL base da API do seu PSP.
      * oauth_bearer_token: Você pode definir o seu Token
      */
     'psp' => [
-        'base_url'           => env('LARAVEL_PIX_PSP_BASE_URL'),
-        'oauth_token_url'    => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
-        'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
-        'ssl_certificate'    => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
-        'client_secret'      => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
-        'client_id'          => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+        'default' => [
+            'base_url'           => env('LARAVEL_PIX_PSP_BASE_URL'),
+            'oauth_token_url'    => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
+            'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+            'ssl_certificate'    => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+            'client_secret'      => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+            'client_id'          => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+        ],
     ],
 ];

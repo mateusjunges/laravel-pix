@@ -10,6 +10,7 @@ use Junges\Pix\Api\Filters\WebhookFilters;
 use Junges\Pix\Events\Webhooks\WebhookCreatedEvent;
 use Junges\Pix\Events\Webhooks\WebhookDeletedEvent;
 use Junges\Pix\Pix;
+use Junges\Pix\Psp;
 use Junges\Pix\Tests\TestCase;
 
 class WebhookTest extends TestCase
@@ -26,6 +27,26 @@ class WebhookTest extends TestCase
         $webhook = Pix::webhook()->create($key, $url);
 
         $this->assertTrue($webhook->successful());
+    }
+
+    public function test_it_can_create_a_webhook_using_non_default_psp()
+    {
+        Http::fake([
+            $this->dummyPspUrl=> Http::response([], 200),
+        ]);
+
+        $url = 'pix.example.com/webhook';
+        $key = $this->randomKey;
+
+        $webhook = Pix::webhook()->usingPsp('dummy-psp')->create($key, $url);
+
+        Http::assertSent(function (Request $request) {
+            return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
+        });
+
+        $this->assertTrue($webhook->successful());
+
+        $this->assertEquals('default', Psp::getDefaultPsp());
     }
 
     public function test_it_can_delete_a_webhook()

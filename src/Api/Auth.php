@@ -5,6 +5,7 @@ namespace Junges\Pix\Api;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
 use Junges\Pix\Providers\PixServiceProvider;
+use Junges\Pix\Psp;
 
 class Auth implements AuthenticatesWithOauth
 {
@@ -61,6 +62,6 @@ class Auth implements AuthenticatesWithOauth
 
     public function getOauthEndpoint(): string
     {
-        return config('laravel-pix.psp.oauth_token_url');
+        return Psp::getConfig()->getOauthTokenUrl();
     }
 }

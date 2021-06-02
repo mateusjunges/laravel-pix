@@ -27,4 +27,9 @@ class LaravelPix
     {
         app()->singleton(AuthenticatesWithOauth::class, $callback);
     }
+
+    public static function useAsDefaultPsp(string $psp = 'default'): void
+    {
+        Psp::defaultPsp($psp);
+    }
 }
