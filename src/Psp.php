@@ -73,6 +73,11 @@ class Psp
         return $this->getPspConfig($this->getCurrentPsp())['oauth_bearer_token'] ?? '';
     }
 
+    public function getAuthenticationClass(): string
+    {
+        return $this->getPspConfig($this->getCurrentPsp())['authentication_class'] ?? '';
+    }
+
     private function getPspConfig(string $psp)
     {
         throw_if(!$this->validatePsp($this->getCurrentPsp()), InvalidPspException::pspNotFound($this->getCurrentPsp()));

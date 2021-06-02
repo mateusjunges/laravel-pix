@@ -38,7 +38,7 @@ class PixServiceProvider extends ServiceProvider
     public function register()
     {
         LaravelPix::generatesQrCodeUsing(QrCodeGenerator::class);
-        LaravelPix::authenticatesViaOauthUsing(Auth::class);
+        LaravelPix::authenticatesUsing(Auth::class);
 
         LaravelPix::useAsDefaultPsp('default');
 

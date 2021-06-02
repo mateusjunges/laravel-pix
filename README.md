@@ -109,12 +109,13 @@ return [
      */
     'psp' => [
         'default' => [
-            'base_url'           => env('LARAVEL_PIX_PSP_BASE_URL'),
-            'oauth_token_url'    => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
-            'oauth_bearer_token' => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
-            'ssl_certificate'    => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
-            'client_secret'      => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
-            'client_id'          => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+            'base_url'             => env('LARAVEL_PIX_PSP_BASE_URL'),
+            'oauth_token_url'      => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
+            'oauth_bearer_token'   => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+            'ssl_certificate'      => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+            'client_secret'        => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+            'client_id'            => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+            'authentication_class' => \Junges\Pix\Api\Contracts\AuthenticatesPSPs::class
         ]
     ],
 ];
@@ -257,11 +258,13 @@ Você pode fazer isso através do `AppServiceProvider` da sua aplicação:
 ```php
 public function boot()
 {
-    \Junges\Pix\LaravelPix::authenticatesViaOauthUsing(CustomAuthentication::class);
+    \Junges\Pix\LaravelPix::authenticatesUsing(CustomAuthentication::class);
 }
 ```
 Agora, sua classe de autenticação com sua própria lógica será utilizada para obter o token de acesso, e o método `getOAuthToken()` retorna o
 conteúdo retornado pelo método `getToken` desta classe.
+
+> É possível configurar uma classe de autenticação para cada PSP.
 
 ## Configurando PSPs
 Se você possui integrações com mais de um psp, você pode configurar os parâmetros individuais para cara um no arquivo de configurações deste pacote, 

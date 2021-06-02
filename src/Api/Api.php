@@ -4,7 +4,7 @@ namespace Junges\Pix\Api;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Junges\Pix\Api\Contracts\AuthenticatesWithOauth;
+use Junges\Pix\Api\Contracts\AuthenticatesPSPs;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Providers\PixServiceProvider;
 use Junges\Pix\Psp;
@@ -127,11 +127,14 @@ class Api implements ConsumesPixApi
 
     public function getOauth2Token(string $scopes = null)
     {
-        return app(AuthenticatesWithOauth::class, [
-            'clientId'            => $this->clientId,
-            'clientSecret'        => $this->clientSecret,
-            'certificate'         => $this->certificate,
-            'certificatePassword' => $this->certificatePassword,
+        $authentication_class = $this->getPsp()->getAuthenticationClass();
+
+        return app($authentication_class, [
+            'clientId'                => $this->clientId,
+            'clientSecret'            => $this->clientSecret,
+            'certificate'             => $this->certificate,
+            'certificatePassword'     => $this->certificatePassword,
+            'currentPspOauthEndpoint' => $this->psp->getOauthTokenUrl()
         ])->getToken();
     }
 

@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Api\Contracts;
 
-interface AuthenticatesWithOauth
+interface AuthenticatesPSPs
 {
     public function getToken(string $scopes = null);
 
