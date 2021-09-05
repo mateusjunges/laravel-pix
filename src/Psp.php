@@ -54,7 +54,7 @@ class Psp
     }
 
     public function getPspBaseUrl(): string
-    {//dd($this->getPspConfig($this->getCurrentPsp()));
+    {
         return $this->getPspConfig($this->getCurrentPsp())['base_url'] ?? '';
     }
 
