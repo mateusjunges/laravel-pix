@@ -8,7 +8,6 @@ use Junges\Pix\Api\Contracts\ConsumesPixApi;
 use Junges\Pix\Contracts\CanResolveEndpoints;
 use Junges\Pix\Providers\PixServiceProvider;
 use Junges\Pix\Psp;
-use Junges\Pix\Support\Endpoints;
 
 class Api implements ConsumesPixApi
 {
@@ -32,7 +31,6 @@ class Api implements ConsumesPixApi
             ->baseUrl($this->psp->getPspBaseUrl())
             ->clientId($this->psp->getPspClientId())
             ->clientSecret($this->psp->getPspClientSecret());
-
     }
 
     public function baseUrl(string $baseUrl): Api

@@ -59,7 +59,7 @@ class ReceivedPixTest extends TestCase
     public function test_it_can_issue_refunds_using_non_default_psp()
     {
         Http::fake([
-            $this->dummyPspUrl . '/*' => Http::response($response = ['valor' => '7.89']),
+            $this->dummyPspUrl.'/*' => Http::response($response = ['valor' => '7.89']),
         ]);
 
         $pix = Pix::receivedPix()->usingPsp('dummy-psp')->refund('E12345678202009091221abcdef12345', '123456');
@@ -68,10 +68,9 @@ class ReceivedPixTest extends TestCase
             return Str::contains($request->url(), 'https://pix.dummy-psp.com/v2');
         });
 
-        Http::assertSent(function(Request $request) {
+        Http::assertSent(function (Request $request) {
             return Str::contains($request->url(), 'test-replace-url');
         });
-
 
         $this->assertTrue($pix->successful());
         $this->assertEquals($response, $pix->json());

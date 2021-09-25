@@ -36,33 +36,33 @@ class Endpoints implements CanResolveEndpoints
     const PAYLOAD_LOCATION_TXID = 'payload_location_txid';
 
     public array $endpoints = [
-        self::OAUTH_TOKEN => '/oauth/token',
-        self::CREATE_COB => '/cob/',
-        self::GET_COB => '/cob/',
-        self::UPDATE_COB => '/cob/',
+        self::OAUTH_TOKEN  => '/oauth/token',
+        self::CREATE_COB   => '/cob/',
+        self::GET_COB      => '/cob/',
+        self::UPDATE_COB   => '/cob/',
         self::GET_ALL_COBS => '/cob/',
 
-        self::CREATE_COBV => '/cobv/',
-        self::GET_COBV => '/cobv/',
+        self::CREATE_COBV  => '/cobv/',
+        self::GET_COBV     => '/cobv/',
         self::GET_ALL_COBV => '/cobv/',
 
-        self::CREATE_LOTE_COBV => '/lotecobv/',
-        self::UPDATE_LOTE_COBV => '/lotecobv/',
-        self::GET_LOTE_COBV => '/lotecobv/',
+        self::CREATE_LOTE_COBV  => '/lotecobv/',
+        self::UPDATE_LOTE_COBV  => '/lotecobv/',
+        self::GET_LOTE_COBV     => '/lotecobv/',
         self::GET_ALL_LOTE_COBV => '/lotecobv/',
 
         self::CREATE_WEBHOOK => '/webhook/',
-        self::GET_WEBHOOK => '/webhook/',
+        self::GET_WEBHOOK    => '/webhook/',
         self::DELETE_WEBHOOK => '/webhook/',
-        self::GET_WEBHOOKS => '/webhooks/',
+        self::GET_WEBHOOKS   => '/webhooks/',
 
-        self::RECEIVED_PIX => '/pix/',
+        self::RECEIVED_PIX        => '/pix/',
         self::RECEIVED_PIX_REFUND => '/devolucao/',
 
-        self::CREATE_PAYLOAD_LOCATION => '/loc/',
-        self::GET_PAYLOAD_LOCATION => '/loc/',
+        self::CREATE_PAYLOAD_LOCATION     => '/loc/',
+        self::GET_PAYLOAD_LOCATION        => '/loc/',
         self::DETACH_CHARGE_FROM_LOCATION => '/loc/',
-        self::PAYLOAD_LOCATION_TXID => '/loc/',
+        self::PAYLOAD_LOCATION_TXID       => '/loc/',
     ];
 
     public function setEndpoint(string $key, string $value): void
@@ -72,12 +72,14 @@ class Endpoints implements CanResolveEndpoints
 
     /**
      * @param string $key
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function getEndpoint(string $key): string
     {
-        if (! $endpoint = $this->endpoints[$key]) {
+        if (!$endpoint = $this->endpoints[$key]) {
             throw new Exception("Endpoint does not exist: '{$key}'");
         }
 
