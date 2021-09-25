@@ -43,6 +43,7 @@
   - [Exibir informações sobre o webhook pix](#exibir-informaes-sobre-o-webhook-pix)
   - [Cancelar o webhook pix](#cancelar-o-webhook-pix)
   - [Consutlar webhooks cadastrados](#consultar-webhooks-cadastrados)
+- [Configurando endpoints](#configurando-endpoints)
 
 
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
@@ -691,3 +692,57 @@ fim | `endingAt()`
 paginacao.paginaAtual | `currentPage()`
 paginacao.itensPorPagina | `itemsPerPage()`
 ---
+
+# Configurando Endpoints
+Para configurar endpoints específicos para cada PSP, você precisa criar um `EndpointResolver` para cada PSP que não segue a convenção do BACEN.
+Para criar um endpoint Resolver, crie um classe com o nome desejado e implemente a interface `CanResolveEndpoints`, ou, simplesmente extenda a class `Endpoints`, 
+disponível neste pacote. Ela fornece os endpoints necessários, e você pode copiar o array de endpoints e alterar o necessário para o seu PSP.
+
+```php
+    public array $endpoints = [
+        self::OAUTH_TOKEN  => '/oauth/token',
+        self::CREATE_COB   => '/cob/',
+        self::GET_COB      => '/cob/',
+        self::UPDATE_COB   => '/cob/',
+        self::GET_ALL_COBS => '/cob/',
+
+        self::CREATE_COBV  => '/cobv/',
+        self::GET_COBV     => '/cobv/',
+        self::GET_ALL_COBV => '/cobv/',
+
+        self::CREATE_LOTE_COBV  => '/lotecobv/',
+        self::UPDATE_LOTE_COBV  => '/lotecobv/',
+        self::GET_LOTE_COBV     => '/lotecobv/',
+        self::GET_ALL_LOTE_COBV => '/lotecobv/',
+
+        self::CREATE_WEBHOOK => '/webhook/',
+        self::GET_WEBHOOK    => '/webhook/',
+        self::DELETE_WEBHOOK => '/webhook/',
+        self::GET_WEBHOOKS   => '/webhooks/',
+
+        self::RECEIVED_PIX        => '/pix/',
+        self::RECEIVED_PIX_REFUND => '/devolucao/',
+
+        self::CREATE_PAYLOAD_LOCATION     => '/loc/',
+        self::GET_PAYLOAD_LOCATION        => '/loc/',
+        self::DETACH_CHARGE_FROM_LOCATION => '/loc/',
+        self::PAYLOAD_LOCATION_TXID       => '/loc/',
+    ];
+```
+
+Após isso, registre o endpoint resolver do seu PSP na chave `resolve_endpoints_using`, do arquivo de configurações deste pacote, dentro das configurações do PSP desejado.
+
+```php
+'psp' => [
+        'default' => [
+            'base_url'                => env('LARAVEL_PIX_PSP_BASE_URL'),
+            'oauth_token_url'         => env('LARAVEL_PIX_PSP_OAUTH_URL', false),
+            'oauth_bearer_token'      => env('LARAVEL_PIX_OAUTH2_BEARER_TOKEN'),
+            'ssl_certificate'         => env('LARAVEL_PIX_PSP_SSL_CERTIFICATE'),
+            'client_secret'           => env('LARAVEL_PIX_PSP_CLIENT_SECRET'),
+            'client_id'               => env('LARAVEL_PIX_PSP_CLIENT_ID'),
+            'authentication_class'    => \Junges\Pix\Api\Contracts\AuthenticatesPSPs::class,
+            'resolve_endpoints_using' => YourCustomEndpointResolver::class,
+        ],
+    ],
+```

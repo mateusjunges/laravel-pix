@@ -5,6 +5,7 @@ namespace Junges\Pix\Api;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Junges\Pix\Api\Contracts\ConsumesPixApi;
+use Junges\Pix\Contracts\CanResolveEndpoints;
 use Junges\Pix\Providers\PixServiceProvider;
 use Junges\Pix\Psp;
 
@@ -19,6 +20,7 @@ class Api implements ConsumesPixApi
     protected array $additionalParams = [];
     protected array $additionalOptions = [];
     protected Psp $psp;
+    protected CanResolveEndpoints $endpointsResolver;
 
     public function __construct()
     {
@@ -149,6 +151,11 @@ class Api implements ConsumesPixApi
         $this->additionalOptions = $options;
 
         return $this;
+    }
+
+    protected function resolveEndpoint(string $endpoint): string
+    {
+        return $this->getPsp()->getEndpointsResolver()->getEndpoint($endpoint);
     }
 
     protected function getEndpoint(string $endpoint): string

@@ -31,14 +31,20 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function getBye2eid(string $e2eid): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid);
+        $endpoint = $this->getEndpoint($this->baseUrl.$this->resolveEndpoint(Endpoints::RECEIVED_PIX).$e2eid);
 
         return $this->request()->get($endpoint);
     }
 
     public function refund(string $e2eid, string $refundId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid.Endpoints::RECEIVED_PIX_REFUND.$refundId);
+        $endpoint = $this->getEndpoint(
+            $this->baseUrl
+            .$this->resolveEndpoint(Endpoints::RECEIVED_PIX)
+            .$e2eid
+            .$this->resolveEndpoint(Endpoints::RECEIVED_PIX_REFUND)
+            .$refundId
+        );
 
         $refund = $this->request()->put($endpoint);
 
@@ -49,7 +55,13 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
 
     public function consultRefund(string $e2eid, string $refundId): Response
     {
-        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX.$e2eid.Endpoints::RECEIVED_PIX_REFUND.$refundId);
+        $endpoint = $this->getEndpoint(
+            $this->baseUrl
+            .$this->resolveEndpoint(Endpoints::RECEIVED_PIX)
+            .$e2eid
+            .$this->resolveEndpoint(Endpoints::RECEIVED_PIX_REFUND)
+            .$refundId
+        );
 
         return $this->request()->get($endpoint);
     }
@@ -64,7 +76,7 @@ class ReceivedPix extends Api implements FilterApiRequests, ConsumesReceivedPixE
             ValidationException::filtersAreRequired()
         );
 
-        $endpoint = $this->getEndpoint($this->baseUrl.Endpoints::RECEIVED_PIX);
+        $endpoint = $this->getEndpoint($this->baseUrl.$this->resolveEndpoint(Endpoints::RECEIVED_PIX));
 
         return $this->request()->get($endpoint, $this->filters);
     }
