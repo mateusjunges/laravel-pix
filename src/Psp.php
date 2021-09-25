@@ -2,6 +2,7 @@
 
 namespace Junges\Pix;
 
+use Junges\Pix\Contracts\CanResolveEndpoints;
 use Junges\Pix\Exceptions\Psp\InvalidPspException;
 
 class Psp
@@ -76,6 +77,11 @@ class Psp
     public function getAuthenticationClass(): string
     {
         return $this->getPspConfig($this->getCurrentPsp())['authentication_class'] ?? '';
+    }
+
+    public function getEndpointsResolver(): CanResolveEndpoints
+    {
+        return app($this->getPspConfig($this->getCurrentPsp())['resolve_endpoints_using']);
     }
 
     private function getPspConfig(string $psp)
