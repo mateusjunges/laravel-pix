@@ -49,6 +49,7 @@
 Este pacote oferece integração completa com a API PIX do banco central do Brasil.
 
 # Instalação
+
 Você pode instalar este pacote utilizando o composer:
 ```bash
 composer require mateusjunges/laravel-pix
