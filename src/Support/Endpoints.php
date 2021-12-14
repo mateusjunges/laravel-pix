@@ -2,7 +2,7 @@
 
 namespace Junges\Pix\Support;
 
-use Exception;
+use InvalidArgumentException;
 use Junges\Pix\Contracts\CanResolveEndpoints;
 
 class Endpoints implements CanResolveEndpoints
@@ -73,14 +73,14 @@ class Endpoints implements CanResolveEndpoints
     /**
      * @param string $key
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      *
      * @return string
      */
     public function getEndpoint(string $key): string
     {
         if (!$endpoint = $this->endpoints[$key]) {
-            throw new Exception("Endpoint does not exist: '{$key}'");
+            throw new InvalidArgumentException("Endpoint does not exist: '{$key}'");
         }
 
         return $endpoint;
